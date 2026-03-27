@@ -233,61 +233,171 @@ a:hover {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive Design for Mobile */
-@media (max-width: 600px) {
+/* ─────────────────────────────────────────────────────────────────
+   MOBILE  ( ≤ 640 px )
+   ─────────────────────────────────────────────────────────────────
+   Key changes vs desktop:
+   • body stops flex-centering — content flows from the top
+   • generous padding (52 / 24) for easy reading
+   • social links become pill badges that wrap naturally
+   • section labels shift to small-caps uppercase labels
+   • item-list becomes a clean border-separated list
+     with a left-accent stripe on tap / hover
+   ───────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+
+  body {
+    display: block;
+    min-height: 100vh;
+  }
+
   body.page-secondary {
-    padding-top: 6vh;
+    padding-top: 0;
   }
 
   .container {
-    padding: 32px 16px;
-  }
-  
-  h1 {
-    font-size: 18px;
-    margin-bottom: 20px;
-  }
-  
-  p, .page-desc, .coming-soon-desc {
-    text-align: left;
-    font-size: 14px;
-  }
-  
-  .social-links {
-    flex-wrap: wrap;
-    gap: 16px;
-    margin: 24px 0 36px 0;
-  }
-  
-  .social-link {
-    font-size: 14px;
-  }
-  
-  .item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-  
-  .item-title {
-    font-size: 14px;
-    line-height: 1.4;
-  }
-  
-  .item-desc {
-    font-size: 13px;
-    margin-bottom: 8px;
-  }
-  
-  .section-title {
-    font-size: 15px;
+    padding: 52px 24px 72px;
+    max-width: 100%;
   }
 
-  .section-header {
+  /* ── Typography ── */
+  h1 {
+    font-size: 22px;
+    letter-spacing: -0.3px;
+    margin-bottom: 18px;
+  }
+
+  p {
+    text-align: left;
+    font-size: 15px;
+    line-height: 1.75;
     margin-bottom: 16px;
   }
 
+  /* ── Social links → pill badges ── */
+  .social-links {
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    margin: 20px 0 44px;
+    font-size: 13px;
+  }
+
+  .social-link {
+    background: var(--accent-color);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 500;
+    gap: 5px;
+    color: var(--text-muted);
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .social-link:hover,
+  .social-link:active {
+    background: rgba(51, 64, 79, 0.18);
+    color: var(--text-main);
+  }
+
+  .social-arrow {
+    font-size: 13px;
+  }
+
+  /* ── Sections ── */
+  .section {
+    margin-bottom: 40px;
+  }
+
+  .section-header {
+    margin-bottom: 12px;
+    align-items: center;
+  }
+
+  /* Small-caps label style for section titles on mobile */
+  .section-title {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .see-more {
+    font-size: 13px;
+  }
+
+  /* ── Item list → bordered strip layout ── */
+  .item-list {
+    gap: 0;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 2px;
+    padding: 13px 0 13px 16px;
+    border-bottom: 1px solid var(--border-color);
+    border-left: 2.5px solid transparent;
+    transition: border-color 0.18s ease;
+  }
+
+  .item-link:hover,
+  .item-link:active {
+    opacity: 1;
+    border-left-color: var(--text-muted);
+  }
+
+  .item-title {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .item-desc {
+    font-size: 12.5px;
+    color: var(--text-muted);
+  }
+
+  /* ── Back link ── */
   .back-link {
-    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 28px;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    margin-bottom: 28px;
+  }
+
+  .page-title {
+    font-size: 22px;
+    letter-spacing: -0.3px;
+    margin-bottom: 8px;
+  }
+
+  .page-desc {
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* ── Coming soon ── */
+  .coming-soon-container {
+    padding: 32px 0;
+  }
+
+  .coming-soon-title {
+    font-size: 15px;
+  }
+
+  .coming-soon-desc {
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.65;
   }
 }
+
