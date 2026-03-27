@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --text-main: #33404F;
+  --text-muted: rgba(51, 64, 79, 0.6);
+  --bg-color: #FAFAFA;
+  --accent-color: rgba(51, 64, 79, 0.1);
+  --border-color: rgba(51, 64, 79, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-main);
+  background-color: var(--bg-color);
+  line-height: 1.6;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+body.page-secondary {
+  align-items: flex-start;
+  padding-top: 12vh;
+}
+
+.container {
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+h1 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: var(--text-main);
+  text-align: left;
+}
+
+p {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+p strong {
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--text-main);
+}
+
+.arc-link {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.arc-link:hover {
+  color: var(--text-main);
+}
+
+/* Social Links */
+.social-links {
+  display: flex;
+  gap: 24px;
+  margin: 28px 0 48px 0;
+  font-size: 14px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.social-arrow {
+  display: inline-block;
+  transform: rotate(-45deg);
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 36px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-main);
+  text-align: left;
+}
+
+.see-more {
+  font-size: 14px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.see-more:hover {
+  color: var(--text-main);
+}
+
+/* Lists (Work and Portfolio Investments) */
+.item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 15px;
+}
+
+.item-title {
+  font-weight: 500;
+  color: var(--text-main);
+  text-align: left;
+}
+
+.item-desc {
+  color: var(--text-muted);
+  font-weight: 400;
+  text-align: left;
+}
+
+.item-link {
+  text-decoration: none;
+  border-radius: 4px;
+  transition: opacity 0.2s ease;
+}
+
+.item-link:hover {
+  opacity: 0.7;
+}
+
+/* Utility for Secondary Pages */
+.back-link {
+  display: inline-block;
+  margin-bottom: 32px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.back-link:hover {
+  color: var(--text-main);
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.page-desc {
+  font-size: 15px;
+  color: var(--text-muted);
+  text-align: justify;
+}
+
+/* Coming Soon */
+.coming-soon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 0;
+}
+
+.coming-soon-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-main);
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.coming-soon-desc {
+  font-size: 15px;
+  color: var(--text-muted);
+  text-align: justify;
+}
+
+/* Animation */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
