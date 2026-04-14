@@ -39,7 +39,7 @@
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             </button>
-            <ul class="subchapter-list" hidden>
+            <ul class="subchapter-list">
               <li><a href="#what-markets-are" class="subchapter-link">What Markets Are</a></li>
               <li><a href="#the-landscape" class="subchapter-link">The Landscape</a></li>
               <li><a href="#the-strategies" class="subchapter-link">The Strategies</a></li>
@@ -167,8 +167,9 @@
 
     toggle.addEventListener('click', function () {
       var isOpen = this.getAttribute('aria-expanded') === 'true';
-      this.setAttribute('aria-expanded', String(!isOpen));
-      subList.hidden = isOpen;
+      var nextOpen = !isOpen;
+      this.setAttribute('aria-expanded', String(nextOpen));
+      subList.classList.toggle('is-open', nextOpen);
     });
 
     // ── Subchapter smooth scroll + heading flash ──

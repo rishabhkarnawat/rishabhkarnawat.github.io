@@ -290,6 +290,20 @@ a:hover {
   padding-left: 14px;
   border-left: 2px solid var(--border-color);
   margin-bottom: 0;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: max-height 220ms ease, opacity 160ms ease, transform 160ms ease;
+  will-change: max-height, opacity, transform;
+  pointer-events: none;
+}
+
+.subchapter-list.is-open {
+  max-height: 240px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .subchapter-list li {
@@ -597,6 +611,7 @@ a:hover {
     border-left: none;
     border-top: 1px solid var(--border-color);
     padding-top: 10px;
+    transform: translateY(-2px);
   }
 
   .subchapter-list li {
@@ -640,6 +655,15 @@ a:hover {
     font-size: 12px;
     padding: 11px 14px;
     line-height: 1.9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .subchapter-list {
+    transition: none;
+    transform: none;
+    max-height: none;
+    opacity: 1;
   }
 }
 
