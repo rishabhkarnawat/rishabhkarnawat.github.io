@@ -293,17 +293,18 @@ a:hover {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
+  visibility: hidden;
   transform: translateY(-4px);
-  transition: max-height 220ms ease, opacity 160ms ease, transform 160ms ease;
+  transition: max-height 220ms ease, opacity 160ms ease, transform 160ms ease, visibility 0s linear 220ms;
   will-change: max-height, opacity, transform;
-  pointer-events: none;
 }
 
 .subchapter-list.is-open {
   max-height: 240px;
   opacity: 1;
+  visibility: visible;
   transform: translateY(0);
-  pointer-events: auto;
+  transition-delay: 0s;
 }
 
 .subchapter-list li {
@@ -664,6 +665,7 @@ a:hover {
     transform: none;
     max-height: none;
     opacity: 1;
+    visibility: visible;
   }
 }
 
