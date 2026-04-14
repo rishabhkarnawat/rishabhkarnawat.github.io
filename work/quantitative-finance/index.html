@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understand Quantitative Finance — Rishabh Karnawat</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A deep dive into quantitative finance by Rishabh Karnawat.">
+  <meta name="keywords" content="Rishabh Karnawat, Quantitative Finance, Research, Markets, Trading">
+  <meta name="author" content="Rishabh Karnawat">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Understand Quantitative Finance — Rishabh Karnawat">
+  <meta property="og:description" content="A deep dive into quantitative finance by Rishabh Karnawat.">
+  <meta property="og:image" content="../../darkmode.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../../darkmode.png">
+
+  <link rel="stylesheet" href="../../style.css">
+</head>
+
+<body class="page-secondary page-research">
+  <div class="container research-container fade-in">
+    <a href="../" class="back-link">&larr; Back to work</a>
+
+    <div class="research-layout">
+
+      <!-- Left sidebar navigation -->
+      <nav class="research-nav">
+        <div class="chapter-list">
+          <div class="chapter-item chapter-active">
+            <button class="chapter-toggle" aria-expanded="false">
+              <span class="chapter-label">Introduction</span>
+              <svg class="chapter-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+            <ul class="subchapter-list" hidden>
+              <li><a href="#what-markets-are" class="subchapter-link">What Markets Are</a></li>
+              <li><a href="#the-landscape" class="subchapter-link">The Landscape</a></li>
+              <li><a href="#the-strategies" class="subchapter-link">The Strategies</a></li>
+              <li><a href="#the-discipline" class="subchapter-link">The Discipline</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="nav-divider">
+
+        <a href="https://github.com/rishabhkarnawat" target="_blank" rel="noopener" class="repo-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+          </svg>
+          See the repo
+        </a>
+      </nav>
+
+      <!-- Main research content -->
+      <main class="research-content">
+        <h1 class="research-title">Understand Quantitative Finance</h1>
+        <p class="research-meta">A deep dive &nbsp;&middot;&nbsp; Introduction</p>
+
+        <!-- Section 1: What Markets Are -->
+        <section class="research-section" id="what-markets-are">
+          <h2 class="section-heading">What Markets Are</h2>
+          <p>Markets are strange places. Every day, millions of people simultaneously buy and sell the same stocks, currencies, and derivatives, each convinced they know something the others don't. Prices move. Money changes hands. Fortunes are made and lost, sometimes in milliseconds. Quantitative finance is the attempt to make sense of all of that using math, data, and code. Not to perfectly predict markets, because that is impossible, but to find edges: small, repeatable advantages that, over thousands of trades, add up to something real.</p>
+          <p>The word "quantitative" just means you are working with numbers rather than gut feel. But that is not the interesting part. The interesting part is that quantitative finance forces you to be precise about your beliefs. Instead of saying "I think this stock will go up," you are forced to say: given historical data, what is the expected return of this position, what is the probability of loss, and how does this trade behave when the market crashes? That discipline of turning intuition into testable, falsifiable claims is what separates quant work from everything else.</p>
+          <p>Before any math, here is the right mental model. Think of a market as a machine that constantly tries to answer one question: what is this asset worth right now? The price you see is the market's best collective guess at any given moment. It is not always right. It is built from everyone's expectations, fears, risk tolerance, and access to information. When new information arrives, the machine updates. Prices move. Quantitative finance asks whether there are patterns in how that machine updates, and whether there are moments when it is systematically wrong in a predictable direction. If so, can you trade against that mistake before it corrects itself?</p>
+          <p>The people chasing that question use wildly different tools, work on completely different timescales, and operate on entirely different theories of where the edge comes from. That is what makes this field so deep. There is no single answer to what a quant does, because the word covers ten fundamentally different philosophies about what markets are and how to beat them.</p>
+        </section>
+
+        <!-- Section 2: The Landscape -->
+        <section class="research-section" id="the-landscape">
+          <h2 class="section-heading">The Landscape</h2>
+          <p>Before getting into each archetype, it helps to have the full landscape in one place. The table below maps out all ten by the most practically important dimensions: what kind of edge they are exploiting, how long they hold a position, how much technology and capital they need, and whether their returns come from true alpha, a structural risk premium, or providing a market service.</p>
+          <p><strong>Statistical arbitrageurs</strong> at firms like DE Shaw and Two Sigma exploit mean reversion in correlated price spreads, holding positions from minutes to days, generating true alpha. <strong>Market makers</strong> like Citadel Securities and Virtu operate at millisecond to second timescales, collecting the bid-ask spread at massive scale, earning a service premium rather than directional alpha. <strong>Latency arbitrageurs</strong> at Jump Trading push this further into microseconds, using speed advantages across venues, requiring very high capital just to build the infrastructure.</p>
+          <p><strong>Trend followers</strong> like Man AHL and Renaissance exploit the slow diffusion of information across the investor population, holding from days to months, earning a blend of alpha and risk premium. <strong>Volatility traders</strong> at firms like Susquehanna trade the gap between implied and realized volatility. <strong>Macro quants</strong> like Bridgewater and DE Shaw model cross-asset flows and rate differentials at the largest scale.</p>
+          <p><strong>Factor investors</strong> like AQR and Dimensional tilt portfolios toward structural risk premia like value, quality, and momentum. <strong>Machine learning traders</strong> like Two Sigma and Numerai use very high technology to discover non-human patterns from alternative data. <strong>Event-driven traders</strong> at Millennium and Point72 price probabilities around mergers, earnings, and regulatory decisions. Finally, <strong>execution algorithm designers</strong> at Goldman and ITG reduce the cost of trading for large institutions.</p>
+          <p>The return type matters more than most introductions acknowledge. <strong>True alpha</strong> means you are generating returns uncorrelated with any known risk factor — you found something the market missed. A <strong>risk premium</strong> means you are being compensated for bearing a specific kind of risk that other investors want to offload. A <strong>service premium</strong> means you are being paid to do something the market needs. All three can make money. Only the first is genuinely scarce.</p>
+        </section>
+
+        <!-- Section 3: The Strategies -->
+        <section class="research-section" id="the-strategies">
+          <h2 class="section-heading">The Strategies</h2>
+          <p>Each archetype has a philosophy, a math, and a failure mode. Understanding all three is what separates someone who can read about a strategy from someone who can actually run one.</p>
+
+          <h3 class="strategy-heading">The Statistical Arbitrageur</h3>
+          <p>The stat arb trader is essentially a scientist of market relationships. They do not care what a company makes or what its CEO said in the last earnings call. They care about the statistical relationship between two or more prices, and whether that relationship has temporarily broken down in a way that will correct itself.</p>
+          <p>The classic version is pairs trading. Take Goldman Sachs and Morgan Stanley. Both are large US investment banks exposed to similar economic forces. Over long periods their stocks tend to move together. The spread they are watching:</p>
+          <div class="equation">Spread(t) = Price<sub>GS</sub>(t) &minus; &beta; &times; Price<sub>MS</sub>(t)</div>
+          <p>Here &beta; is estimated from historical data and represents how much Goldman tends to move for every one unit Morgan Stanley moves. If Goldman drops sharply while Morgan Stanley holds steady, Spread(t) falls well below its historical mean. The trader goes long Goldman, short Morgan Stanley, and waits for convergence. The z-score triggers the trade:</p>
+          <div class="equation">Z(t) = ( Spread(t) &minus; Mean(Spread) ) / StdDev(Spread)</div>
+          <p>When Z exceeds 2 in either direction, you enter. When it returns toward zero, you exit. The position is market neutral: the only thing you are betting on is the relationship between them, not the market direction. DE Shaw extended this far beyond pairs, to baskets of hundreds of stocks, to cross-asset relationships, to derivatives.</p>
+
+          <h3 class="strategy-heading">The Market Maker</h3>
+          <p>The market maker is not trying to predict where prices go. They are trying to make money regardless of where prices go, by being on both sides of every trade and collecting the difference.</p>
+          <div class="equation">Spread = Ask<sub>price</sub> &minus; Bid<sub>price</sub></div>
+          <p>A market maker simultaneously quotes both. They will buy from you at the bid and sell to you at the ask. On a liquid stock like Apple, the spread might be just one cent. Collect one cent on a hundred million shares per day and you are printing money. The Avellaneda-Stoikov model (2008) gives the optimal quotes given current inventory and volatility:</p>
+          <div class="equation">
+            Bid* = Fair&thinsp;value &minus; (&gamma;&thinsp;&sigma;&sup2;&thinsp;q&thinsp;T) &minus; (&sigma;/2)&thinsp;&radic;(&gamma;T)<br>
+            Ask* = Fair&thinsp;value + (&gamma;&thinsp;&sigma;&sup2;&thinsp;q&thinsp;T) + (&sigma;/2)&thinsp;&radic;(&gamma;T)
+          </div>
+          <p>Where &gamma; is risk aversion, &sigma; is the asset's volatility, q is current inventory, and T is the time horizon. If you are holding too much inventory, you shade your quotes to attract sellers and discourage buyers. Citadel Securities handles roughly 25 percent of all US equity volume. Virtu went 1,237 out of 1,238 trading days without a single losing day between 2009 and 2014.</p>
+
+          <h3 class="strategy-heading">The Latency Arbitrageur</h3>
+          <p>The latency arbitrageur exploits the fact that information travels at the speed of light, and exchanges are not at the same location. When a large order hits the NYSE and moves the price of Apple, the same information has not yet reached NASDAQ or BATS. For approximately 150 microseconds, Apple is priced differently on different venues.</p>
+          <div class="equation">Profit = (Price<sub>venue&thinsp;1</sub> &minus; Price<sub>venue&thinsp;2</sub>) &times; Volume &minus; Infrastructure<sub>cost</sub></div>
+          <p>Jump Trading built microwave relay networks between New York and Chicago specifically for this purpose. The microwave signal, traveling through air instead of fiber optic cable, arrives roughly 100 microseconds faster. The infrastructure costs hundreds of millions of dollars. The profit per trade is fractions of a cent, done millions of times per day.</p>
+
+          <h3 class="strategy-heading">The Trend Follower</h3>
+          <p>The trend follower bets that whatever is moving will keep moving. The underlying thesis is behavioral: markets trend because information spreads slowly and unevenly through the investor population. A simple momentum signal:</p>
+          <div class="equation">Signal(t) = ( Price(t) &minus; Price(t &minus; n) ) / StdDev(t&minus;n &thinsp;to&thinsp; t)</div>
+          <p>You measure how far the price has moved over the last n days, normalized by how volatile it has been over that period. The normalization is critical: a ten dollar move in a stock that moves one dollar a day is a strong signal; the same move in a stock that moves twenty dollars a day is noise. Man AHL trades across over 500 markets simultaneously. The diversification matters: in any given month maybe 40 percent of markets are trending in a way the model catches. The profit from that 40 percent more than covers the churning 60 percent.</p>
+
+          <h3 class="strategy-heading">The Volatility Trader</h3>
+          <p>The volatility trader is not trading the direction of prices — they are trading the price of uncertainty itself. The Black-Scholes formula prices a call option as:</p>
+          <div class="equation">
+            C = S<sub>0</sub>&thinsp;N(d<sub>1</sub>) &minus; K&thinsp;e<sup>&minus;rT</sup>&thinsp;N(d<sub>2</sub>)<br><br>
+            d<sub>1</sub> = [ ln(S<sub>0</sub>/K) + (r + &sigma;&sup2;/2) &times; T ] / (&sigma;&thinsp;&radic;T)<br>
+            d<sub>2</sub> = d<sub>1</sub> &minus; &sigma;&thinsp;&radic;T
+          </div>
+          <p>Every term is observable except &sigma;. You can back out an implied volatility from market prices — it is the &sigma; value that makes the formula match the actual market price. The key insight is that implied volatility tends to be higher than realized volatility most of the time. The market consistently overpays for protection. A volatility trader who systematically sells options and hedges the directional risk is collecting that premium. Susquehanna International Group, founded in 1987, built one of the most sophisticated options trading operations in the world on exactly this analysis.</p>
+
+          <h3 class="strategy-heading">The Macro Quant</h3>
+          <p>The macro quant models entire economies and the capital flows between them. The most accessible entry point is the carry trade:</p>
+          <div class="equation">Carry = r<sub>AUD</sub> &minus; r<sub>JPY</sub> &minus; &Delta;e</div>
+          <p>Where &Delta;e is the percentage change in the AUD/JPY exchange rate. If you borrow yen at near zero cost and invest in Australian dollars at 4.5 percent, you pocket the differential as long as the currency holds. Uncovered interest rate parity — the theory that says this trade should be arbitraged away — empirically fails. Bridgewater runs macro strategies like this managing over 150 billion dollars at its peak. What makes the macro quant different from a discretionary trader like Soros is systematization: hundreds of smaller versions of that logic run simultaneously across dozens of currency pairs, managed by an algorithm.</p>
+
+          <h3 class="strategy-heading">The Factor Investor</h3>
+          <p>Factor investing was born from an empirical puzzle: if markets are efficient, why do cheap stocks, small stocks, and high-quality stocks persistently outperform? Fama and French answered this in 1992 by extending CAPM into a three-factor model:</p>
+          <div class="equation">E[R<sub>i</sub>] &minus; R<sub>f</sub> = &beta;<sub>market</sub> (E[R<sub>m</sub>] &minus; R<sub>f</sub>) + &beta;<sub>size</sub> SMB + &beta;<sub>value</sub> HML</div>
+          <p>Where SMB is the return of small stocks minus large stocks, and HML is the return of cheap stocks minus expensive stocks. AQR Capital, founded by Cliff Asness in 1998, built a firm managing over 140 billion dollars on exactly this idea. The strategy requires no particular stock to do anything — it just requires that the systematic tilt earns its historical premium on average. The risk is crowding: by 2018, enormous institutional money had piled into factor strategies, and a deleveraging event forces them all to sell the same stocks simultaneously.</p>
+
+          <h3 class="strategy-heading">The Machine Learning Trader</h3>
+          <p>The ML trader does not start with a hypothesis and test it. They feed data into a model and let the patterns emerge. What makes this possible now is alternative data: satellite imagery of retail parking lots to estimate foot traffic before earnings, credit card transaction data to see exactly how much consumers are spending at each retailer weeks before official revenue figures, natural language processing on SEC filings and earnings call transcripts.</p>
+          <p>Two Sigma, founded in 2001 by David Siegel and John Overdeck, treats financial markets as a machine learning problem at every level: signal generation, portfolio construction, execution, and risk management. The deep danger is overfitting. A model trained on ten years of data will find patterns — many real, some statistical artifacts. The academic term is the multiple comparisons problem. In finance it is called p-hacking. Numerai built an entire business model around this problem, aggregating competing models in ways that hopefully cancel out individual overfitting.</p>
+
+          <h3 class="strategy-heading">The Event-Driven Trader</h3>
+          <p>The event-driven trader hunts for moments when the market is pricing the probability of a specific outcome incorrectly. The clearest example is merger arbitrage. When Company A announces it will acquire Company B at $50 per share, Company B's stock does not immediately trade at $50 — it trades at $47, reflecting deal completion risk. The math:</p>
+          <div class="equation">Expected&thinsp;return = (p &times; Gain<sub>deal&thinsp;closes</sub>) + ((1&minus;p) &times; Loss<sub>deal&thinsp;breaks</sub>)</div>
+          <p>Where p is the estimated probability the deal closes. The quant edge is estimating p more accurately than the market by building models that incorporate regulatory approval probabilities for different deal types, financing risk, shareholder vote likelihood, and how similar deals in similar conditions have fared historically. Millennium Management and Point72 run significant event-driven books on exactly this kind of systematic analysis.</p>
+
+          <h3 class="strategy-heading">The Execution Algorithm Designer</h3>
+          <p>The tenth archetype is the one most people forget to include. Every institutional investor that needs to buy or sell large blocks of stock faces the same problem: the act of trading moves the price against you. The simplest execution algorithm is VWAP, Volume Weighted Average Price:</p>
+          <div class="equation">VWAP = &sum;(Price<sub>i</sub> &times; Volume<sub>i</sub>) / &sum;(Volume<sub>i</sub>)</div>
+          <p>If you participate in 10 percent of volume throughout the day, you will achieve roughly the market's average price for the day. More sophisticated algorithms like Implementation Shortfall, formalized by Almgren and Chriss in 2000, optimize the tradeoff between trading quickly (reducing market impact risk from price moving away from you) and trading slowly (reducing market impact from your own orders). Goldman Sachs runs SIGMA X, one of the largest alternative trading systems in the world, built around execution optimization. These strategies are not generating alpha — they are saving institutional clients billions annually in reduced trading costs.</p>
+        </section>
+
+        <!-- Section 4: The Discipline -->
+        <section class="research-section" id="the-discipline">
+          <h2 class="section-heading">The Discipline</h2>
+          <p>What ties all ten of these together is a single underlying discipline. You form a hypothesis about how some aspect of the market behaves. You express it mathematically, so it is precise and testable. You test it against historical data honestly, including realistic transaction costs and without looking forward in time. You measure the risk-adjusted return and understand why it should persist. And then you build a system to execute it mechanically, because the moment human judgment re-enters the loop, so do cognitive biases.</p>
+          <p>The math serves the thinking. It does not replace it. A formula with a wrong assumption is worse than no formula at all, because it gives you false confidence. Every model in this document comes with its assumptions explicitly stated and its failure modes mapped out. That is not pessimism. That is what it means to actually understand a model rather than just being able to write it down.</p>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="../../script.js"></script>
+  <script>
+    // ── Chapter dropdown toggle ──
+    var toggle = document.querySelector('.chapter-toggle');
+    var subList = document.querySelector('.subchapter-list');
+
+    toggle.addEventListener('click', function () {
+      var isOpen = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!isOpen));
+      subList.hidden = isOpen;
+    });
+
+    // ── Subchapter smooth scroll + heading flash ──
+    document.querySelectorAll('.subchapter-link').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        var targetId = this.getAttribute('href').slice(1);
+        var target = document.getElementById(targetId);
+        if (!target) return;
+
+        // Update active link
+        document.querySelectorAll('.subchapter-link').forEach(function (l) {
+          l.classList.remove('active');
+        });
+        this.classList.add('active');
+
+        // Scroll smoothly to section
+        var offset = 40;
+        var top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+
+        // Flash only the section heading
+        var heading = target.querySelector('.section-heading');
+        if (heading) {
+          heading.classList.remove('heading-flash');
+          void heading.offsetWidth; // reflow to restart animation
+          heading.classList.add('heading-flash');
+          setTimeout(function () { heading.classList.remove('heading-flash'); }, 1000);
+        }
+      });
+    });
+
+    // ── Scroll spy ──
+    var spySections = document.querySelectorAll('.research-section');
+    var spyLinks = document.querySelectorAll('.subchapter-link');
+
+    function updateActiveLink() {
+      var scrollPos = window.scrollY + window.innerHeight / 4;
+      var activeId = null;
+      spySections.forEach(function (section) {
+        if (section.offsetTop <= scrollPos) activeId = section.id;
+      });
+      spyLinks.forEach(function (link) {
+        link.classList.toggle('active', link.getAttribute('href').slice(1) === activeId);
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveLink, { passive: true });
+    updateActiveLink();
+  </script>
+</body>
+
+</html>
