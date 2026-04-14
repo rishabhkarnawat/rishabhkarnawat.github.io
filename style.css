@@ -234,6 +234,172 @@ a:hover {
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   RESEARCH PAGES
+   ───────────────────────────────────────────────────────────────── */
+
+/* Wider container for research layout */
+.research-container {
+  max-width: 860px;
+}
+
+/* Two-column layout: sidebar + content */
+.research-layout {
+  display: flex;
+  gap: 56px;
+  align-items: flex-start;
+}
+
+/* ── Left sidebar navigation ── */
+.research-nav {
+  width: 192px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 48px;
+}
+
+/* Chapter toggle button */
+.chapter-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.chapter-active .chapter-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.chapter-chevron {
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.chapter-toggle[aria-expanded="true"] .chapter-chevron {
+  transform: rotate(90deg);
+}
+
+.subchapter-list {
+  list-style: none;
+  padding-left: 14px;
+  border-left: 2px solid var(--border-color);
+  margin-bottom: 0;
+}
+
+.subchapter-list li {
+  margin-bottom: 8px;
+}
+
+.subchapter-list li:last-child {
+  margin-bottom: 0;
+}
+
+.subchapter-link {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.18s ease;
+  display: block;
+  line-height: 1.4;
+}
+
+.subchapter-link:hover,
+.subchapter-link.active {
+  color: var(--text-main);
+}
+
+.nav-divider {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 22px 0;
+}
+
+.repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  transition: color 0.18s ease;
+}
+
+.repo-link:hover {
+  color: var(--text-main);
+}
+
+/* ── Research content area ── */
+.research-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.research-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 4px;
+  text-align: left;
+}
+
+.research-meta {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+  text-align: left;
+}
+
+.research-section {
+  margin-bottom: 52px;
+}
+
+.section-heading {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.strategy-heading {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 28px 0 10px;
+  text-align: left;
+}
+
+/* ── Equation blocks ── */
+.equation {
+  background: rgba(51, 64, 79, 0.035);
+  border-left: 2px solid rgba(51, 64, 79, 0.18);
+  padding: 13px 18px;
+  margin: 14px 0 18px;
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', Menlo, Monaco, monospace;
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--text-main);
+  border-radius: 0 4px 4px 0;
+  overflow-x: auto;
+}
+
+/* ── Heading flash on subchapter click ── */
+@keyframes headingFlash {
+  0%   { color: var(--text-muted); }
+  25%  { color: var(--text-main);  }
+  100% { color: var(--text-main);  }
+}
+
+.section-heading.heading-flash {
+  animation: headingFlash 0.7s ease-out forwards;
+}
+
+/* ─────────────────────────────────────────────────────────────────
    MOBILE  ( ≤ 640 px )
    ─────────────────────────────────────────────────────────────────
    Key changes vs desktop:
@@ -398,6 +564,82 @@ a:hover {
     text-align: left;
     font-size: 14px;
     line-height: 1.65;
+  }
+
+  /* ── Research pages on mobile ── */
+  .research-container {
+    max-width: 100%;
+    padding: 44px 24px 72px;
+  }
+
+  .research-layout {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Sidebar becomes a compact top-nav strip */
+  .research-nav {
+    width: 100%;
+    position: static;
+    margin-bottom: 32px;
+  }
+
+  .chapter-active .chapter-label {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .subchapter-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 0;
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--border-color);
+    padding-top: 10px;
+  }
+
+  .subchapter-list li {
+    margin-bottom: 0;
+    margin-right: 16px;
+  }
+
+  .subchapter-link {
+    font-size: 13px;
+  }
+
+  .nav-divider {
+    margin: 16px 0;
+  }
+
+  .research-title {
+    font-size: 18px;
+    letter-spacing: -0.2px;
+  }
+
+  .research-meta {
+    font-size: 13px;
+    margin-bottom: 28px;
+  }
+
+  .research-section {
+    margin-bottom: 40px;
+  }
+
+  .section-heading {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+
+  .strategy-heading {
+    font-size: 14px;
+    margin: 22px 0 8px;
+  }
+
+  .equation {
+    font-size: 12px;
+    padding: 11px 14px;
+    line-height: 1.9;
   }
 }
 
