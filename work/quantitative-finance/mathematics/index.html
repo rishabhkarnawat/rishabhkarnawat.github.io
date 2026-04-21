@@ -5,16 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mathematics — Quantitative Finance — Rishabh Karnawat</title>
-
   <meta name="description" content="Chapter 2: Mathematics for Quantitative Finance — probability, stochastic processes, time series, and linear algebra.">
   <meta name="keywords" content="Rishabh Karnawat, Quantitative Finance, Mathematics, Probability, Stochastic Processes, Ito's Lemma, PCA">
   <meta name="author" content="Rishabh Karnawat">
-
   <meta property="og:type" content="website">
   <meta property="og:title" content="Mathematics — Quantitative Finance — Rishabh Karnawat">
   <meta property="og:description" content="Chapter 2: Mathematics for Quantitative Finance.">
   <meta property="og:image" content="../../../darkmode.png">
-
   <link rel="icon" type="image/png" href="../../../darkmode.png">
   <link rel="stylesheet" href="../../../style.css">
 </head>
@@ -23,12 +20,11 @@
   <div class="container research-container fade-in">
     <div class="research-layout">
 
-      <!-- Left sidebar navigation -->
+      <!-- Left sidebar -->
       <nav class="research-nav">
         <a href="../../" class="back-link">&larr; Back to work</a>
         <div class="chapter-list">
 
-          <!-- Chapter 1: Introduction (inactive link) -->
           <div class="chapter-item">
             <a href="../" class="chapter-link">
               <span class="chapter-label">Introduction</span>
@@ -38,7 +34,6 @@
             </a>
           </div>
 
-          <!-- Chapter 2: Mathematics (active) -->
           <div class="chapter-item chapter-active">
             <button class="chapter-toggle" aria-expanded="true">
               <span class="chapter-label">Mathematics</span>
@@ -53,10 +48,9 @@
               <li><a href="#linear-algebra" class="subchapter-link">Linear Algebra</a></li>
             </ul>
           </div>
+
         </div>
-
         <hr class="nav-divider">
-
         <a href="https://github.com/rishabhkarnawat" target="_blank" rel="noopener" class="repo-link">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
@@ -65,14 +59,14 @@
         </a>
       </nav>
 
-      <!-- Main research content -->
+      <!-- Main content -->
       <main class="research-content">
         <h1 class="research-title">Understand Quantitative Finance</h1>
         <p class="research-meta">A deep dive &nbsp;&middot;&nbsp; Mathematics</p>
 
-        <!-- ═══════════════════════════════════════════════════════════
+        <!-- ══════════════════════════════════════════════
              Part 1: Probability & Statistics
-             ═══════════════════════════════════════════════════════════ -->
+             ══════════════════════════════════════════════ -->
         <section class="research-section" id="probability-statistics">
           <h2 class="section-heading">Probability &amp; Statistics</h2>
 
@@ -84,13 +78,25 @@
           <h3 class="strategy-heading">Probability Distributions</h3>
           <p>A probability distribution is a complete map of uncertainty — the full range of possible outcomes and how likely each one is. For a discrete variable (like the number of heads in ten coin flips), this is the <strong>probability mass function (PMF)</strong>. For a continuous variable (like a stock return), it is the <strong>probability density function (PDF)</strong>. The PDF does not give you the probability of an exact value — it gives you the probability of landing in a range. The probability that X falls between a and b is the area under the curve from a to b.</p>
 
-          <!-- ── Interactive: Binomial Distribution Explorer ── -->
+          <h3 class="strategy-heading">The Normal Distribution</h3>
+          <p>The normal distribution <strong>X &sim; N(&mu;, &sigma;&sup2;)</strong> is the workhorse of quantitative finance. It appears everywhere for three reasons: mathematical convenience, the Central Limit Theorem (the sum of many small independent random variables converges to normal), and the fact that it is fully described by just two parameters — mean &mu; and variance &sigma;&sup2;. Log-returns on assets are approximately normally distributed over short intervals, which is why nearly every model in this field starts there.</p>
+
+          <h3 class="strategy-heading">Expectation, Variance, and Covariance</h3>
+          <p>The expected value of a random variable is the probability-weighted average of all possible outcomes:</p>
+          <div class="equation">E[X] = &sum;<sub>i</sub> x<sub>i</sub> &times; P(X = x<sub>i</sub>)</div>
+          <p>Variance measures how spread out a distribution is around its mean. Standard deviation is its square root, which restores the original units. In finance, the standard deviation of returns is called <strong>volatility</strong>.</p>
+          <div class="equation">Var[X] = E[(X &minus; E[X])&sup2;] &nbsp;&nbsp;&nbsp;&nbsp; Std[X] = &radic;Var[X]</div>
+          <p>Covariance and correlation measure how two variables move together. Correlation normalizes covariance to [&minus;1, +1], making it scale-invariant and directly comparable across different pairs of assets:</p>
+          <div class="equation">Cov[X, Y] = E[(X &minus; E[X])(Y &minus; E[Y])]</div>
+          <div class="equation">Corr[X, Y] = Cov[X, Y] / (Std[X] &times; Std[Y]) &nbsp;&isin;&nbsp; [&minus;1, +1]</div>
+
+          <!-- Interactive 1: Binomial Distribution Parameters -->
           <div class="interactive-block">
-            <div class="interactive-block-title">Binomial Distribution Explorer</div>
+            <div class="interactive-block-title">Binomial Distribution &mdash; key parameters</div>
             <div class="interactive-controls">
               <div class="control-group">
                 <span class="control-label">n (trials)</span>
-                <input type="range" id="binom-n" min="1" max="40" value="10">
+                <input type="range" id="binom-n" min="1" max="50" value="10">
                 <span class="control-val" id="binom-n-val">10</span>
               </div>
               <div class="control-group">
@@ -99,63 +105,46 @@
                 <span class="control-val" id="binom-p-val">0.50</span>
               </div>
             </div>
-            <div class="interactive-canvas-wrap">
-              <canvas id="binom-canvas" height="200"></canvas>
+            <div class="stat-grid">
+              <div class="stat-item">
+                <div class="stat-item-label">Mean &nbsp;(μ = np)</div>
+                <div class="stat-item-val" id="binom-mean">5.00</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-item-label">Variance &nbsp;(np(1&minus;p))</div>
+                <div class="stat-item-val" id="binom-var">2.50</div>
+              </div>
+              <div class="stat-item stat-highlight">
+                <div class="stat-item-label">Std Dev &nbsp;(&sigma; = &radic;Var)</div>
+                <div class="stat-item-val" id="binom-std">1.58</div>
+              </div>
+              <div class="stat-item stat-highlight">
+                <div class="stat-item-label">Mode &nbsp;(most likely k)</div>
+                <div class="stat-item-val" id="binom-mode">5</div>
+              </div>
             </div>
-            <p class="interactive-note" id="binom-stats">Mean = 5.0 &nbsp;·&nbsp; Variance = 2.5 &nbsp;·&nbsp; Std Dev = 1.58</p>
+            <p class="interactive-note">As n grows large, this distribution approaches N(np,&thinsp;np(1&minus;p)) &mdash; the Central Limit Theorem in action.</p>
           </div>
-
-          <h3 class="strategy-heading">The Normal Distribution</h3>
-          <p>The normal distribution <strong>X &sim; N(&mu;, &sigma;&sup2;)</strong> is the workhorse of quantitative finance. It appears everywhere for three reasons: mathematical convenience, the Central Limit Theorem (the sum of many small independent random variables converges to normal), and the fact that it is fully described by just two parameters — mean &mu; and variance &sigma;&sup2;. Log-returns on assets are approximately normally distributed over short intervals, which is why nearly every model in this field starts there.</p>
-
-          <h3 class="strategy-heading">Expectation</h3>
-          <p>The expected value of a random variable is the probability-weighted average of all possible outcomes. For a discrete variable:</p>
-          <div class="equation">E[X] = &sum;<sub>i</sub> x<sub>i</sub> &times; P(X = x<sub>i</sub>)</div>
-          <p>For a continuous variable with PDF f(x):</p>
-          <div class="equation">E[X] = &int;<sub>&minus;&infin;</sub><sup>+&infin;</sup> x &middot; f(x) dx</div>
-          <p>Linearity of expectation is one of the most useful properties in all of finance: <strong>E[aX + bY] = a&thinsp;E[X] + b&thinsp;E[Y]</strong>, regardless of whether X and Y are correlated.</p>
-
-          <h3 class="strategy-heading">Variance and Standard Deviation</h3>
-          <p>Variance measures how spread out a distribution is around its mean. It is defined as the expected squared deviation:</p>
-          <div class="equation">Var[X] = E[(X &minus; E[X])&sup2;] = E[X&sup2;] &minus; (E[X])&sup2;</div>
-          <p>Standard deviation is the square root of variance, which restores the original units. In finance, the standard deviation of returns is called <strong>volatility</strong>. A stock with 20% annual volatility has a standard deviation of log-returns equal to 0.20 per year.</p>
-          <div class="equation">Std[X] = &sigma; = &radic;Var[X]</div>
-
-          <h3 class="strategy-heading">Covariance</h3>
-          <p>Covariance measures how two variables move together. Positive covariance means they tend to move in the same direction; negative covariance means they tend to move in opposite directions.</p>
-          <div class="equation">Cov[X, Y] = E[(X &minus; E[X])(Y &minus; E[Y])]</div>
-
-          <h3 class="strategy-heading">Correlation</h3>
-          <p>Correlation normalizes covariance to the range [&minus;1, +1], making it scale-invariant and directly comparable across different pairs of assets:</p>
-          <div class="equation">Corr[X, Y] = Cov[X, Y] / (Std[X] &times; Std[Y]) &nbsp;&isin;&nbsp; [&minus;1, +1]</div>
-          <p>Correlation = +1 means the two variables always move together perfectly. Correlation = &minus;1 means they always move in exactly opposite directions. Correlation = 0 means no linear relationship. This matters enormously for portfolio construction: holding two assets with correlation &minus;1 provides perfect hedging.</p>
 
           <div class="exercise-callout">
             <div class="exercise-callout-label">Exercise 1 &mdash; Portfolio Volatility</div>
-            <p>You hold 50% in Stock A (&sigma;&thinsp;=&thinsp;10%) and 50% in Stock B (&sigma;&thinsp;=&thinsp;10%). The portfolio variance formula is:</p>
-            <p style="font-family:'SF Mono','Fira Code',monospace;font-size:12.5px;color:var(--text-main);">Portfolio&thinsp;&sigma; = &radic;(w<sub>A</sub>&sup2;&sigma;<sub>A</sub>&sup2; + w<sub>B</sub>&sup2;&sigma;<sub>B</sub>&sup2; + 2&thinsp;w<sub>A</sub>&thinsp;w<sub>B</sub>&thinsp;Cov[A,B])</p>
-            <p>With correlation = +1, the portfolio &sigma; = 10% (no diversification). With correlation = 0, portfolio &sigma; = 7.07% (the &radic;2 reduction). With correlation = &minus;1, portfolio &sigma; = 0% (perfect hedge). Try this in the Correlation Explorer in Part 4.</p>
+            <p>You hold 50% in Stock A (&sigma;&thinsp;=&thinsp;10%) and 50% in Stock B (&sigma;&thinsp;=&thinsp;10%). Portfolio variance formula:</p>
+            <p style="font-family:'SF Mono','Fira Code',monospace;font-size:12.5px;color:var(--text-main);">Portfolio&thinsp;&sigma; = &radic;(w<sub>A</sub>&sup2;&sigma;<sub>A</sub>&sup2; + w<sub>B</sub>&sup2;&sigma;<sub>B</sub>&sup2; + 2w<sub>A</sub>w<sub>B</sub>Cov[A,B])</p>
+            <p>At &rho;&thinsp;=&thinsp;+1, portfolio &sigma;&thinsp;=&thinsp;10% (no diversification). At &rho;&thinsp;=&thinsp;0, portfolio &sigma;&thinsp;&asymp;&thinsp;7.07%. At &rho;&thinsp;=&thinsp;&minus;1, portfolio &sigma;&thinsp;=&thinsp;0% (perfect hedge). Try these values in the Correlation Explorer below.</p>
           </div>
         </section>
 
-        <!-- ═══════════════════════════════════════════════════════════
+        <!-- ══════════════════════════════════════════════
              Part 2: Stochastic Processes
-             ═══════════════════════════════════════════════════════════ -->
+             ══════════════════════════════════════════════ -->
         <section class="research-section" id="stochastic-processes">
           <h2 class="section-heading">Stochastic Processes</h2>
 
           <p>A stochastic process is a sequence of random variables indexed by time. Asset prices are stochastic processes — they are not deterministic functions of time, but evolve randomly according to some underlying distribution. The key challenge is modeling that evolution in a way that is both mathematically tractable and empirically reasonable.</p>
 
-          <h3 class="strategy-heading">Random Walks</h3>
-          <p>The simplest model for a price process is the symmetric random walk:</p>
-          <div class="equation">X(t+1) = X(t) + &epsilon;(t) &nbsp;&nbsp;&nbsp; where &epsilon;(t) = &plusmn;1 with equal probability</div>
-          <p>The key insight is that uncertainty compounds over time. After T steps, the expected absolute displacement is proportional to &radic;T, not T. If you walk randomly for 4 days, your expected distance from the start is twice what it would be after 1 day — not four times. This <strong>&radic;T scaling</strong> is the fundamental characteristic of random processes and explains why long-horizon volatility grows slower than linearly.</p>
-
-          <h3 class="strategy-heading">Brownian Motion</h3>
-          <p>Brownian motion W(t) is the continuous-time limit of the random walk. It satisfies three properties:</p>
-          <p>1. W(0) = 0 &nbsp;&nbsp; 2. Increments are independent &nbsp;&nbsp; 3. W(t) &sim; N(0, t)</p>
-          <p>The variance grows linearly with time, so the standard deviation grows as &radic;t. An increment over a small interval dt is written dW, and it satisfies:</p>
-          <div class="equation">dW &sim; N(0, dt) &nbsp;&nbsp;&rarr;&nbsp;&nbsp; Var[dW] = dt</div>
+          <h3 class="strategy-heading">Random Walks and Brownian Motion</h3>
+          <p>The simplest model is the symmetric random walk: X(t+1) = X(t) &plusmn; 1 with equal probability. The key insight is that uncertainty compounds as &radic;T, not T. After 4 days your expected displacement is twice, not four times, what it is after 1 day. Brownian motion W(t) is the continuous-time limit, satisfying W(0) = 0, independent increments, and W(t) &sim; N(0, t). An increment over a small interval dt satisfies:</p>
+          <div class="equation">dW &sim; N(0, dt) &nbsp;&rarr;&nbsp; Var[dW] = dt &nbsp;&rarr;&nbsp; (dW)&sup2; = dt</div>
           <p>The fact that (dW)&sup2; = dt in expectation is the key insight that drives Ito's Lemma. This term does not vanish as dt &rarr; 0, which makes stochastic calculus fundamentally different from ordinary calculus.</p>
 
           <h3 class="strategy-heading">Ito's Lemma</h3>
@@ -164,26 +153,23 @@
           <p>The extra term (1/2)(&part;&sup2;f/&part;W&sup2;)dt is the <strong>Ito correction</strong>. It has no analogue in ordinary calculus and arises precisely because (dW)&sup2; = dt. Without it, every financial model built on Brownian motion would be systematically wrong.</p>
 
           <h3 class="strategy-heading">Geometric Brownian Motion</h3>
-          <p>The standard model for stock prices is Geometric Brownian Motion (GBM). Rather than modeling the price S(t) directly, we model the <em>percentage</em> change:</p>
+          <p>The standard model for stock prices is Geometric Brownian Motion. Rather than modeling S(t) directly, we model the percentage change:</p>
           <div class="equation">dS = &mu; &middot; S &middot; dt &nbsp;+&nbsp; &sigma; &middot; S &middot; dW</div>
-          <p>Here &mu; is the drift (expected return per unit time) and &sigma; is the volatility. The S multiplier ensures prices are always positive. Applying Ito's Lemma to f(S) = log(S):</p>
+          <p>Applying Ito's Lemma to f(S) = log(S) gives the crucial result: log-returns are normally distributed with mean (&mu; &minus; &sigma;&sup2;/2) per unit time. The &sigma;&sup2;/2 term is the <strong>volatility drag</strong> — even if the expected arithmetic return is &mu;, the realized compound return is &mu; &minus; &sigma;&sup2;/2.</p>
           <div class="equation">d(log S) = (&mu; &minus; &sigma;&sup2;/2) dt &nbsp;+&nbsp; &sigma; dW</div>
-          <p>This is the crucial result. Log-returns are normally distributed with mean (&mu; &minus; &sigma;&sup2;/2) per unit time and variance &sigma;&sup2; per unit time. The &sigma;&sup2;/2 term is called the <strong>Ito correction</strong> or <strong>volatility drag</strong>: even if the expected arithmetic return is &mu;, the realized compound return over time is &mu; &minus; &sigma;&sup2;/2. This is not a modeling artifact — it is a mathematical fact about compounding in the presence of volatility.</p>
 
-          <p>In Python, a discrete simulation of GBM uses the exact solution to the SDE:</p>
-          <div class="code-block"><span class="code-comment"># Simulate N paths of GBM over T years</span>
+          <div class="code-block"><span class="code-comment"># Exact discrete simulation of GBM</span>
 import numpy as np
 
 def simulate_gbm(S0, mu, sigma, T, n_steps=252, n_paths=10):
-    dt = T / n_steps
-    Z  = np.random.standard_normal((n_steps, n_paths))  <span class="code-comment"># random shocks</span>
+    dt          = T / n_steps
+    Z           = np.random.standard_normal((n_steps, n_paths))
     log_returns = (mu - 0.5 * sigma**2) * dt + sigma * np.sqrt(dt) * Z
-    log_price   = np.cumsum(log_returns, axis=0)
-    return S0 * np.exp(log_price)                        <span class="code-comment"># shape: (n_steps, n_paths)</span></div>
+    return S0 * np.exp(np.cumsum(log_returns, axis=0))  <span class="code-comment"># shape: (n_steps, n_paths)</span></div>
 
-          <!-- ── Interactive: GBM Path Simulator ── -->
+          <!-- Interactive 2: Volatility Drag Calculator -->
           <div class="interactive-block">
-            <div class="interactive-block-title">GBM Path Simulator &mdash; 1 Year, 252 Trading Days</div>
+            <div class="interactive-block-title">GBM &mdash; Volatility Drag Calculator</div>
             <div class="interactive-controls">
               <div class="control-group">
                 <span class="control-label">&mu; annual drift</span>
@@ -195,187 +181,171 @@ def simulate_gbm(S0, mu, sigma, T, n_steps=252, n_paths=10):
                 <input type="range" id="gbm-sigma" min="5" max="80" value="20">
                 <span class="control-val" id="gbm-sigma-val">20%</span>
               </div>
-              <div class="control-group">
-                <span class="control-label">paths</span>
-                <input type="range" id="gbm-paths" min="1" max="10" value="6">
-                <span class="control-val" id="gbm-paths-val">6</span>
+            </div>
+            <div class="stat-grid">
+              <div class="stat-item">
+                <div class="stat-item-label">Arithmetic drift (&mu;)</div>
+                <div class="stat-item-val" id="gbm-drift">+10.0%</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-item-label">Volatility drag (&minus;&sigma;&sup2;/2)</div>
+                <div class="stat-item-val" id="gbm-drag">&minus;2.0%</div>
+              </div>
+              <div class="stat-item stat-highlight">
+                <div class="stat-item-label">Compound return (&mu;&thinsp;&minus;&thinsp;&sigma;&sup2;/2)</div>
+                <div class="stat-item-val" id="gbm-compound">+8.0%</div>
+              </div>
+              <div class="stat-item stat-highlight">
+                <div class="stat-item-label">$100 &rarr; after 1 year (median)</div>
+                <div class="stat-item-val" id="gbm-price">$108.33</div>
               </div>
             </div>
-            <div class="interactive-canvas-wrap">
-              <canvas id="gbm-canvas" height="220"></canvas>
-            </div>
-            <p class="interactive-note" id="gbm-note">Expected compound return per year: +8.0% &nbsp;·&nbsp; Volatility drag: &minus;2.0%</p>
           </div>
 
           <div class="exercise-callout">
             <div class="exercise-callout-label">Exercise 2 &mdash; Volatility Drag</div>
-            <p>With &mu; = 10% and &sigma; = 20% annually, the expected log return is &mu; &minus; &sigma;&sup2;/2 = 10% &minus; 2% = <strong>8%</strong> per year. Set the simulator to these values. Notice that the median path over 10+ simulations tends to land near S<sub>0</sub> &times; e<sup>0.08</sup> &asymp; 108.3 after one year, not at the arithmetic expectation of 110. The 2% gap is the volatility drag.</p>
+            <p>With &mu; = 10% and &sigma; = 20% annually, the compound return is 10% &minus; 2% = <strong>8%</strong> per year. The median path after one year lands near $108.33, not at the arithmetic expectation of $110. The 2% gap is the volatility drag &mdash; a permanent mathematical cost of compounding under uncertainty.</p>
           </div>
         </section>
 
-        <!-- ═══════════════════════════════════════════════════════════
+        <!-- ══════════════════════════════════════════════
              Part 3: Time Series
-             ═══════════════════════════════════════════════════════════ -->
+             ══════════════════════════════════════════════ -->
         <section class="research-section" id="time-series">
           <h2 class="section-heading">Time Series</h2>
 
-          <p>A time series is a sequence of observations indexed by time. The statistical tools built for time series differ from cross-sectional statistics in one fundamental way: observations are not independent. Yesterday's return predicts something about today's. Understanding these dependencies — and detecting when they break down — is the core of systematic trading.</p>
+          <p>A time series is a sequence of observations indexed by time. The statistical tools built for time series differ from cross-sectional statistics in one fundamental way: observations are not independent. Understanding these dependencies — and detecting when they break down — is the core of systematic trading.</p>
 
           <h3 class="strategy-heading">Stationarity</h3>
-          <p>A time series X(t) is <strong>weakly stationary</strong> if three properties hold for all t and all lags k:</p>
-          <div class="equation">E[X(t)] = &mu; &nbsp;&nbsp;&nbsp;&nbsp; (constant mean)
-Var[X(t)] = &sigma;&sup2; &nbsp;&nbsp;&nbsp; (constant variance)
-Cov[X(t), X(t+k)] = &gamma;(k) &nbsp;&nbsp; (covariance depends only on lag, not time)</div>
-          <p>Stock prices are not stationary. A price of 150 today does not revert toward some fixed mean; it can drift to any level. Log-returns, however, are approximately stationary — a return of 2% today is not systematically different from a 2% return ten years from now. Regressing two non-stationary series on each other produces <strong>spurious regression</strong>: you will find a statistically significant relationship even when none exists, simply because both series share a common drift. Test for stationarity with the <strong>Augmented Dickey-Fuller (ADF)</strong> test before any regression involving price levels.</p>
+          <p>A time series X(t) is <strong>weakly stationary</strong> if its mean, variance, and covariance structure are all constant over time. Stock prices are not stationary — a price of 150 today does not revert toward some fixed mean. Log-returns, however, are approximately stationary. Regressing two non-stationary series on each other produces <strong>spurious regression</strong>: you will find a statistically significant relationship even when none exists. Test for stationarity with the <strong>Augmented Dickey-Fuller (ADF)</strong> test before any regression involving price levels.</p>
+          <div class="equation">E[X(t)] = &mu; &nbsp;&nbsp;&nbsp; Var[X(t)] = &sigma;&sup2; &nbsp;&nbsp;&nbsp; Cov[X(t), X(t+k)] = &gamma;(k)</div>
 
           <div class="code-block"><span class="code-comment"># Augmented Dickey-Fuller test for stationarity</span>
 from statsmodels.tsa.stattools import adfuller
 
-result = adfuller(price_series, autolag='AIC')
-adf_stat, p_value = result[0], result[1]
+result    = adfuller(price_series, autolag='AIC')
+adf_stat  = result[0]
+p_value   = result[1]
 
-<span class="code-comment"># H0: series has a unit root (non-stationary)
-# Reject H0 if p_value < 0.05</span>
-print(f"ADF statistic: {adf_stat:.3f},  p-value: {p_value:.4f}")
-if p_value < 0.05:
-    print("Series is stationary (reject unit root)")
-else:
-    print("Series is non-stationary (fail to reject unit root)")</div>
+<span class="code-comment"># H0: series has a unit root (non-stationary). Reject if p_value &lt; 0.05.</span>
+print(f"ADF: {adf_stat:.3f}  p-value: {p_value:.4f}")</div>
 
           <h3 class="strategy-heading">Autocorrelation</h3>
           <p>The autocorrelation function (ACF) measures the correlation of a series with its own past values:</p>
-          <div class="equation">ACF(k) = Corr[X(t), X(t&minus;k)] = &gamma;(k) / &gamma;(0)</div>
-          <p>ACF at lag k tells you how correlated today's value is with the value k periods ago. For a white-noise series (no predictability), all ACF values should be near zero. <strong>Positive ACF at short lags</strong> suggests momentum — recent moves tend to continue. <strong>Negative ACF</strong> suggests mean reversion — recent moves tend to reverse. Both are tradeable patterns, but they require different strategies: trend-following for positive ACF, mean-reversion for negative.</p>
+          <div class="equation">ACF(k) = Corr[X(t), X(t&minus;k)]</div>
+          <p>Positive ACF at short lags suggests momentum — recent moves tend to continue. Negative ACF suggests mean reversion — recent moves tend to reverse. Both are tradeable patterns, but they require different strategies.</p>
 
-          <h3 class="strategy-heading">Cointegration</h3>
-          <p>Two non-stationary series X(t) and Y(t) are <strong>cointegrated</strong> if there exists a linear combination that is stationary:</p>
+          <h3 class="strategy-heading">Cointegration and Pairs Trading</h3>
+          <p>Two non-stationary series X(t) and Y(t) are <strong>cointegrated</strong> if a linear combination is stationary:</p>
           <div class="equation">Z(t) = Y(t) &minus; &beta; &middot; X(t) &nbsp;&nbsp; is stationary</div>
-          <p>The coefficient &beta; is called the <strong>cointegrating coefficient</strong>. It represents the long-run equilibrium relationship between the two series. If Z(t) drifts far from its mean, it will eventually revert — the two series are held together by an underlying economic force. Goldman Sachs and Morgan Stanley, for example, are both large US investment banks with similar macro exposures. Their prices may each be non-stationary individually, but the spread between them is held stationary by the fact that they face the same systematic forces.</p>
+          <p>The coefficient &beta; is the cointegrating coefficient. If Z(t) drifts far from its mean, it will eventually revert — the two series are held together by an underlying economic force.</p>
 
-          <h3 class="strategy-heading">Pairs Trading Workflow</h3>
-          <p>Cointegration is the foundation of pairs trading:</p>
-          <div class="code-block"><span class="code-comment"># Step 1: Test for cointegration between two price series</span>
+          <div class="code-block"><span class="code-comment"># Pairs trading workflow</span>
 from statsmodels.tsa.stattools import coint
-import numpy as np
-
-score, p_value, _ = coint(price_A, price_B)
-<span class="code-comment"># p_value < 0.05 suggests cointegration</span>
-
-<span class="code-comment"># Step 2: Estimate the cointegrating coefficient via OLS</span>
 from numpy.linalg import lstsq
-beta = lstsq(price_A.reshape(-1,1), price_B, rcond=None)[0][0]
 
-<span class="code-comment"># Step 3: Compute the spread and z-score</span>
+<span class="code-comment"># 1. Test for cointegration</span>
+_, p_value, _ = coint(price_A, price_B)   <span class="code-comment"># p &lt; 0.05 ⇒ cointegrated</span>
+
+<span class="code-comment"># 2. Estimate cointegrating coefficient</span>
+beta   = lstsq(price_A.reshape(-1,1), price_B, rcond=None)[0][0]
+
+<span class="code-comment"># 3. Compute spread and z-score</span>
 spread  = price_B - beta * price_A
 z_score = (spread - spread.mean()) / spread.std()
 
-<span class="code-comment"># Step 4: Signal generation
-# Entry:  |z_score| > 2.0  (spread is 2 standard deviations from mean)
-# Exit:   |z_score| < 0.5  (spread has reverted)</span>
-long_B  = z_score < -2.0   <span class="code-comment"># B cheap relative to A</span>
-short_B = z_score >  2.0   <span class="code-comment"># B expensive relative to A</span></div>
+<span class="code-comment"># 4. Signal: enter when |z| &gt; 2, exit when |z| &lt; 0.5</span>
+long_B  = z_score &lt; -2.0
+short_B = z_score &gt;  2.0</div>
 
-          <p>The critical failure mode for cointegration-based strategies is <strong>structural breaks</strong>. During the 2020 pandemic, many pairs that had been cointegrated for decades broke apart permanently as the pandemic hit different businesses differently. When the cointegrating relationship breaks, the spread does not revert — it simply walks away. Any strategy built on cointegration must include stop-loss logic and ongoing monitoring of whether the relationship remains intact.</p>
+          <p>The critical failure mode is a <strong>structural break</strong>. During the 2020 pandemic, many pairs that had been cointegrated for decades broke apart permanently. When the cointegrating relationship breaks, the spread does not revert — it simply walks away. Any strategy built on cointegration must include stop-loss logic and ongoing monitoring of whether the relationship remains intact.</p>
         </section>
 
-        <!-- ═══════════════════════════════════════════════════════════
+        <!-- ══════════════════════════════════════════════
              Part 4: Linear Algebra
-             ═══════════════════════════════════════════════════════════ -->
+             ══════════════════════════════════════════════ -->
         <section class="research-section" id="linear-algebra">
           <h2 class="section-heading">Linear Algebra</h2>
 
-          <p>When you move from two assets to hundreds, the two-variable correlation formula becomes unwieldy. Linear algebra provides the compact notation and the computational tools to handle arbitrary numbers of assets simultaneously. Two tools matter most: the covariance matrix and principal component analysis.</p>
+          <p>When you move from two assets to hundreds, the two-variable correlation formula becomes unwieldy. Linear algebra provides the compact notation and the computational tools to handle arbitrary numbers of assets simultaneously.</p>
 
           <h3 class="strategy-heading">The Covariance Matrix</h3>
-          <p>For N assets, all pairwise variances and covariances are organized into a symmetric N&times;N matrix &Sigma;:</p>
-          <div class="equation">&Sigma; = [Var(1) &nbsp;&nbsp; Cov(1,2) &nbsp; &hellip; &nbsp; Cov(1,N)]
-     [Cov(2,1) &nbsp; Var(2) &nbsp;&nbsp; &hellip; &nbsp; Cov(2,N)]
-     [&vellip;]
-     [Cov(N,1) &nbsp; Cov(N,2) &nbsp; &hellip; &nbsp; Var(N)  ]</div>
-          <p>The diagonal entries are the variances of each asset. The off-diagonal entries are the covariances between pairs. The matrix is symmetric because Cov(i,j) = Cov(j,i). In Python:</p>
-          <div class="code-block"><span class="code-comment"># Estimate covariance matrix from return data</span>
+          <p>For N assets, all pairwise variances and covariances are organized into a symmetric N&times;N matrix &Sigma;. The diagonal entries are the variances; off-diagonal entries are covariances. Portfolio variance is the quadratic form:</p>
+          <div class="equation">Portfolio Variance = <strong>w</strong><sup>T</sup> &Sigma; <strong>w</strong></div>
+
+          <div class="code-block"><span class="code-comment"># Portfolio variance via matrix multiplication</span>
 import numpy as np
 
-<span class="code-comment"># returns: shape (T, N) — T observations, N assets</span>
-cov_matrix = np.cov(returns.T)   <span class="code-comment"># shape: (N, N)</span>
-
-<span class="code-comment"># Two-asset example: Stock A (20%), Stock B (30%), corr = 0.5</span>
-sigma_A, sigma_B, rho = 0.20, 0.30, 0.5
-cov_AB = rho * sigma_A * sigma_B
-
-cov_matrix = np.array([[sigma_A**2,  cov_AB  ],
-                        [cov_AB,     sigma_B**2]])</div>
-
-          <h3 class="strategy-heading">Portfolio Variance</h3>
-          <p>For a portfolio with weight vector <strong>w</strong> (the fraction allocated to each asset), the portfolio variance is the quadratic form:</p>
-          <div class="equation">Portfolio Variance = <strong>w</strong><sup>T</sup> &Sigma; <strong>w</strong></div>
-          <p>For a two-asset portfolio with w = [0.5, 0.5], &sigma;<sub>A</sub> = 20%, &sigma;<sub>B</sub> = 30%, and Cov = 0.02:</p>
-          <div class="code-block">w = np.array([0.5, 0.5])
-
+w          = np.array([0.5, 0.5])
 cov_matrix = np.array([[0.04, 0.02],
-                        [0.02, 0.09]])
+                        [0.02, 0.09]])   <span class="code-comment"># σ_A=20%, σ_B=30%, Cov=0.02</span>
 
-portfolio_variance = w @ cov_matrix @ w   <span class="code-comment"># = 0.0425</span>
-portfolio_std      = np.sqrt(portfolio_variance)  <span class="code-comment"># ≈ 20.6%</span></div>
-          <p>The portfolio volatility of 20.6% is less than the simple average of 25%. That reduction comes from diversification — the fact that the two assets do not move perfectly together. The correlation slider below shows how this changes as the relationship between the two assets shifts.</p>
+port_var = w @ cov_matrix @ w          <span class="code-comment"># = 0.0425</span>
+port_std = np.sqrt(port_var)           <span class="code-comment"># ≈ 20.6%</span></div>
 
-          <!-- ── Interactive: Portfolio Correlation Explorer ── -->
+          <!-- Interactive 3: Portfolio Correlation Explorer -->
           <div class="interactive-block">
-            <div class="interactive-block-title">Portfolio Correlation Explorer &mdash; How &rho; Shapes Risk</div>
+            <div class="interactive-block-title">Portfolio Correlation Explorer &mdash; equal 50/50 weights</div>
             <div class="interactive-controls">
               <div class="control-group">
-                <span class="control-label">&sigma;<sub>A</sub> volatility</span>
+                <span class="control-label">&sigma;<sub>A</sub></span>
                 <input type="range" id="port-sigA" min="5" max="50" value="20">
                 <span class="control-val" id="port-sigA-val">20%</span>
               </div>
               <div class="control-group">
-                <span class="control-label">&sigma;<sub>B</sub> volatility</span>
+                <span class="control-label">&sigma;<sub>B</sub></span>
                 <input type="range" id="port-sigB" min="5" max="50" value="30">
                 <span class="control-val" id="port-sigB-val">30%</span>
               </div>
               <div class="control-group">
-                <span class="control-label">correlation &rho;</span>
+                <span class="control-label">&rho; correlation</span>
                 <input type="range" id="port-rho" min="-100" max="100" value="0">
                 <span class="control-val" id="port-rho-val">0.00</span>
               </div>
             </div>
-            <div class="interactive-canvas-wrap">
-              <canvas id="port-canvas" height="220"></canvas>
+            <div class="scenario-grid">
+              <div class="scenario-item">
+                <span class="scenario-rho">&rho; = &minus;1</span>
+                <span class="scenario-sig" id="port-neg1">&mdash;</span>
+                <span class="scenario-sub">perfect hedge</span>
+              </div>
+              <div class="scenario-item scenario-current">
+                <span class="scenario-rho" id="port-rho-label">&rho; = 0.00</span>
+                <span class="scenario-sig" id="port-current">18.0%</span>
+                <span class="scenario-sub">selected &rho;</span>
+              </div>
+              <div class="scenario-item">
+                <span class="scenario-rho">&rho; = +1</span>
+                <span class="scenario-sig" id="port-pos1">&mdash;</span>
+                <span class="scenario-sub">no diversification</span>
+              </div>
             </div>
-            <p class="interactive-note" id="port-note">Portfolio &sigma; (equal weights) = <strong id="port-current-sig">18.0%</strong> &nbsp;·&nbsp; Diversification benefit: <strong id="port-div-benefit">7.0%</strong></p>
+            <p class="interactive-note" id="port-note">Portfolio &sigma;: 18.0% &nbsp;&middot;&nbsp; Simple average: 25.0% &nbsp;&middot;&nbsp; Diversification benefit: 7.0%</p>
           </div>
 
           <h3 class="strategy-heading">Principal Component Analysis</h3>
-          <p>PCA finds the directions in the return space along which variance is maximized. It decomposes the covariance matrix into its eigenvectors and eigenvalues:</p>
+          <p>PCA decomposes the covariance matrix into its eigenvectors and eigenvalues:</p>
           <div class="equation">&Sigma; &middot; <strong>v</strong> = &lambda; &middot; <strong>v</strong></div>
-          <p>Each eigenvector <strong>v</strong> is a <em>principal component</em> — a portfolio of assets with specific loadings. The corresponding eigenvalue &lambda; is the variance explained by that component. In a portfolio of 500 stocks, the first principal component typically accounts for 30&ndash;50% of total variance and corresponds to the broad market factor: when it goes up, most stocks go up.</p>
+          <p>Each eigenvector <strong>v</strong> is a principal component — a portfolio of assets with specific loadings. The corresponding eigenvalue &lambda; is the variance explained by that component. In a portfolio of 500 stocks, the first principal component typically accounts for 30–50% of total variance and corresponds to the broad market factor. PCA reduces a 500&times;500 covariance matrix to 10–15 risk factors explaining 80%+ of variance — dramatically improving both estimation reliability and computational tractability.</p>
+
           <div class="code-block"><span class="code-comment"># PCA on a covariance matrix</span>
 from numpy.linalg import eigh
 
 eigenvalues, eigenvectors = eigh(cov_matrix)
 
-<span class="code-comment"># Sort by eigenvalue (largest first)</span>
+<span class="code-comment"># Sort descending (largest variance first)</span>
 idx          = eigenvalues.argsort()[::-1]
 eigenvalues  = eigenvalues[idx]
-eigenvectors = eigenvectors[:, idx]   <span class="code-comment"># columns are principal components</span>
+eigenvectors = eigenvectors[:, idx]
 
-<span class="code-comment"># Variance explained by each PC</span>
-explained_variance_ratio = eigenvalues / eigenvalues.sum()
-print(f"PC1 explains {explained_variance_ratio[0]:.1%} of variance")
-print(f"PC2 explains {explained_variance_ratio[1]:.1%} of variance")</div>
-          <p>In practice, PCA is used to reduce a 500&times;500 covariance matrix to 10&ndash;15 risk factors that explain 80%+ of variance. This solves two problems: estimation noise (estimating 125,000 individual covariances reliably requires far more data than is available) and computation (optimizing a portfolio over 10 factors is vastly faster than over 500 assets). The loadings of each stock on the first few components also reveal which macro forces dominate its returns — sector exposure, interest rate sensitivity, growth vs. value tilt.</p>
+explained = eigenvalues / eigenvalues.sum()
+print(f"PC1 explains {explained[0]:.1%} of variance")</div>
         </section>
 
-        <!-- ═══════════════════════════════════════════════════════════
-             Synthesis
-             ═══════════════════════════════════════════════════════════ -->
+        <!-- Synthesis -->
         <section class="research-section" id="synthesis">
           <h2 class="section-heading">Synthesis: The Four Tools in One Strategy</h2>
-          <p>These four mathematical frameworks are not independent. A pairs trading strategy uses all of them simultaneously.</p>
-          <p><strong>Probability and statistics</strong> define the signal: compute the spread, estimate its mean and standard deviation, express entry and exit as z-score thresholds. If the spread is more than 2 standard deviations from its mean, the probability of reversion (under the assumed distribution) justifies the trade.</p>
-          <p><strong>Stochastic processes</strong> model the dynamics: the spread between two cointegrated assets follows an Ornstein-Uhlenbeck process, the mean-reverting analogue of Brownian motion. Ito's Lemma is used to derive the theoretical holding time and expected P&amp;L as a function of the model parameters.</p>
-          <p><strong>Time series</strong> provide the empirical tests: the ADF test confirms the spread is stationary, not just temporarily near its mean; the cointegration test confirms the relationship is structural; the ACF at short lags informs the optimal holding period.</p>
-          <p><strong>Linear algebra</strong> ensures diversification: PCA of the covariance matrix of all current positions checks that different pairs do not all load heavily on the same first principal component (the market factor). If they do, you are running a concentrated market-beta bet disguised as a market-neutral strategy.</p>
+          <p>These four mathematical frameworks are not independent. A pairs trading strategy uses all of them simultaneously. <strong>Probability and statistics</strong> define the signal: compute the spread, estimate its mean and standard deviation, express entry and exit as z-score thresholds. <strong>Stochastic processes</strong> model the dynamics: the spread between two cointegrated assets follows an Ornstein-Uhlenbeck process, the mean-reverting analogue of Brownian motion. <strong>Time series</strong> provide the empirical tests: the ADF test confirms the spread is stationary; the cointegration test confirms the relationship is structural; the ACF at short lags informs the optimal holding period. <strong>Linear algebra</strong> ensures diversification: PCA of the covariance matrix of all current positions checks that different pairs do not all load on the same first principal component.</p>
           <p>Understanding any one of these tools in isolation is not difficult. What makes quantitative finance hard — and valuable — is knowing how they fit together, and which assumptions each one is smuggling in.</p>
         </section>
       </main>
@@ -384,414 +354,106 @@ print(f"PC2 explains {explained_variance_ratio[1]:.1%} of variance")</div>
 
   <script src="../../../script.js"></script>
   <script>
-    // ─────────────────────────────────────────────────────────────────
-    // Utility: normal random variable (Box-Muller)
-    // ─────────────────────────────────────────────────────────────────
-    function randn() {
-      var u = 0, v = 0;
-      while (u === 0) u = Math.random();
-      while (v === 0) v = Math.random();
-      return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-    }
-
-    // ─────────────────────────────────────────────────────────────────
-    // Canvas DPI helper
-    // ─────────────────────────────────────────────────────────────────
-    function initCanvas(canvas) {
-      var dpr = window.devicePixelRatio || 1;
-      var rect = canvas.getBoundingClientRect();
-      var w = rect.width || canvas.parentElement.offsetWidth;
-      var h = parseInt(canvas.getAttribute('height')) || 200;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      var ctx = canvas.getContext('2d');
-      ctx.scale(dpr, dpr);
-      return { ctx: ctx, W: w, H: h };
-    }
-
-    // ─────────────────────────────────────────────────────────────────
-    // 1. BINOMIAL DISTRIBUTION EXPLORER
-    // ─────────────────────────────────────────────────────────────────
-    function logBinomCoeff(n, k) {
-      var result = 0;
-      for (var i = 0; i < k; i++) {
-        result += Math.log(n - i) - Math.log(i + 1);
-      }
-      return result;
-    }
-
-    function binomPMF(n, k, p) {
-      if (p <= 0) return k === 0 ? 1 : 0;
-      if (p >= 1) return k === n ? 1 : 0;
-      return Math.exp(logBinomCoeff(n, k) + k * Math.log(p) + (n - k) * Math.log(1 - p));
-    }
-
-    function drawBinomial() {
+    // Binomial distribution parameters
+    ['binom-n', 'binom-p'].forEach(function (id) {
+      document.getElementById(id).addEventListener('input', updateBinom);
+    });
+    function updateBinom() {
       var n = parseInt(document.getElementById('binom-n').value);
       var p = parseInt(document.getElementById('binom-p').value) / 100;
-
       document.getElementById('binom-n-val').textContent = n;
       document.getElementById('binom-p-val').textContent = p.toFixed(2);
-
       var mean = n * p;
       var variance = n * p * (1 - p);
-      var stddev = Math.sqrt(variance);
-      document.getElementById('binom-stats').innerHTML =
-        'Mean = ' + mean.toFixed(2) + ' &nbsp;&middot;&nbsp; Variance = ' + variance.toFixed(2) +
-        ' &nbsp;&middot;&nbsp; Std Dev = ' + stddev.toFixed(2);
-
-      var canvas = document.getElementById('binom-canvas');
-      var d = initCanvas(canvas);
-      var ctx = d.ctx, W = d.W, H = d.H;
-
-      var pad = { top: 20, right: 16, bottom: 28, left: 40 };
-      var innerW = W - pad.left - pad.right;
-      var innerH = H - pad.top - pad.bottom;
-
-      ctx.clearRect(0, 0, W, H);
-
-      var probs = [];
-      for (var k = 0; k <= n; k++) probs.push(binomPMF(n, k, p));
-      var maxProb = Math.max.apply(null, probs);
-      if (maxProb === 0) return;
-
-      var barW = innerW / (n + 1);
-      var barGap = Math.max(1, barW * 0.12);
-      var modeK = Math.round(mean);
-
-      for (var k = 0; k <= n; k++) {
-        var barH = (probs[k] / maxProb) * innerH;
-        var x = pad.left + k * barW + barGap / 2;
-        var y = pad.top + innerH - barH;
-        var bw = Math.max(1, barW - barGap);
-
-        ctx.fillStyle = (k === modeK) ? 'rgba(51,64,79,0.72)' : 'rgba(51,64,79,0.32)';
-        ctx.fillRect(x, y, bw, barH);
-      }
-
-      // x-axis tick labels
-      ctx.fillStyle = 'rgba(51,64,79,0.5)';
-      ctx.font = '10px Inter, -apple-system, sans-serif';
-      ctx.textAlign = 'center';
-      var step = n <= 15 ? 1 : n <= 25 ? 5 : 10;
-      for (var k = 0; k <= n; k += step) {
-        ctx.fillText(k, pad.left + k * barW + barW / 2, H - 8);
-      }
-
-      // y-axis: 0 line
-      ctx.strokeStyle = 'rgba(51,64,79,0.12)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(pad.left, pad.top + innerH);
-      ctx.lineTo(pad.left + innerW, pad.top + innerH);
-      ctx.stroke();
-
-      // y label
-      ctx.fillStyle = 'rgba(51,64,79,0.4)';
-      ctx.textAlign = 'right';
-      ctx.fillText(maxProb.toFixed(2), pad.left - 3, pad.top + 8);
+      var mode = Math.min(n, Math.floor((n + 1) * p));
+      document.getElementById('binom-mean').textContent = mean.toFixed(2);
+      document.getElementById('binom-var').textContent  = variance.toFixed(2);
+      document.getElementById('binom-std').textContent  = Math.sqrt(variance).toFixed(2);
+      document.getElementById('binom-mode').textContent = mode;
     }
+    updateBinom();
 
-    var binomN = document.getElementById('binom-n');
-    var binomP = document.getElementById('binom-p');
-    binomN.addEventListener('input', drawBinomial);
-    binomP.addEventListener('input', drawBinomial);
-
-    // ─────────────────────────────────────────────────────────────────
-    // 2. GBM PATH SIMULATOR
-    // ─────────────────────────────────────────────────────────────────
-    function simulateGBM(S0, mu, sigma, steps) {
-      var dt = 1 / 252;
-      var path = [S0];
-      for (var i = 1; i <= steps; i++) {
-        var prev = path[path.length - 1];
-        path.push(prev * Math.exp((mu - 0.5 * sigma * sigma) * dt + sigma * Math.sqrt(dt) * randn()));
-      }
-      return path;
+    // GBM volatility drag
+    ['gbm-mu', 'gbm-sigma'].forEach(function (id) {
+      document.getElementById(id).addEventListener('input', updateGBM);
+    });
+    function updateGBM() {
+      var mu    = parseInt(document.getElementById('gbm-mu').value) / 100;
+      var sigma = parseInt(document.getElementById('gbm-sigma').value) / 100;
+      document.getElementById('gbm-mu-val').textContent    = (mu >= 0 ? '+' : '') + Math.round(mu * 100) + '%';
+      document.getElementById('gbm-sigma-val').textContent = Math.round(sigma * 100) + '%';
+      var drag     = -0.5 * sigma * sigma;
+      var compound = mu + drag;
+      var price    = 100 * Math.exp(compound);
+      document.getElementById('gbm-drift').textContent    = (mu >= 0 ? '+' : '') + (mu * 100).toFixed(1) + '%';
+      document.getElementById('gbm-drag').textContent     = (drag * 100).toFixed(1) + '%';
+      document.getElementById('gbm-compound').textContent = (compound >= 0 ? '+' : '') + (compound * 100).toFixed(1) + '%';
+      document.getElementById('gbm-price').textContent    = '$' + price.toFixed(2);
     }
+    updateGBM();
 
-    var gbmPaths = [];
-
-    function drawGBM() {
-      var muPct = parseInt(document.getElementById('gbm-mu').value);
-      var sigmaPct = parseInt(document.getElementById('gbm-sigma').value);
-      var nPaths = parseInt(document.getElementById('gbm-paths').value);
-      var mu = muPct / 100;
-      var sigma = sigmaPct / 100;
-
-      document.getElementById('gbm-mu-val').textContent = (muPct >= 0 ? '+' : '') + muPct + '%';
-      document.getElementById('gbm-sigma-val').textContent = sigmaPct + '%';
-      document.getElementById('gbm-paths-val').textContent = nPaths;
-
-      var compoundReturn = (mu - 0.5 * sigma * sigma) * 100;
-      var drag = (-0.5 * sigma * sigma * 100).toFixed(1);
-      document.getElementById('gbm-note').innerHTML =
-        'Expected compound return per year: <strong>' + (compoundReturn >= 0 ? '+' : '') +
-        compoundReturn.toFixed(1) + '%</strong>' +
-        ' &nbsp;&middot;&nbsp; Volatility drag: <strong>' + drag + '%</strong>';
-
-      var S0 = 100, steps = 252;
-      gbmPaths = [];
-      for (var i = 0; i < nPaths; i++) gbmPaths.push(simulateGBM(S0, mu, sigma, steps));
-
-      var canvas = document.getElementById('gbm-canvas');
-      var d = initCanvas(canvas);
-      var ctx = d.ctx, W = d.W, H = d.H;
-      ctx.clearRect(0, 0, W, H);
-
-      var pad = { top: 24, right: 20, bottom: 30, left: 46 };
-      var innerW = W - pad.left - pad.right;
-      var innerH = H - pad.top - pad.bottom;
-
-      // Find y range
-      var allVals = gbmPaths.reduce(function (a, b) { return a.concat(b); }, []);
-      var minV = Math.min.apply(null, allVals);
-      var maxV = Math.max.apply(null, allVals);
-      var rng = maxV - minV || 1;
-      minV -= rng * 0.06;
-      maxV += rng * 0.06;
-      rng = maxV - minV;
-
-      function xS(t) { return pad.left + (t / steps) * innerW; }
-      function yS(v) { return pad.top + innerH - ((v - minV) / rng) * innerH; }
-
-      // S0 reference line
-      ctx.strokeStyle = 'rgba(51,64,79,0.14)';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([5, 4]);
-      ctx.beginPath();
-      ctx.moveTo(pad.left, yS(S0));
-      ctx.lineTo(pad.left + innerW, yS(S0));
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      // Paths
-      var alpha = Math.max(0.18, 0.7 / nPaths + 0.2);
-      gbmPaths.forEach(function (path) {
-        ctx.strokeStyle = 'rgba(51,64,79,' + alpha.toFixed(2) + ')';
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        path.forEach(function (v, t) {
-          if (t === 0) ctx.moveTo(xS(t), yS(v));
-          else ctx.lineTo(xS(t), yS(v));
-        });
-        ctx.stroke();
-      });
-
-      // x-axis ticks
-      ctx.fillStyle = 'rgba(51,64,79,0.5)';
-      ctx.font = '10px Inter, -apple-system, sans-serif';
-      ctx.textAlign = 'center';
-      [[0, '0'], [63, 'Q1'], [126, 'Q2'], [189, 'Q3'], [252, '1yr']].forEach(function (pair) {
-        ctx.fillText(pair[1], xS(pair[0]), H - 8);
-      });
-
-      // y-axis labels
-      ctx.textAlign = 'right';
-      ctx.fillText(S0.toFixed(0), pad.left - 4, yS(S0) + 4);
-      if (maxV !== S0) ctx.fillText(maxV.toFixed(0), pad.left - 4, pad.top + 8);
+    // Portfolio correlation explorer
+    ['port-sigA', 'port-sigB', 'port-rho'].forEach(function (id) {
+      document.getElementById(id).addEventListener('input', updatePort);
+    });
+    function portSig(sA, sB, rho) {
+      return Math.sqrt(0.25 * sA * sA + 0.25 * sB * sB + 0.5 * rho * sA * sB);
     }
-
-    document.getElementById('gbm-mu').addEventListener('input', drawGBM);
-    document.getElementById('gbm-sigma').addEventListener('input', drawGBM);
-    document.getElementById('gbm-paths').addEventListener('input', drawGBM);
-
-    // Re-simulate on click
-    document.getElementById('gbm-canvas').addEventListener('click', drawGBM);
-    document.getElementById('gbm-canvas').title = 'Click to re-simulate';
-    document.getElementById('gbm-canvas').style.cursor = 'pointer';
-
-    // ─────────────────────────────────────────────────────────────────
-    // 3. PORTFOLIO CORRELATION EXPLORER
-    // ─────────────────────────────────────────────────────────────────
-    function drawPortfolio() {
-      var sigA = parseInt(document.getElementById('port-sigA').value) / 100;
-      var sigB = parseInt(document.getElementById('port-sigB').value) / 100;
+    function updatePort() {
+      var sA  = parseInt(document.getElementById('port-sigA').value) / 100;
+      var sB  = parseInt(document.getElementById('port-sigB').value) / 100;
       var rho = parseInt(document.getElementById('port-rho').value) / 100;
-      var wA = 0.5, wB = 0.5;
-
-      document.getElementById('port-sigA-val').textContent = (sigA * 100).toFixed(0) + '%';
-      document.getElementById('port-sigB-val').textContent = (sigB * 100).toFixed(0) + '%';
-      document.getElementById('port-rho-val').textContent = rho.toFixed(2);
-
-      function portSig(r) {
-        var pv = wA * wA * sigA * sigA + wB * wB * sigB * sigB + 2 * wA * wB * r * sigA * sigB;
-        return Math.sqrt(Math.max(0, pv));
-      }
-
-      var currentSig = portSig(rho);
-      var simpleAvg = wA * sigA + wB * sigB;
-      var divBenefit = simpleAvg - currentSig;
-
-      document.getElementById('port-current-sig').textContent = (currentSig * 100).toFixed(1) + '%';
-      document.getElementById('port-div-benefit').textContent =
-        (divBenefit >= 0 ? '+' : '') + (divBenefit * 100).toFixed(1) + '%';
-
-      var canvas = document.getElementById('port-canvas');
-      var d = initCanvas(canvas);
-      var ctx = d.ctx, W = d.W, H = d.H;
-      ctx.clearRect(0, 0, W, H);
-
-      var pad = { top: 24, right: 20, bottom: 30, left: 48 };
-      var innerW = W - pad.left - pad.right;
-      var innerH = H - pad.top - pad.bottom;
-
-      // Build curve data (-1 to +1)
-      var N = 201;
-      var rhos = [], sigmas = [];
-      for (var i = 0; i < N; i++) {
-        var r = -1 + i * (2 / (N - 1));
-        rhos.push(r);
-        sigmas.push(portSig(r));
-      }
-
-      var maxSig = Math.max.apply(null, sigmas) * 1.08;
-      var minSig = 0;
-
-      function xS(r) { return pad.left + ((r + 1) / 2) * innerW; }
-      function yS(v) { return pad.top + innerH - (v / maxSig) * innerH; }
-
-      // Fill
-      ctx.fillStyle = 'rgba(51,64,79,0.07)';
-      ctx.beginPath();
-      ctx.moveTo(xS(-1), pad.top + innerH);
-      for (var i = 0; i < N; i++) ctx.lineTo(xS(rhos[i]), yS(sigmas[i]));
-      ctx.lineTo(xS(1), pad.top + innerH);
-      ctx.closePath();
-      ctx.fill();
-
-      // Curve
-      ctx.strokeStyle = 'rgba(51,64,79,0.55)';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      for (var i = 0; i < N; i++) {
-        if (i === 0) ctx.moveTo(xS(rhos[i]), yS(sigmas[i]));
-        else ctx.lineTo(xS(rhos[i]), yS(sigmas[i]));
-      }
-      ctx.stroke();
-
-      // Vertical guide at current rho
-      ctx.strokeStyle = 'rgba(51,64,79,0.12)';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([4, 4]);
-      ctx.beginPath();
-      ctx.moveTo(xS(rho), pad.top + innerH);
-      ctx.lineTo(xS(rho), yS(currentSig));
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      // Current point
-      ctx.fillStyle = 'rgba(51,64,79,0.9)';
-      ctx.beginPath();
-      ctx.arc(xS(rho), yS(currentSig), 4.5, 0, 2 * Math.PI);
-      ctx.fill();
-
-      // Label
-      ctx.fillStyle = 'rgba(51,64,79,0.75)';
-      ctx.font = '11px Inter, -apple-system, sans-serif';
-      ctx.textAlign = 'center';
-      var labelY = yS(currentSig) - 9;
-      if (labelY < pad.top + 12) labelY = yS(currentSig) + 16;
-      ctx.fillText((currentSig * 100).toFixed(1) + '%', xS(rho), labelY);
-
-      // x-axis ticks
-      ctx.fillStyle = 'rgba(51,64,79,0.5)';
-      ctx.font = '10px Inter, -apple-system, sans-serif';
-      [[-1, '-1'], [-0.5, '-0.5'], [0, '0'], [0.5, '+0.5'], [1, '+1']].forEach(function (pair) {
-        ctx.textAlign = 'center';
-        ctx.fillText(pair[1], xS(pair[0]), H - 8);
-      });
-
-      // y-axis labels
-      ctx.textAlign = 'right';
-      ctx.fillText((maxSig * 100).toFixed(0) + '%', pad.left - 4, pad.top + 10);
-      ctx.fillText('0%', pad.left - 4, pad.top + innerH + 4);
+      document.getElementById('port-sigA-val').textContent = Math.round(sA * 100) + '%';
+      document.getElementById('port-sigB-val').textContent = Math.round(sB * 100) + '%';
+      document.getElementById('port-rho-val').textContent  = rho.toFixed(2);
+      var sigNeg  = portSig(sA, sB, -1);
+      var sigCur  = portSig(sA, sB, rho);
+      var sigPos  = portSig(sA, sB,  1);
+      var avg     = (sA + sB) / 2;
+      document.getElementById('port-neg1').textContent      = (sigNeg * 100).toFixed(1) + '%';
+      document.getElementById('port-rho-label').textContent = '\u03c1 = ' + rho.toFixed(2);
+      document.getElementById('port-current').textContent   = (sigCur * 100).toFixed(1) + '%';
+      document.getElementById('port-pos1').textContent      = (sigPos * 100).toFixed(1) + '%';
+      document.getElementById('port-note').innerHTML =
+        'Portfolio \u03c3: <strong>' + (sigCur * 100).toFixed(1) + '%</strong>' +
+        ' &nbsp;&middot;&nbsp; Simple average: ' + (avg * 100).toFixed(1) + '%' +
+        ' &nbsp;&middot;&nbsp; Diversification benefit: ' + ((avg - sigCur) * 100).toFixed(1) + '%';
     }
+    updatePort();
 
-    document.getElementById('port-sigA').addEventListener('input', drawPortfolio);
-    document.getElementById('port-sigB').addEventListener('input', drawPortfolio);
-    document.getElementById('port-rho').addEventListener('input', drawPortfolio);
-
-    // ─────────────────────────────────────────────────────────────────
     // Chapter toggle
-    // ─────────────────────────────────────────────────────────────────
-    var toggle = document.querySelector('.chapter-toggle');
+    var toggle  = document.querySelector('.chapter-toggle');
     var subList = document.querySelector('.subchapter-list');
-
     toggle.addEventListener('click', function () {
-      var isOpen = this.getAttribute('aria-expanded') === 'true';
-      var nextOpen = !isOpen;
-      this.setAttribute('aria-expanded', String(nextOpen));
-      subList.classList.toggle('is-open', nextOpen);
+      var open = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!open));
+      subList.classList.toggle('is-open', !open);
     });
 
-    // ─────────────────────────────────────────────────────────────────
-    // Subchapter smooth scroll + heading flash
-    // ─────────────────────────────────────────────────────────────────
+    // Subchapter smooth scroll + flash
     document.querySelectorAll('.subchapter-link').forEach(function (link) {
       link.addEventListener('click', function (e) {
         e.preventDefault();
-        var targetId = this.getAttribute('href').slice(1);
-        var target = document.getElementById(targetId);
+        var target = document.getElementById(this.getAttribute('href').slice(1));
         if (!target) return;
-
-        document.querySelectorAll('.subchapter-link').forEach(function (l) {
-          l.classList.remove('active');
-        });
+        document.querySelectorAll('.subchapter-link').forEach(function (l) { l.classList.remove('active'); });
         this.classList.add('active');
-
-        var offset = 40;
-        var top = target.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top: top, behavior: 'smooth' });
-
-        var heading = target.querySelector('.section-heading');
-        if (heading) {
-          heading.classList.remove('heading-flash');
-          void heading.offsetWidth;
-          heading.classList.add('heading-flash');
-          setTimeout(function () { heading.classList.remove('heading-flash'); }, 1000);
-        }
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 40, behavior: 'smooth' });
+        var h = target.querySelector('.section-heading');
+        if (h) { h.classList.remove('heading-flash'); void h.offsetWidth; h.classList.add('heading-flash'); setTimeout(function () { h.classList.remove('heading-flash'); }, 1000); }
       });
     });
 
-    // ─────────────────────────────────────────────────────────────────
     // Scroll spy
-    // ─────────────────────────────────────────────────────────────────
-    var spySections = document.querySelectorAll('.research-section');
-    var spyLinks = document.querySelectorAll('.subchapter-link');
-
-    function updateActiveLink() {
-      var scrollPos = window.scrollY + window.innerHeight / 4;
-      var activeId = null;
-      spySections.forEach(function (section) {
-        if (section.offsetTop <= scrollPos) activeId = section.id;
-      });
-      spyLinks.forEach(function (link) {
-        link.classList.toggle('active', link.getAttribute('href').slice(1) === activeId);
-      });
+    var sections = document.querySelectorAll('.research-section');
+    var links    = document.querySelectorAll('.subchapter-link');
+    function spy() {
+      var pos = window.scrollY + window.innerHeight / 4, id = null;
+      sections.forEach(function (s) { if (s.offsetTop <= pos) id = s.id; });
+      links.forEach(function (l) { l.classList.toggle('active', l.getAttribute('href').slice(1) === id); });
     }
-
-    window.addEventListener('scroll', updateActiveLink, { passive: true });
-    updateActiveLink();
-
-    // ─────────────────────────────────────────────────────────────────
-    // Initial renders (after layout)
-    // ─────────────────────────────────────────────────────────────────
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        drawBinomial();
-        drawGBM();
-        drawPortfolio();
-      });
-    });
-
-    // Redraw on resize
-    window.addEventListener('resize', function () {
-      drawBinomial();
-      drawGBM();
-      drawPortfolio();
-    });
+    window.addEventListener('scroll', spy, { passive: true });
+    spy();
   </script>
 </body>
-
 </html>
