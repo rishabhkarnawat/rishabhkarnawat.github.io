@@ -31,6 +31,8 @@
       <nav class="research-nav">
         <a href="../" class="back-link">&larr; Back to work</a>
         <div class="chapter-list">
+
+          <!-- Chapter 1: Introduction (active) -->
           <div class="chapter-item chapter-active">
             <button class="chapter-toggle" aria-expanded="false">
               <span class="chapter-label">Introduction</span>
@@ -44,6 +46,16 @@
               <li><a href="#the-strategies" class="subchapter-link">The Strategies</a></li>
               <li><a href="#the-discipline" class="subchapter-link">The Discipline</a></li>
             </ul>
+          </div>
+
+          <!-- Chapter 2: Mathematics (inactive link) -->
+          <div class="chapter-item">
+            <a href="mathematics/" class="chapter-link">
+              <span class="chapter-label">Mathematics</span>
+              <svg class="chapter-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
           </div>
         </div>
 
@@ -79,6 +91,30 @@
           <p><strong>Trend followers</strong> like Man AHL and Renaissance exploit the slow diffusion of information across the investor population, holding from days to months, earning a blend of alpha and risk premium. <strong>Volatility traders</strong> at firms like Susquehanna trade the gap between implied and realized volatility. <strong>Macro quants</strong> like Bridgewater and DE Shaw model cross-asset flows and rate differentials at the largest scale.</p>
           <p><strong>Factor investors</strong> like AQR and Dimensional tilt portfolios toward structural risk premia like value, quality, and momentum. <strong>Machine learning traders</strong> like Two Sigma and Numerai use very high technology to discover non-human patterns from alternative data. <strong>Event-driven traders</strong> at Millennium and Point72 price probabilities around mergers, earnings, and regulatory decisions. Finally, <strong>execution algorithm designers</strong> at Goldman and ITG reduce the cost of trading for large institutions.</p>
           <p>The return type matters more than most introductions acknowledge. <strong>True alpha</strong> means you are generating returns uncorrelated with any known risk factor — you found something the market missed. A <strong>risk premium</strong> means you are being compensated for bearing a specific kind of risk that other investors want to offload. A <strong>service premium</strong> means you are being paid to do something the market needs. All three can make money. Only the first is genuinely scarce.</p>
+
+          <!-- ── Interactive: Strategy Explorer ── -->
+          <div class="interactive-block">
+            <div class="interactive-block-title">Strategy Explorer &mdash; Click any archetype</div>
+            <div class="strategy-chips" id="strategy-chips"></div>
+            <div class="strategy-detail-grid" id="strategy-detail">
+              <div class="detail-item">
+                <span class="detail-label">Edge Source</span>
+                <span class="detail-value" id="detail-edge">&mdash;</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Holding Period</span>
+                <span class="detail-value" id="detail-holding">&mdash;</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Return Type</span>
+                <span class="detail-value" id="detail-return">&mdash;</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Key Firms</span>
+                <span class="detail-value" id="detail-firms">&mdash;</span>
+              </div>
+            </div>
+          </div>
         </section>
 
         <!-- Section 3: The Strategies -->
@@ -93,6 +129,27 @@
           <p>Here &beta; is estimated from historical data and represents how much Goldman tends to move for every one unit Morgan Stanley moves. If Goldman drops sharply while Morgan Stanley holds steady, Spread(t) falls well below its historical mean. The trader goes long Goldman, short Morgan Stanley, and waits for convergence. The z-score triggers the trade:</p>
           <div class="equation">Z(t) = ( Spread(t) &minus; Mean(Spread) ) / StdDev(Spread)</div>
           <p>When Z exceeds 2 in either direction, you enter. When it returns toward zero, you exit. The position is market neutral: the only thing you are betting on is the relationship between them, not the market direction. DE Shaw extended this far beyond pairs, to baskets of hundreds of stocks, to cross-asset relationships, to derivatives.</p>
+
+          <!-- ── Interactive: Pairs Spread Simulator ── -->
+          <div class="interactive-block">
+            <div class="interactive-block-title">Pairs Spread Simulator &mdash; Ornstein-Uhlenbeck Process</div>
+            <div class="interactive-controls">
+              <div class="control-group">
+                <span class="control-label">mean reversion speed &theta;</span>
+                <input type="range" id="ou-theta" min="1" max="30" value="8">
+                <span class="control-val" id="ou-theta-val">0.08</span>
+              </div>
+              <div class="control-group">
+                <span class="control-label">spread volatility</span>
+                <input type="range" id="ou-sigma" min="5" max="30" value="12">
+                <span class="control-val" id="ou-sigma-val">1.2</span>
+              </div>
+            </div>
+            <div class="interactive-canvas-wrap">
+              <canvas id="ou-canvas" height="210"></canvas>
+            </div>
+            <p class="interactive-note">Green dots = entry (|Z| &gt; 2) &nbsp;&middot;&nbsp; Diamonds = exit (|Z| &lt; 0.5) &nbsp;&middot;&nbsp; Click chart to re-simulate</p>
+          </div>
 
           <h3 class="strategy-heading">The Market Maker</h3>
           <p>The market maker is not trying to predict where prices go. They are trying to make money regardless of where prices go, by being on both sides of every trade and collecting the difference.</p>
@@ -142,6 +199,33 @@
           <div class="equation">Expected&thinsp;return = (p &times; Gain<sub>deal&thinsp;closes</sub>) + ((1&minus;p) &times; Loss<sub>deal&thinsp;breaks</sub>)</div>
           <p>Where p is the estimated probability the deal closes. The quant edge is estimating p more accurately than the market by building models that incorporate regulatory approval probabilities for different deal types, financing risk, shareholder vote likelihood, and how similar deals in similar conditions have fared historically. Millennium Management and Point72 run significant event-driven books on exactly this kind of systematic analysis.</p>
 
+          <!-- ── Interactive: Merger Arb Calculator ── -->
+          <div class="interactive-block">
+            <div class="interactive-block-title">Merger Arb Calculator &mdash; Expected Value</div>
+            <div class="interactive-controls">
+              <div class="control-group">
+                <span class="control-label">P(deal closes)</span>
+                <input type="range" id="arb-prob" min="1" max="99" value="80">
+                <span class="control-val" id="arb-prob-val">80%</span>
+              </div>
+              <div class="control-group">
+                <span class="control-label">gain if closed</span>
+                <input type="range" id="arb-gain" min="0" max="20" value="6">
+                <span class="control-val" id="arb-gain-val">+6%</span>
+              </div>
+              <div class="control-group">
+                <span class="control-label">loss if broken</span>
+                <input type="range" id="arb-loss" min="0" max="50" value="20">
+                <span class="control-val" id="arb-loss-val">&minus;20%</span>
+              </div>
+            </div>
+            <div class="merger-result">
+              <span class="merger-result-label">Expected Return:</span>
+              <span class="merger-result-val" id="arb-ev">+0.8%</span>
+            </div>
+            <p class="interactive-note" id="arb-breakdown">0.80 &times; (+6%) + 0.20 &times; (&minus;20%) = +0.80%</p>
+          </div>
+
           <h3 class="strategy-heading">The Execution Algorithm Designer</h3>
           <p>The tenth archetype is the one most people forget to include. Every institutional investor that needs to buy or sell large blocks of stock faces the same problem: the act of trading moves the price against you. The simplest execution algorithm is VWAP, Volume Weighted Average Price:</p>
           <div class="equation">VWAP = &sum;(Price<sub>i</sub> &times; Volume<sub>i</sub>) / &sum;(Volume<sub>i</sub>)</div>
@@ -160,7 +244,219 @@
 
   <script src="../../script.js"></script>
   <script>
-    // ── Chapter dropdown toggle ──
+    // ─────────────────────────────────────────────────────────────────
+    // Utility
+    // ─────────────────────────────────────────────────────────────────
+    function randn() {
+      var u = 0, v = 0;
+      while (u === 0) u = Math.random();
+      while (v === 0) v = Math.random();
+      return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    }
+
+    function initCanvas(canvas) {
+      var dpr = window.devicePixelRatio || 1;
+      var rect = canvas.getBoundingClientRect();
+      var w = rect.width || canvas.parentElement.offsetWidth;
+      var h = parseInt(canvas.getAttribute('height')) || 200;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      var ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      return { ctx: ctx, W: w, H: h };
+    }
+
+    // ─────────────────────────────────────────────────────────────────
+    // 1. STRATEGY EXPLORER
+    // ─────────────────────────────────────────────────────────────────
+    var strategies = [
+      { name: 'Stat Arb',      edge: 'Mean reversion in correlated spreads',     holding: 'Minutes – Days',   returnType: 'True alpha',       firms: 'DE Shaw, Two Sigma' },
+      { name: 'Market Making', edge: 'Collect bid-ask spread at scale',           holding: 'Milliseconds',     returnType: 'Service premium',  firms: 'Citadel Sec., Virtu' },
+      { name: 'Latency Arb',   edge: 'Speed advantage across venues',             holding: 'Microseconds',     returnType: 'Service premium',  firms: 'Jump Trading, Tower' },
+      { name: 'Trend Follow',  edge: 'Slow diffusion of information',             holding: 'Days – Months',    returnType: 'Alpha + Premium',  firms: 'Man AHL, Renaissance' },
+      { name: 'Vol Trading',   edge: 'Implied vs. realized volatility gap',       holding: 'Days – Weeks',     returnType: 'True alpha',       firms: 'Susquehanna, IMC' },
+      { name: 'Macro Quant',   edge: 'Cross-asset flows and rate differentials',  holding: 'Weeks – Months',   returnType: 'Risk premium',     firms: 'Bridgewater, DE Shaw' },
+      { name: 'Factor Invest', edge: 'Structural risk premia (value, momentum)',  holding: 'Months – Years',   returnType: 'Risk premium',     firms: 'AQR, Dimensional' },
+      { name: 'ML Trading',    edge: 'Non-human patterns from alt data',          holding: 'Hours – Days',     returnType: 'True alpha',       firms: 'Two Sigma, Numerai' },
+      { name: 'Event-Driven',  edge: 'Probability mispricing around events',      holding: 'Days – Weeks',     returnType: 'True alpha',       firms: 'Millennium, Point72' },
+      { name: 'Exec Algo',     edge: 'Minimize market impact cost',               holding: 'Milliseconds',     returnType: 'Service premium',  firms: 'Goldman, ITG' }
+    ];
+
+    var chipsEl = document.getElementById('strategy-chips');
+    strategies.forEach(function (s, i) {
+      var btn = document.createElement('button');
+      btn.className = 'strategy-chip' + (i === 0 ? ' active' : '');
+      btn.textContent = s.name;
+      btn.dataset.idx = i;
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.strategy-chip').forEach(function (c) { c.classList.remove('active'); });
+        btn.classList.add('active');
+        var st = strategies[parseInt(btn.dataset.idx)];
+        document.getElementById('detail-edge').textContent    = st.edge;
+        document.getElementById('detail-holding').textContent = st.holding;
+        document.getElementById('detail-return').textContent  = st.returnType;
+        document.getElementById('detail-firms').textContent   = st.firms;
+      });
+      chipsEl.appendChild(btn);
+    });
+
+    // Initialize first
+    document.getElementById('detail-edge').textContent    = strategies[0].edge;
+    document.getElementById('detail-holding').textContent = strategies[0].holding;
+    document.getElementById('detail-return').textContent  = strategies[0].returnType;
+    document.getElementById('detail-firms').textContent   = strategies[0].firms;
+
+    // ─────────────────────────────────────────────────────────────────
+    // 2. PAIRS SPREAD SIMULATOR (Ornstein-Uhlenbeck)
+    // ─────────────────────────────────────────────────────────────────
+    function generateOU(theta, sigma, n) {
+      var dt = 1;
+      var spread = [randn() * sigma];
+      for (var i = 1; i < n; i++) {
+        var prev = spread[spread.length - 1];
+        spread.push(prev - theta * prev * dt + sigma * Math.sqrt(dt) * randn());
+      }
+      return spread;
+    }
+
+    function drawOU() {
+      var thetaRaw = parseInt(document.getElementById('ou-theta').value);
+      var sigmaRaw = parseInt(document.getElementById('ou-sigma').value);
+      var theta = thetaRaw / 100;
+      var sigma = sigmaRaw / 10;
+
+      document.getElementById('ou-theta-val').textContent = theta.toFixed(2);
+      document.getElementById('ou-sigma-val').textContent = sigma.toFixed(1);
+
+      var n = 200;
+      var spread = generateOU(theta, sigma, n);
+      var mu = 0;
+      var sd = sigma / Math.sqrt(2 * theta);
+      var entryZ = 2.0, exitZ = 0.5;
+
+      var canvas = document.getElementById('ou-canvas');
+      var d = initCanvas(canvas);
+      var ctx = d.ctx, W = d.W, H = d.H;
+      ctx.clearRect(0, 0, W, H);
+
+      var pad = { top: 20, right: 16, bottom: 24, left: 44 };
+      var innerW = W - pad.left - pad.right;
+      var innerH = H - pad.top - pad.bottom;
+
+      var maxAbs = Math.max(Math.abs(Math.max.apply(null, spread)), Math.abs(Math.min.apply(null, spread)), sd * 2.8);
+      var yRange = maxAbs * 2;
+
+      function xS(i) { return pad.left + (i / (n - 1)) * innerW; }
+      function yS(v) { return pad.top + innerH / 2 - (v / maxAbs) * (innerH / 2); }
+
+      // Band fills
+      ctx.fillStyle = 'rgba(51,64,79,0.04)';
+      ctx.fillRect(pad.left, yS(sd * entryZ), innerW, yS(-sd * entryZ) - yS(sd * entryZ));
+
+      // Band lines ±2σ
+      ctx.strokeStyle = 'rgba(51,64,79,0.2)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([6, 4]);
+      [entryZ, -entryZ].forEach(function (z) {
+        ctx.beginPath();
+        ctx.moveTo(pad.left, yS(sd * z));
+        ctx.lineTo(pad.left + innerW, yS(sd * z));
+        ctx.stroke();
+      });
+      ctx.setLineDash([]);
+
+      // Mean line
+      ctx.strokeStyle = 'rgba(51,64,79,0.18)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, yS(0));
+      ctx.lineTo(pad.left + innerW, yS(0));
+      ctx.stroke();
+
+      // Spread line
+      ctx.strokeStyle = 'rgba(51,64,79,0.7)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      spread.forEach(function (v, i) {
+        if (i === 0) ctx.moveTo(xS(i), yS(v));
+        else ctx.lineTo(xS(i), yS(v));
+      });
+      ctx.stroke();
+
+      // Entry/exit markers
+      var inTrade = false;
+      var tradeDir = 0;
+      spread.forEach(function (v, i) {
+        var z = v / sd;
+        if (!inTrade) {
+          if (Math.abs(z) > entryZ) {
+            inTrade = true;
+            tradeDir = z > 0 ? 1 : -1;
+            // Entry dot
+            ctx.fillStyle = 'rgba(51,64,79,0.8)';
+            ctx.beginPath();
+            ctx.arc(xS(i), yS(v), 3.5, 0, 2 * Math.PI);
+            ctx.fill();
+          }
+        } else {
+          if (Math.abs(z) < exitZ) {
+            inTrade = false;
+            // Exit diamond
+            ctx.fillStyle = 'rgba(51,64,79,0.55)';
+            ctx.save();
+            ctx.translate(xS(i), yS(v));
+            ctx.rotate(Math.PI / 4);
+            ctx.fillRect(-3, -3, 6, 6);
+            ctx.restore();
+          }
+        }
+      });
+
+      // y-axis labels
+      ctx.fillStyle = 'rgba(51,64,79,0.45)';
+      ctx.font = '10px Inter, -apple-system, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText('+2σ', pad.left - 3, yS(sd * entryZ) + 4);
+      ctx.fillText('0',   pad.left - 3, yS(0) + 4);
+      ctx.fillText('-2σ', pad.left - 3, yS(-sd * entryZ) + 4);
+    }
+
+    document.getElementById('ou-theta').addEventListener('input', drawOU);
+    document.getElementById('ou-sigma').addEventListener('input', drawOU);
+    document.getElementById('ou-canvas').addEventListener('click', drawOU);
+    document.getElementById('ou-canvas').style.cursor = 'pointer';
+
+    // ─────────────────────────────────────────────────────────────────
+    // 3. MERGER ARB CALCULATOR
+    // ─────────────────────────────────────────────────────────────────
+    function updateMergerCalc() {
+      var p    = parseInt(document.getElementById('arb-prob').value) / 100;
+      var gain = parseInt(document.getElementById('arb-gain').value) / 100;
+      var loss = parseInt(document.getElementById('arb-loss').value) / 100;
+
+      document.getElementById('arb-prob-val').textContent = (p * 100).toFixed(0) + '%';
+      document.getElementById('arb-gain-val').textContent = '+' + (gain * 100).toFixed(0) + '%';
+      document.getElementById('arb-loss-val').innerHTML   = '&minus;' + (loss * 100).toFixed(0) + '%';
+
+      var ev = p * gain - (1 - p) * loss;
+      var evEl = document.getElementById('arb-ev');
+      evEl.textContent = (ev >= 0 ? '+' : '') + (ev * 100).toFixed(2) + '%';
+
+      var gainPct = (gain * 100).toFixed(0);
+      var lossPct = (loss * 100).toFixed(0);
+      document.getElementById('arb-breakdown').innerHTML =
+        p.toFixed(2) + ' &times; (+' + gainPct + '%) + ' +
+        (1 - p).toFixed(2) + ' &times; (&minus;' + lossPct + '%) = ' +
+        (ev >= 0 ? '+' : '') + (ev * 100).toFixed(2) + '%';
+    }
+
+    document.getElementById('arb-prob').addEventListener('input', updateMergerCalc);
+    document.getElementById('arb-gain').addEventListener('input', updateMergerCalc);
+    document.getElementById('arb-loss').addEventListener('input', updateMergerCalc);
+
+    // ─────────────────────────────────────────────────────────────────
+    // Chapter dropdown toggle
+    // ─────────────────────────────────────────────────────────────────
     var toggle = document.querySelector('.chapter-toggle');
     var subList = document.querySelector('.subchapter-list');
 
@@ -171,7 +467,9 @@
       subList.classList.toggle('is-open', nextOpen);
     });
 
-    // ── Subchapter smooth scroll + heading flash ──
+    // ─────────────────────────────────────────────────────────────────
+    // Subchapter smooth scroll + heading flash
+    // ─────────────────────────────────────────────────────────────────
     document.querySelectorAll('.subchapter-link').forEach(function (link) {
       link.addEventListener('click', function (e) {
         e.preventDefault();
@@ -179,29 +477,28 @@
         var target = document.getElementById(targetId);
         if (!target) return;
 
-        // Update active link
         document.querySelectorAll('.subchapter-link').forEach(function (l) {
           l.classList.remove('active');
         });
         this.classList.add('active');
 
-        // Scroll smoothly to section
         var offset = 40;
         var top = target.getBoundingClientRect().top + window.scrollY - offset;
         window.scrollTo({ top: top, behavior: 'smooth' });
 
-        // Flash only the section heading
         var heading = target.querySelector('.section-heading');
         if (heading) {
           heading.classList.remove('heading-flash');
-          void heading.offsetWidth; // reflow to restart animation
+          void heading.offsetWidth;
           heading.classList.add('heading-flash');
           setTimeout(function () { heading.classList.remove('heading-flash'); }, 1000);
         }
       });
     });
 
-    // ── Scroll spy ──
+    // ─────────────────────────────────────────────────────────────────
+    // Scroll spy
+    // ─────────────────────────────────────────────────────────────────
     var spySections = document.querySelectorAll('.research-section');
     var spyLinks = document.querySelectorAll('.subchapter-link');
 
@@ -218,6 +515,20 @@
 
     window.addEventListener('scroll', updateActiveLink, { passive: true });
     updateActiveLink();
+
+    // ─────────────────────────────────────────────────────────────────
+    // Initial renders
+    // ─────────────────────────────────────────────────────────────────
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        drawOU();
+        updateMergerCalc();
+      });
+    });
+
+    window.addEventListener('resize', function () {
+      drawOU();
+    });
   </script>
 </body>
 
