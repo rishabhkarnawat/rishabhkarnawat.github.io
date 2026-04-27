@@ -689,11 +689,19 @@ print(f"PC1 explains {explained[0]:.1%} of variance")</div>
     document.querySelectorAll('.subchapter-link').forEach(function (link) {
       link.addEventListener('click', function (e) {
         e.preventDefault();
-        var target = document.getElementById(this.getAttribute('href').slice(1));
+        var targetId = this.getAttribute('href').slice(1);
+        var target   = document.getElementById(targetId);
         if (!target) return;
         document.querySelectorAll('.subchapter-link').forEach(function (l) { l.classList.remove('active'); });
         this.classList.add('active');
-        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 40, behavior: 'smooth' });
+        if (typeof target.scrollIntoView === 'function') {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 40, behavior: 'smooth' });
+        }
+        if (history && typeof history.replaceState === 'function') {
+          history.replaceState(null, '', '#' + targetId);
+        }
         var h = target.querySelector('.section-heading');
         if (h) { h.classList.remove('heading-flash'); void h.offsetWidth; h.classList.add('heading-flash'); setTimeout(function () { h.classList.remove('heading-flash'); }, 1000); }
       });

@@ -377,6 +377,7 @@ a:hover {
 
 .research-section {
   margin-bottom: 52px;
+  scroll-margin-top: 40px;
 }
 
 .section-heading {
@@ -1035,6 +1036,7 @@ a:hover {
 
   .research-section {
     margin-bottom: 40px;
+    scroll-margin-top: 20px;
   }
 
   .section-heading {
