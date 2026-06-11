@@ -63,13 +63,13 @@
               </svg>
             </button>
             <ul class="subchapter-list">
-              <li><a href="#what-engine-room-is" class="subchapter-link">What the Engine Room Is</a></li>
-              <li><a href="#languages" class="subchapter-link">Why More Than One Language</a></li>
-              <li><a href="#python-stack" class="subchapter-link">The Python Research Stack</a></li>
-              <li><a href="#hot-path" class="subchapter-link">The Production Hot Path</a></li>
-              <li><a href="#race-against-light" class="subchapter-link">The Race Against Light</a></li>
-              <li><a href="#wires-waves" class="subchapter-link">Wires, Waves &amp; Speed of Light</a></li>
-              <li><a href="#machines" class="subchapter-link">The Machines Themselves</a></li>
+              <li><a href="#what-engine-room-is" class="subchapter-link">The Loop</a></li>
+              <li><a href="#languages" class="subchapter-link">Two Languages</a></li>
+              <li><a href="#python-stack" class="subchapter-link">Research Layer</a></li>
+              <li><a href="#hot-path" class="subchapter-link">The Hot Path</a></li>
+              <li><a href="#race-against-light" class="subchapter-link">Infrastructure</a></li>
+              <li><a href="#wires-waves" class="subchapter-link">Physics of Distance</a></li>
+              <li><a href="#machines" class="subchapter-link">Hardware</a></li>
               <li><a href="#three-strategies" class="subchapter-link">Three Strategies Through the Engine</a></li>
             </ul>
           </div>
@@ -553,7 +553,7 @@ print(f"PC1 explains {explained[0]:.1%} of variance")</div>
 
         <!-- Section 9 -->
         <section class="research-section" id="what-engine-room-is">
-          <h2 class="section-heading">What the Engine Room Is</h2>
+          <h2 class="section-heading">The Loop</h2>
 
           <p>In the last chapter you built the math. Probability, stochastic processes, time series, linear algebra. That was the physics of markets, the rules that govern how prices behave. But physics on paper does not move money. Something has to take an idea, turn it into a decision, and push that decision into a live market faster and more reliably than a human ever could. That something is the engine room.</p>
 
@@ -577,7 +577,7 @@ print(f"PC1 explains {explained[0]:.1%} of variance")</div>
 
         <!-- Section 10 -->
         <section class="research-section" id="languages">
-          <h2 class="section-heading">Why Quants Use More Than One Language</h2>
+          <h2 class="section-heading">Two Languages</h2>
 
           <p>Think about building a house. You hire an architect to design it and sketch the plans, because that work rewards speed, creativity, and the freedom to scrap an idea and try another. Then you hire a structural engineer and a construction crew to actually build it to specification, because that work rewards precision, strength, and doing exactly the same thing reliably every time. You would not ask the architect to pour the foundation, and you would not ask the crew to brainstorm the floor plan. Quant trading splits the same way. One kind of language is for thinking and exploring. Another is for running in production when real money is on the line.</p>
 
@@ -604,7 +604,7 @@ print(f"PC1 explains {explained[0]:.1%} of variance")</div>
 
         <!-- Section 11 -->
         <section class="research-section" id="python-stack">
-          <h2 class="section-heading">The Python Research Stack</h2>
+          <h2 class="section-heading">Research Layer</h2>
 
           <p>This is the workshop where you prototype. Cheap materials, fast iteration, ten rough versions of an idea before you commit to one. The work that happens here is turning data into signals, testing whether an idea has any real edge, cleaning up messy data, and training models. Notice what is <em>not</em> important here: the speed at which the code executes. What matters is the speed at which you can think, try, and discard. Python dominates this layer almost entirely, and the real reason is not the language itself but the libraries built on top of it.</p>
 
@@ -656,7 +656,7 @@ print(zscore.round(2))</div>
 
         <!-- Section 12 -->
         <section class="research-section" id="hot-path">
-          <h2 class="section-heading">The Production Hot Path</h2>
+          <h2 class="section-heading">The Hot Path</h2>
 
           <p>Think about a reflex. You touch something hot and your hand jerks back before your brain has even consciously registered the pain. The signal does not take the scenic route through your higher reasoning. It runs a short, direct path built for speed. A production trading engine is built the same way. The path from "the market just changed" to "an order just went out" is stripped of everything that is not strictly necessary.</p>
 
@@ -723,7 +723,7 @@ void on_market_data(const MarketData&amp; md, Engine&amp; engine) {
 
         <!-- Section 13 -->
         <section class="research-section" id="race-against-light">
-          <h2 class="section-heading">The Race Against Light</h2>
+          <h2 class="section-heading">Infrastructure</h2>
 
           <p>Imagine the hundred-meter final at the Olympics, where the top sprinters are separated by thousandths of a second. At that level, you stop training harder in the ordinary sense and start obsessing over the starting blocks, the spikes on your shoes, the exact surface of the track. Low-latency trading is the same. Once your code is genuinely fast, the time that remains is spent in places most software engineers never think about, because that is where the last microseconds are hiding.</p>
 
@@ -759,7 +759,7 @@ void on_market_data(const MarketData&amp; md, Engine&amp; engine) {
 
         <!-- Section 14 -->
         <section class="research-section" id="wires-waves">
-          <h2 class="section-heading">Wires, Waves, and the Speed of Light</h2>
+          <h2 class="section-heading">Physics of Distance</h2>
 
           <p>Suppose you need to get a message from Chicago to New Jersey. One messenger drives the winding interstate highway. Another flies a small plane in a straight line. Even if both travel at the same speed, the straight-line plane wins, simply because its path is shorter. And if the plane also happens to move faster, it wins twice over. That, in one image, is the story of fiber versus microwave, and it comes down to physics.</p>
 
@@ -789,7 +789,7 @@ void on_market_data(const MarketData&amp; md, Engine&amp; engine) {
 
         <!-- Section 15 -->
         <section class="research-section" id="machines">
-          <h2 class="section-heading">The Machines Themselves</h2>
+          <h2 class="section-heading">Hardware</h2>
 
           <p>A race car is not just a powerful engine bolted to some wheels. It is tuned so that every lap comes out the same, so the brakes do not fade, so the temperature stays stable, so nothing surprises the driver at two hundred miles an hour. A low-latency trading server is tuned with exactly that philosophy, and the surprising part is that consistency matters just as much as raw speed.</p>
 
