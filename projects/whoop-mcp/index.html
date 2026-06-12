@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whoop MCP, Rishabh Karnawat</title>
+  <meta name="description" content="An MCP server that connects Claude to your Whoop fitness data. Ask Claude about your recovery, sleep, strain, and workouts in plain English.">
+  <meta name="keywords" content="Rishabh Karnawat, Whoop MCP, MCP, Claude, Whoop, fitness">
+  <meta name="author" content="Rishabh Karnawat">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Whoop MCP, Rishabh Karnawat">
+  <meta property="og:description" content="An MCP server that connects Claude to your Whoop fitness data. Ask Claude about your recovery, sleep, strain, and workouts in plain English.">
+  <meta property="og:image" content="../../assets/projects/whoop-mcp/whoopposter.png">
+  <link rel="icon" type="image/png" href="../../darkmode.png">
+  <link rel="stylesheet" href="../../style.css">
+</head>
+
+<body class="page-secondary page-project">
+  <div class="container fade-in">
+    <a href="../" class="back-link">&larr; Back to projects</a>
+
+    <main class="project-page">
+      <header class="project-page-header">
+        <h1 class="project-page-title">Whoop MCP</h1>
+        <p class="project-page-tagline">Connects Claude to your Whoop data so you can ask about recovery, sleep, strain, and workouts in plain English.</p>
+        <a href="https://github.com/rishabhkarnawat/whoopmcp" class="repo-link project-page-cta" target="_blank" rel="noopener noreferrer">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+          </svg>
+          See the repo
+        </a>
+      </header>
+
+      <div class="project-video-wrap">
+        <video autoplay loop muted playsinline disablepictureinpicture preload="auto" poster="../../assets/projects/whoop-mcp/whoopposter.png">
+          <source src="../../assets/projects/whoop-mcp/demo.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <p class="project-page-text">Once connected, you can treat Claude like a coach that actually knows your numbers. Ask what your recovery looked like this week, how you slept last night, or how strain has trended over the past month. Claude pulls the raw records from Whoop and answers in plain language, so you are not flipping between tabs or trying to read charts on a small screen.</p>
+
+      <p class="project-page-text">It gets more useful when you go beyond single data points. You can compare sleep on days you trained versus rest days, track how HRV has moved over a quarter, or look at average resting heart rate across a season. Claude can run averages, spot patterns, and reason across recovery, sleep, strain, and workouts together because all four tools talk to the same Whoop account.</p>
+
+      <p class="project-page-text">The server is built for real use, not demos. It paginates through your full Whoop history by default, works with Claude Desktop and any MCP client, and never stores your data on disk. Every request goes straight to Whoop and back. Setup takes a few terminal commands, and the README walks through authorization, Claude Desktop config, and troubleshooting if something breaks.</p>
+    </main>
+  </div>
+  <script src="../../script.js"></script>
+</body>
+
+</html>
