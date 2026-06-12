@@ -134,7 +134,7 @@ a:hover {
   color: var(--text-main);
 }
 
-/* Lists (Work and Portfolio Investments) */
+/* Lists (Research, Portfolio Investments, and Projects) */
 .item-list {
   display: flex;
   flex-direction: column;
