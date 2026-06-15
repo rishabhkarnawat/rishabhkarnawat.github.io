@@ -38,11 +38,11 @@
         </video>
       </div>
 
-      <p class="project-page-text">Once connected, you can treat Claude like a coach that actually knows your numbers. Ask what your recovery looked like this week, how you slept last night, or how strain has trended over the past month. Claude pulls the raw records from Whoop and answers in plain language, so you are not flipping between tabs or trying to read charts on a small screen.</p>
+      <p class="project-page-text">Whoop-MCP is an open source Model Context Protocol server that connects Claude directly to the Whoop API. The idea is simple: instead of opening the Whoop app to check your recovery score or scroll through sleep data, you just ask Claude in plain language. It bridges your personal health data and conversational AI, making everything instantly accessible without toggling between apps or building a custom dashboard.</p>
 
-      <p class="project-page-text">It gets more useful when you go beyond single data points. You can compare sleep on days you trained versus rest days, track how HRV has moved over a quarter, or look at average resting heart rate across a season. Claude can run averages, spot patterns, and reason across recovery, sleep, strain, and workouts together because all four tools talk to the same Whoop account.</p>
+      <p class="project-page-text">Built on Node.js with the official MCP SDK, the server exposes four tools to Claude: get_recovery, get_sleep, get_strain, and get_workouts. Authentication runs through Whoop's OAuth flow. A one-time setup script handles everything: it opens your browser, completes the login, and saves your access and refresh tokens directly to a local environment file. After that, the server refreshes tokens silently in the background and Claude handles everything else.</p>
 
-      <p class="project-page-text">The server is built for real use, not demos. It paginates through your full Whoop history by default, works with Claude Desktop and any MCP client, and never stores your data on disk. Every request goes straight to Whoop and back. Setup takes a few terminal commands, and the README walks through authorization, Claude Desktop config, and troubleshooting if something breaks.</p>
+      <p class="project-page-text">The project is fully open source and built to be cloned by anyone. Add your Whoop client credentials, run the setup script once, and point Claude to the server in your config file. From there, Claude can query your real health data on demand, spotting recovery patterns, breaking down sleep stages, or connecting training strain to how you actually feel. It makes your wearable data genuinely useful.</p>
     </main>
   </div>
   <script src="../../script.js"></script>
