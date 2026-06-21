@@ -43,24 +43,23 @@ function writingHref(slug) {
   return `/writings/${slug}/`;
 }
 
-function openWritingInNewTab(url) {
-  const absoluteUrl = new URL(url, window.location.origin).href;
-  const newTab = window.open(absoluteUrl, '_blank', 'noopener,noreferrer');
-  if (!newTab) {
-    window.location.assign(absoluteUrl);
-  }
-}
-
 function bindWritingLinks() {
   document.addEventListener('click', (event) => {
-    const link = event.target.closest('[data-writings-list] a.item-link');
-    if (!link) {
+    const link = event.target.closest('a.item-link');
+    if (!link || !link.closest('[data-writings-list]')) {
       return;
     }
 
     event.preventDefault();
-    openWritingInNewTab(link.getAttribute('href'));
-  });
+    event.stopImmediatePropagation();
+
+    const href = link.getAttribute('href');
+    if (!href) {
+      return;
+    }
+
+    window.open(new URL(href, window.location.origin).href, '_blank', 'noopener,noreferrer');
+  }, true);
 }
 
 function renderWritingsList(container, posts) {
@@ -68,7 +67,7 @@ function renderWritingsList(container, posts) {
   const items = posts.slice(0, limit);
 
   container.innerHTML = items.map((post) => `
-    <a href="${writingHref(post.slug)}" class="item item-link" target="_blank" rel="noopener noreferrer">
+    <a href="${writingHref(post.slug)}" class="item item-link">
       <span class="item-title">${post.title}</span>
       <span class="item-desc">${post.date}</span>
     </a>
