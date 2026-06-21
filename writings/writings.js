@@ -2,6 +2,48 @@ const WRITINGS_POSTS_URL = '/writings/posts.json';
 
 const SUBSTACK_LOGO_SVG = `<svg class="writing-substack-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="#FF6719" d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.55 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>`;
 
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function sanitizeSlug(slug) {
+  if (!slug || typeof slug !== 'string' || !/^[a-z0-9-]+$/i.test(slug)) {
+    return null;
+  }
+
+  return slug;
+}
+
+function sanitizeInternalHref(href, fallback = '/writings/') {
+  if (typeof href === 'string' && href.startsWith('/') && !href.startsWith('//')) {
+    return href;
+  }
+
+  return fallback;
+}
+
+function sanitizeExternalUrl(url) {
+  if (!url || typeof url !== 'string') {
+    return null;
+  }
+
+  try {
+    const parsed = new URL(url, window.location.origin);
+    if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+      return parsed.href;
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
 async function fetchWritingsPosts() {
   const response = await fetch(WRITINGS_POSTS_URL);
   if (!response.ok) {
@@ -40,17 +82,20 @@ function getWritingSlugFromPath() {
 }
 
 function writingHref(slug) {
-  return `/writings/${slug}/`;
+  const safeSlug = sanitizeSlug(slug);
+  return safeSlug ? `/writings/${safeSlug}/` : '/writings/';
 }
 
 function renderWritingsList(container, posts) {
   const limit = Number(container.dataset.writingsLimit || posts.length);
-  const items = posts.slice(0, limit);
+  const items = posts
+    .filter((post) => sanitizeSlug(post.slug))
+    .slice(0, limit);
 
   container.innerHTML = items.map((post) => `
     <a href="${writingHref(post.slug)}" class="item item-link" target="_blank" rel="noopener noreferrer">
-      <span class="item-title">${post.title}</span>
-      <span class="item-desc">${post.date}</span>
+      <span class="item-title">${escapeHtml(post.title)}</span>
+      <span class="item-desc">${escapeHtml(post.date)}</span>
     </a>
   `).join('');
 }
@@ -65,35 +110,39 @@ function renderWritingArticle(container, post) {
   }
 
   const introHtml = (post.intro || [])
-    .map((paragraph) => `<p>${paragraph}</p>`)
+    .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
     .join('');
 
   const sectionsHtml = (post.sections || [])
     .map((section) => `
       <section class="writing-section">
-        <p><span class="writing-section-number">${section.number}.</span> <span class="writing-section-title">${section.title}</span> ${section.body}</p>
+        <p><span class="writing-section-number">${escapeHtml(section.number)}.</span> <span class="writing-section-title">${escapeHtml(section.title)}</span> ${escapeHtml(section.body)}</p>
       </section>
     `)
     .join('');
 
   const outroHtml = (post.outro || [])
-    .map((paragraph) => `<p>${paragraph}</p>`)
+    .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
     .join('');
 
-  const backHref = container.dataset.writingsBack || '/writings/';
+  const backHref = sanitizeInternalHref(container.dataset.writingsBack);
+  const substackUrl = sanitizeExternalUrl(post.substackUrl);
+  const substackLinkHtml = substackUrl
+    ? `<a href="${escapeHtml(substackUrl)}" class="writing-substack-link" target="_blank" rel="noopener noreferrer" aria-label="Read on Substack">
+            ${SUBSTACK_LOGO_SVG}
+          </a>`
+    : '';
 
   container.innerHTML = `
-    <a href="${backHref}" class="back-link">&larr; Back to Writings</a>
+    <a href="${escapeHtml(backHref)}" class="back-link">&larr; Back to Writings</a>
 
     <article class="writing-article">
       <header class="writing-article-header">
-        <h1 class="writing-article-title">${post.title}</h1>
-        ${post.subtitle ? `<p class="writing-article-subtitle">${post.subtitle}</p>` : ''}
+        <h1 class="writing-article-title">${escapeHtml(post.title)}</h1>
+        ${post.subtitle ? `<p class="writing-article-subtitle">${escapeHtml(post.subtitle)}</p>` : ''}
         <div class="writing-article-meta-row">
-          <span class="writing-article-meta">${post.date}</span>
-          <a href="${post.substackUrl}" class="writing-substack-link" target="_blank" rel="noopener noreferrer" aria-label="Read on Substack">
-            ${SUBSTACK_LOGO_SVG}
-          </a>
+          <span class="writing-article-meta">${escapeHtml(post.date)}</span>
+          ${substackLinkHtml}
         </div>
       </header>
 
@@ -133,8 +182,9 @@ async function initWritings() {
       const post = posts.find((entry) => entry.slug === slug);
 
       if (!post) {
+        const backHref = sanitizeInternalHref(articleContainer.dataset.writingsBack);
         articleContainer.innerHTML = `
-          <a href="${articleContainer.dataset.writingsBack || '/writings/'}" class="back-link">&larr; Back to Writings</a>
+          <a href="${escapeHtml(backHref)}" class="back-link">&larr; Back to Writings</a>
           <p class="page-desc">This writing could not be found.</p>
         `;
         return;
@@ -144,8 +194,9 @@ async function initWritings() {
     }
   } catch {
     if (articleContainer && !articleContainer.querySelector('.writing-article')) {
+      const backHref = sanitizeInternalHref(articleContainer.dataset.writingsBack);
       articleContainer.innerHTML = `
-        <a href="${articleContainer.dataset.writingsBack || '/writings/'}" class="back-link">&larr; Back to Writings</a>
+        <a href="${escapeHtml(backHref)}" class="back-link">&larr; Back to Writings</a>
         <p class="page-desc">Could not load this writing. Please try again later.</p>
       `;
     }

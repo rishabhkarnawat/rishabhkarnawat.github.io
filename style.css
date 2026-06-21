@@ -1235,6 +1235,14 @@ a:hover {
     transition: none !important;
   }
 
+  .pi-accordion[open] .pi-accordion-inner .pi-cell-grid {
+    opacity: 1;
+  }
+
+  .pi-accordion[open] > summary .pi-chevron {
+    transform: rotate(90deg);
+  }
+
   .pi-chevron {
     transition: none;
   }
