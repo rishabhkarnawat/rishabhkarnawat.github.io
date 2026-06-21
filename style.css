@@ -574,19 +574,32 @@ a:hover {
 .writing-substack-link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  color: #ff6719;
-  line-height: 0;
+  line-height: 1;
+  min-width: 28px;
+  min-height: 28px;
+  -webkit-tap-highlight-color: transparent;
   transition: opacity 0.2s ease;
 }
 
 .writing-substack-icon {
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
   display: block;
+  flex-shrink: 0;
+  overflow: visible;
 }
 
-.writing-substack-link:hover {
+@media (hover: hover) {
+  .writing-substack-link:hover {
+    opacity: 0.75;
+  }
+}
+
+.writing-substack-link:active {
   opacity: 0.75;
 }
 
@@ -1144,6 +1157,24 @@ a:hover {
     text-align: left;
     font-size: 14px;
     line-height: 1.65;
+  }
+
+  /* ── Writing articles ── */
+  .writing-article-meta-row {
+    gap: 12px;
+  }
+
+  .writing-substack-link {
+    min-width: 36px;
+    min-height: 36px;
+    opacity: 1;
+  }
+
+  .writing-substack-icon {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
   }
 
   /* ── Coming soon ── */

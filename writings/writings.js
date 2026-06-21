@@ -1,6 +1,6 @@
 const WRITINGS_POSTS_URL = '/writings/posts.json';
 
-const SUBSTACK_LOGO_SVG = `<svg class="writing-substack-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.55 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>`;
+const SUBSTACK_LOGO_SVG = `<svg class="writing-substack-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="#FF6719" d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.55 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>`;
 
 async function fetchWritingsPosts() {
   const response = await fetch(WRITINGS_POSTS_URL);
