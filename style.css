@@ -237,15 +237,35 @@ a:hover {
 /* Social Links */
 .social-links {
   display: flex;
-  gap: 24px;
+  align-items: center;
+  gap: 18px;
   margin: 28px 0 48px 0;
-  font-size: 14px;
 }
 
 .social-link {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  line-height: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+@media (hover: hover) {
+  .social-link:hover {
+    opacity: 0.72;
+    transform: translateY(-1px);
+  }
+}
+
+.social-link:active {
+  opacity: 0.72;
+}
+
+.social-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
 .social-arrow {
@@ -549,16 +569,20 @@ a:hover {
 .writing-substack-link {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
   flex-shrink: 0;
-  font-size: 12.5px;
-  line-height: 1.4;
-  color: var(--text-muted);
-  white-space: nowrap;
+  color: #ff6719;
+  line-height: 0;
+  transition: opacity 0.2s ease;
+}
+
+.writing-substack-icon {
+  width: 15px;
+  height: 15px;
+  display: block;
 }
 
 .writing-substack-link:hover {
-  color: var(--text-main);
+  opacity: 0.75;
 }
 
 .writing-article-header {
@@ -937,28 +961,39 @@ a:hover {
     margin-bottom: 16px;
   }
 
-  /* ── Social links → pill badges ── */
+  /* ── Social links → icon row ── */
   .social-links {
     flex-wrap: wrap;
-    gap: 8px 10px;
+    align-items: center;
+    gap: 10px 12px;
     margin: 20px 0 44px;
-    font-size: 13px;
   }
 
   .social-link {
-    background: var(--accent-color);
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-weight: 500;
-    gap: 5px;
-    color: var(--text-muted);
-    transition: background 0.2s ease, color 0.2s ease;
+    padding: 10px;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 10px;
+    transition: opacity 0.2s ease, background 0.2s ease;
   }
 
-  .social-link:hover,
+  @media (hover: hover) {
+    .social-link:hover {
+      opacity: 0.72;
+      background: var(--accent-color);
+      transform: none;
+    }
+  }
+
   .social-link:active {
-    background: rgba(51, 64, 79, 0.18);
-    color: var(--text-main);
+    opacity: 0.72;
+    background: var(--accent-color);
+    transform: none;
+  }
+
+  .social-icon {
+    width: 18px;
+    height: 18px;
   }
 
   .social-arrow {

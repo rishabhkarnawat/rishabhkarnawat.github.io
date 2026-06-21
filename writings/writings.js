@@ -1,5 +1,7 @@
 const WRITINGS_POSTS_URL = '/writings/posts.json';
 
+const SUBSTACK_LOGO_SVG = `<svg class="writing-substack-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.55 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>`;
+
 async function fetchWritingsPosts() {
   const response = await fetch(WRITINGS_POSTS_URL);
   if (!response.ok) {
@@ -109,8 +111,8 @@ function renderWritingArticle(container, post) {
         ${post.subtitle ? `<p class="writing-article-subtitle">${post.subtitle}</p>` : ''}
         <div class="writing-article-meta-row">
           <span class="writing-article-meta">${post.date}</span>
-          <a href="${post.substackUrl}" class="writing-substack-link" target="_blank" rel="noopener noreferrer">
-            <span class="social-arrow">↗</span> Read on Substack
+          <a href="${post.substackUrl}" class="writing-substack-link" target="_blank" rel="noopener noreferrer" aria-label="Read on Substack">
+            ${SUBSTACK_LOGO_SVG}
           </a>
         </div>
       </header>
