@@ -1083,7 +1083,7 @@ a:hover {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  padding: 0;
+  padding: 2px 0;
   cursor: pointer;
   list-style: none;
   user-select: none;
@@ -1105,7 +1105,6 @@ a:hover {
 
 .pi-metrics-grid {
   grid-template-columns: repeat(5, 1fr);
-  margin-top: 10px;
 }
 
 .pi-stock > summary {
@@ -1186,15 +1185,29 @@ a:hover {
 
 .pi-chevron {
   color: var(--text-muted);
-  transition: transform 0.2s ease;
+  transition: transform 0.35s ease-in-out;
   flex-shrink: 0;
 }
 
-.pi-accordion[open] > summary .pi-chevron {
+.pi-accordion.is-expanded > summary .pi-chevron {
   transform: rotate(90deg);
 }
 
-.pi-stock-body {
+.pi-accordion-panel {
+  overflow: hidden;
+  transition: height 450ms ease-in-out;
+}
+
+.pi-accordion-inner .pi-cell-grid {
+  opacity: 0;
+  transition: opacity 450ms ease-in-out;
+}
+
+.pi-accordion.is-expanded:not(.is-hiding) .pi-accordion-inner .pi-cell-grid {
+  opacity: 1;
+}
+
+.pi-accordion-inner {
   padding-top: 10px;
 }
 
@@ -1619,6 +1632,15 @@ a:hover {
     max-height: none;
     opacity: 1;
     visibility: visible;
+  }
+
+  .pi-accordion-panel,
+  .pi-accordion-inner .pi-cell-grid {
+    transition: none !important;
+  }
+
+  .pi-chevron {
+    transition: none;
   }
 }
 
