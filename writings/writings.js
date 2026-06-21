@@ -43,23 +43,40 @@ function writingHref(slug) {
   return `/writings/${slug}/`;
 }
 
-function bindWritingLinks() {
-  document.addEventListener('click', (event) => {
-    const link = event.target.closest('a.item-link');
-    if (!link || !link.closest('[data-writings-list]')) {
+function setupWritingLinks(root = document) {
+  root.querySelectorAll('[data-writings-list] a.item-link').forEach((link) => {
+    if (link.dataset.writingBound === 'true') {
       return;
     }
 
-    event.preventDefault();
-    event.stopImmediatePropagation();
-
-    const href = link.getAttribute('href');
-    if (!href) {
+    const url = link.dataset.writingUrl || link.getAttribute('href');
+    if (!url || url === '#') {
       return;
     }
 
-    window.open(new URL(href, window.location.origin).href, '_blank', 'noopener,noreferrer');
-  }, true);
+    link.dataset.writingUrl = url;
+    link.setAttribute('href', '#');
+    link.dataset.writingBound = 'true';
+
+    const openWriting = (event) => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      window.open(
+        new URL(link.dataset.writingUrl, window.location.origin).href,
+        '_blank',
+        'noopener,noreferrer'
+      );
+    };
+
+    link.addEventListener('click', openWriting, { capture: true });
+    link.addEventListener('touchend', openWriting, { capture: true, passive: false });
+    link.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        openWriting(event);
+      }
+    });
+  });
 }
 
 function renderWritingsList(container, posts) {
@@ -67,11 +84,13 @@ function renderWritingsList(container, posts) {
   const items = posts.slice(0, limit);
 
   container.innerHTML = items.map((post) => `
-    <a href="${writingHref(post.slug)}" class="item item-link">
+    <a href="#" class="item item-link" data-writing-url="${writingHref(post.slug)}">
       <span class="item-title">${post.title}</span>
       <span class="item-desc">${post.date}</span>
     </a>
   `).join('');
+
+  setupWritingLinks(container);
 }
 
 function renderWritingArticle(container, post) {
@@ -133,6 +152,8 @@ async function initWritings() {
     return;
   }
 
+  setupWritingLinks();
+
   if (articleContainer) {
     const embeddedPost = getEmbeddedWritingPost();
     if (embeddedPost) {
@@ -146,6 +167,8 @@ async function initWritings() {
     listContainers.forEach((container) => {
       renderWritingsList(container, posts);
     });
+
+    setupWritingLinks();
 
     if (articleContainer && !getEmbeddedWritingPost()) {
       const slug = articleContainer.dataset.writingSlug || getWritingSlugFromPath();
@@ -170,8 +193,6 @@ async function initWritings() {
     }
   }
 }
-
-bindWritingLinks();
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initWritings);
