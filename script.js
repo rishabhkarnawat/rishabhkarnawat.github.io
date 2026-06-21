@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  initMarginDecor();
+
   document.querySelectorAll('.project-video-wrap video').forEach((video) => {
     video.muted = true;
     video.loop = true;
@@ -64,6 +66,165 @@ document.addEventListener('DOMContentLoaded', () => {
   initPortfolioAccordions();
 });
 
+function initMarginDecor() {
+  if (window.matchMedia('(max-width: 960px)').matches) {
+    return;
+  }
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  const left = document.createElement('div');
+  left.className = 'margin-decor margin-decor-left';
+  left.setAttribute('aria-hidden', 'true');
+
+  const right = document.createElement('div');
+  right.className = 'margin-decor margin-decor-right';
+  right.setAttribute('aria-hidden', 'true');
+
+  document.body.append(left, right);
+
+  bindMarginDecor(left);
+  bindMarginDecor(right);
+}
+
+function getMarginCellPosition(x, y, width, gridSize, isRight) {
+  const remainder = width % gridSize;
+  let cellX;
+  let cellW = gridSize;
+
+  if (isRight) {
+    if (remainder > 0 && x < remainder) {
+      cellX = 0;
+      cellW = remainder;
+    } else {
+      const gridStart = remainder;
+      cellX = gridStart + Math.floor((x - gridStart) / gridSize) * gridSize;
+    }
+  } else {
+    cellX = Math.floor(x / gridSize) * gridSize;
+    if (remainder > 0) {
+      const partialStart = width - remainder;
+      if (x >= partialStart) {
+        cellX = partialStart;
+        cellW = remainder;
+      }
+    }
+  }
+
+  const cellY = Math.floor(y / gridSize) * gridSize;
+  return { cellX, cellY, cellW, cellH: gridSize };
+}
+
+function getMarginCellColumns(width, gridSize, isRight) {
+  const columns = [];
+  const remainder = width % gridSize;
+
+  if (isRight) {
+    if (remainder > 0) {
+      columns.push({ x: 0, w: remainder });
+    }
+    for (let x = remainder; x + gridSize <= width; x += gridSize) {
+      columns.push({ x, w: gridSize });
+    }
+    return columns;
+  }
+
+  for (let x = 0; x + gridSize <= width - remainder; x += gridSize) {
+    columns.push({ x, w: gridSize });
+  }
+  if (remainder > 0) {
+    columns.push({ x: width - remainder, w: remainder });
+  }
+  return columns;
+}
+
+function spawnMarginGridWave(decor, x, y, width, height, gridSize, isRight) {
+  const radiusCells = 2.35;
+  const radiusPx = gridSize * radiusCells;
+  const columns = getMarginCellColumns(width, gridSize, isRight);
+  const minRow = Math.max(0, Math.floor((y - radiusPx) / gridSize));
+  const maxRow = Math.floor((y + radiusPx) / gridSize);
+
+  const wave = document.createElement('div');
+  wave.className = 'margin-grid-wave';
+
+  const ring = document.createElement('span');
+  ring.className = 'margin-grid-wave__ring';
+  ring.style.left = `${x}px`;
+  ring.style.top = `${y}px`;
+  wave.append(ring);
+
+  for (let row = minRow; row <= maxRow; row += 1) {
+    const cellY = row * gridSize;
+    if (cellY + gridSize > height) {
+      continue;
+    }
+
+    columns.forEach((col) => {
+      const centerX = col.x + col.w / 2;
+      const centerY = cellY + gridSize / 2;
+      const distance = Math.hypot(x - centerX, y - centerY);
+
+      if (distance > radiusPx) {
+        return;
+      }
+
+      const cell = document.createElement('span');
+      cell.className = 'margin-grid-wave__cell';
+      cell.style.left = `${col.x}px`;
+      cell.style.top = `${cellY}px`;
+      cell.style.width = `${col.w}px`;
+      cell.style.height = `${gridSize}px`;
+
+      const normalized = distance / radiusPx;
+      cell.style.setProperty('--wave-delay', `${normalized * 0.14}s`);
+      cell.style.setProperty('--wave-opacity', `${0.85 - normalized * 0.45}`);
+
+      const fill = document.createElement('span');
+      fill.className = 'margin-grid-wave__cell-fill';
+      cell.append(fill);
+      wave.append(cell);
+    });
+  }
+
+  decor.append(wave);
+  window.setTimeout(() => wave.remove(), 720);
+}
+
+function bindMarginDecor(decor) {
+  const gridSize = 22;
+  const isRight = decor.classList.contains('margin-decor-right');
+
+  decor.addEventListener('mousemove', (event) => {
+    const rect = decor.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const { cellX, cellY, cellW, cellH } = getMarginCellPosition(x, y, rect.width, gridSize, isRight);
+
+    decor.style.setProperty('--cursor-x', `${x}px`);
+    decor.style.setProperty('--cursor-y', `${y}px`);
+    decor.style.setProperty('--cell-x', `${cellX}px`);
+    decor.style.setProperty('--cell-y', `${cellY}px`);
+    decor.style.setProperty('--cell-w', `${cellW}px`);
+    decor.style.setProperty('--cell-h', `${cellH}px`);
+    decor.classList.add('is-active');
+  });
+
+  decor.addEventListener('click', (event) => {
+    const rect = decor.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    spawnMarginGridWave(decor, x, y, rect.width, rect.height, gridSize, isRight);
+  });
+
+  decor.addEventListener('mouseleave', () => {
+    decor.classList.remove('is-active');
+  });
+}
+
 const PI_ACCORDION_DURATION = 450;
 
 function initPortfolioAccordions() {
@@ -91,6 +252,8 @@ function initPortfolioAccordions() {
       } else {
         openPortfolioAccordion(details, content);
       }
+
+      summary.blur();
     });
   });
 }
