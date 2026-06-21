@@ -43,54 +43,16 @@ function writingHref(slug) {
   return `/writings/${slug}/`;
 }
 
-function setupWritingLinks(root = document) {
-  root.querySelectorAll('[data-writings-list] a.item-link').forEach((link) => {
-    if (link.dataset.writingBound === 'true') {
-      return;
-    }
-
-    const url = link.dataset.writingUrl || link.getAttribute('href');
-    if (!url || url === '#') {
-      return;
-    }
-
-    link.dataset.writingUrl = url;
-    link.setAttribute('href', '#');
-    link.dataset.writingBound = 'true';
-
-    const openWriting = (event) => {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-
-      window.open(
-        new URL(link.dataset.writingUrl, window.location.origin).href,
-        '_blank',
-        'noopener,noreferrer'
-      );
-    };
-
-    link.addEventListener('click', openWriting, { capture: true });
-    link.addEventListener('touchend', openWriting, { capture: true, passive: false });
-    link.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        openWriting(event);
-      }
-    });
-  });
-}
-
 function renderWritingsList(container, posts) {
   const limit = Number(container.dataset.writingsLimit || posts.length);
   const items = posts.slice(0, limit);
 
   container.innerHTML = items.map((post) => `
-    <a href="#" class="item item-link" data-writing-url="${writingHref(post.slug)}">
+    <a href="${writingHref(post.slug)}" class="item item-link" target="_blank" rel="noopener noreferrer">
       <span class="item-title">${post.title}</span>
       <span class="item-desc">${post.date}</span>
     </a>
   `).join('');
-
-  setupWritingLinks(container);
 }
 
 function renderWritingArticle(container, post) {
@@ -152,8 +114,6 @@ async function initWritings() {
     return;
   }
 
-  setupWritingLinks();
-
   if (articleContainer) {
     const embeddedPost = getEmbeddedWritingPost();
     if (embeddedPost) {
@@ -167,8 +127,6 @@ async function initWritings() {
     listContainers.forEach((container) => {
       renderWritingsList(container, posts);
     });
-
-    setupWritingLinks();
 
     if (articleContainer && !getEmbeddedWritingPost()) {
       const slug = articleContainer.dataset.writingSlug || getWritingSlugFromPath();
