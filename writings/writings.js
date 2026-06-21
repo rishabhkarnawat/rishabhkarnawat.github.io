@@ -38,7 +38,7 @@ function renderWritingsList(container, posts) {
   const items = posts.slice(0, limit);
 
   container.innerHTML = items.map((post) => `
-    <a href="${writingHref(post.slug)}" class="item item-link">
+    <a href="${writingHref(post.slug)}" class="item item-link" target="_blank" rel="noopener noreferrer">
       <span class="item-title">${post.title}</span>
       <span class="item-desc">${post.date}</span>
     </a>
