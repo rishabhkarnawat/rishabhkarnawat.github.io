@@ -656,6 +656,38 @@ a:hover {
   font-weight: 600;
 }
 
+.writing-section-essay {
+  margin-top: 1.6em;
+}
+
+.writing-section-heading {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 0.8em;
+}
+
+.writing-subsection-title {
+  font-weight: 600;
+  margin-top: 1.2em;
+  margin-bottom: 0.2em;
+}
+
+.writing-list {
+  margin: 0 0 1.1em;
+  padding-left: 1.4em;
+}
+
+.writing-list li {
+  margin-bottom: 0.45em;
+  text-align: justify;
+}
+
+.writing-note {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
 /* Coming Soon */
 .coming-soon-container {
   display: flex;

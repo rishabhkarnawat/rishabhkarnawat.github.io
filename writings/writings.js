@@ -114,11 +114,44 @@ function renderWritingArticle(container, post) {
     .join('');
 
   const sectionsHtml = (post.sections || [])
-    .map((section) => `
+    .map((section) => {
+      if (section.number != null && section.body != null) {
+        return `
       <section class="writing-section">
         <p><span class="writing-section-number">${escapeHtml(section.number)}.</span> <span class="writing-section-title">${escapeHtml(section.title)}</span> ${escapeHtml(section.body)}</p>
       </section>
-    `)
+    `;
+      }
+
+      const paragraphsHtml = (section.paragraphs || [])
+        .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+        .join('');
+
+      const subsectionsHtml = (section.subsections || [])
+        .map((subsection) => `
+        <p class="writing-subsection-title">${escapeHtml(subsection.title)}</p>
+        ${(subsection.paragraphs || []).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('')}
+      `)
+        .join('');
+
+      const listHtml = section.list?.length
+        ? `<ul class="writing-list">${section.list.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
+        : '';
+
+      const noteHtml = section.note
+        ? `<p class="writing-note">${escapeHtml(section.note)}</p>`
+        : '';
+
+      return `
+      <section class="writing-section writing-section-essay">
+        ${section.title ? `<h2 class="writing-section-heading">${escapeHtml(section.title)}</h2>` : ''}
+        ${paragraphsHtml}
+        ${subsectionsHtml}
+        ${listHtml}
+        ${noteHtml}
+      </section>
+    `;
+    })
     .join('');
 
   const outroHtml = (post.outro || [])
