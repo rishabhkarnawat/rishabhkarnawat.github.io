@@ -1604,6 +1604,10 @@ body.provisioned-flashcard-open {
     height: calc(var(--coverflow-card-size) + 72px);
   }
 
+  .coverflow-card {
+    transition: none;
+  }
+
   .coverflow-btn {
     display: none;
   }

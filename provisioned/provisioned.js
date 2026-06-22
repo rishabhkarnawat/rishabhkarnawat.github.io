@@ -2,8 +2,12 @@ const PROVISIONED_ITEMS_URL = '/provisioned/items.json';
 const PROVISIONED_PAGE_URL = '/provisioned';
 const CAROUSEL_SPIN_SPEED = 18;
 const CAROUSEL_DRAG_SENSITIVITY = 0.62;
+const CAROUSEL_TOUCH_DRAG_SENSITIVITY = 1;
 const CAROUSEL_TAP_THRESHOLD_PX = 10;
 const CAROUSEL_DRAG_THRESHOLD_PX = 6;
+const CAROUSEL_MOMENTUM_FRICTION = 0.94;
+const CAROUSEL_MOMENTUM_MULTIPLIER = 1.45;
+const CAROUSEL_MOMENTUM_MIN_VELOCITY = 0.018;
 const FLASHCARD_TRANSITION_MS = 240;
 const FILTER_TRANSITION_MS = 280;
 const FILTER_SCROLL_FADE_MS = 680;
@@ -734,16 +738,29 @@ function initCarousel3D(root, items) {
   let rotation = 0;
   let spinDirection = 0;
   let animationId = null;
+  let inertiaId = null;
   let lastTimestamp = null;
   let dragState = null;
+  let isTouchCarousel = false;
 
   root.dataset.carouselCount = String(count);
   root.classList.add('coverflow--navigable');
 
+  const getDragSensitivity = (layout) => (
+    isTouchCarousel || layout.isCompact ? CAROUSEL_TOUCH_DRAG_SENSITIVITY : CAROUSEL_DRAG_SENSITIVITY
+  );
+
+  const cancelInertia = () => {
+    if (inertiaId !== null) {
+      cancelAnimationFrame(inertiaId);
+      inertiaId = null;
+    }
+  };
+
   const applyRotation = ({ animate = true } = {}) => {
     const layout = getCarouselLayout(root, count);
     const activeIndex = ((Math.round(rotation / layout.angleStep) % count) + count) % count;
-    const shouldAnimate = animate && !dragState && spinDirection === 0;
+    const shouldAnimate = animate && !dragState && spinDirection === 0 && inertiaId === null && !isTouchCarousel;
 
     cards.forEach((card, index) => {
       const slotOffset = getItemSlotOffset(index, rotation, layout.angleStep, count);
@@ -751,6 +768,33 @@ function initCarousel3D(root, items) {
     });
 
     root.setAttribute('aria-label', `Provisioned wishlist, item ${activeIndex + 1} of ${count}`);
+  };
+
+  const startInertia = (velocityDegPerMs) => {
+    cancelInertia();
+
+    if (prefersReducedMotion || Math.abs(velocityDegPerMs) < CAROUSEL_MOMENTUM_MIN_VELOCITY) {
+      return;
+    }
+
+    let velocity = velocityDegPerMs * CAROUSEL_MOMENTUM_MULTIPLIER;
+    let lastTime = performance.now();
+
+    const inertiaTick = (now) => {
+      const deltaMs = now - lastTime;
+      lastTime = now;
+      rotation += velocity * deltaMs;
+      velocity *= CAROUSEL_MOMENTUM_FRICTION ** (deltaMs / 16.67);
+      applyRotation({ animate: false });
+
+      if (Math.abs(velocity) >= CAROUSEL_MOMENTUM_MIN_VELOCITY) {
+        inertiaId = requestAnimationFrame(inertiaTick);
+      } else {
+        inertiaId = null;
+      }
+    };
+
+    inertiaId = requestAnimationFrame(inertiaTick);
   };
 
   const tick = (timestamp) => {
@@ -826,10 +870,17 @@ function initCarousel3D(root, items) {
     }
 
     stopSpin();
+    cancelInertia();
+    isTouchCarousel = event.pointerType === 'touch';
+
+    const now = performance.now();
     dragState = {
       pointerId: event.pointerId,
       startX: event.clientX,
+      lastX: event.clientX,
       startRotation: rotation,
+      lastTime: now,
+      velocity: 0,
       moved: false,
       totalMove: 0,
     };
@@ -843,6 +894,7 @@ function initCarousel3D(root, items) {
     }
 
     const deltaX = event.clientX - dragState.startX;
+    const incrementalX = event.clientX - dragState.lastX;
     dragState.totalMove = Math.max(dragState.totalMove, Math.abs(deltaX));
 
     if (Math.abs(deltaX) <= CAROUSEL_DRAG_THRESHOLD_PX) {
@@ -851,7 +903,15 @@ function initCarousel3D(root, items) {
 
     dragState.moved = true;
     const layout = getCarouselLayout(root, count);
-    rotation = dragState.startRotation - (deltaX / layout.slotSpacing) * layout.angleStep * CAROUSEL_DRAG_SENSITIVITY;
+    const sensitivity = getDragSensitivity(layout);
+    const now = performance.now();
+    const deltaMs = Math.max(now - dragState.lastTime, 1);
+    const rotationDelta = -(incrementalX / layout.slotSpacing) * layout.angleStep * sensitivity;
+
+    rotation += rotationDelta;
+    dragState.velocity = dragState.velocity * 0.55 + (rotationDelta / deltaMs) * 0.45;
+    dragState.lastX = event.clientX;
+    dragState.lastTime = now;
     applyRotation({ animate: false });
   };
 
@@ -862,6 +922,8 @@ function initCarousel3D(root, items) {
 
     const shouldNavigate = !dragState.moved && dragState.totalMove < CAROUSEL_TAP_THRESHOLD_PX;
     const wasDragged = dragState.moved;
+    const releaseVelocity = dragState.velocity;
+    const usedTouch = isTouchCarousel;
     dragState = null;
 
     if (viewport.hasPointerCapture(event.pointerId)) {
@@ -869,15 +931,28 @@ function initCarousel3D(root, items) {
     }
 
     if (shouldNavigate) {
+      isTouchCarousel = false;
       openProvisionedPage();
-    } else if (wasDragged) {
+      return;
+    }
+
+    if (wasDragged && usedTouch) {
+      startInertia(releaseVelocity);
+      isTouchCarousel = false;
+      return;
+    }
+
+    if (wasDragged) {
       applyRotation({ animate: true });
     }
+
+    isTouchCarousel = false;
   };
 
   const onPointerCancel = (event) => {
     if (dragState?.pointerId === event.pointerId) {
       dragState = null;
+      isTouchCarousel = false;
     }
   };
 
@@ -910,6 +985,7 @@ function initCarousel3D(root, items) {
 
   root._carouselCleanup = () => {
     stopSpin();
+    cancelInertia();
     if (animationId !== null) {
       cancelAnimationFrame(animationId);
     }
