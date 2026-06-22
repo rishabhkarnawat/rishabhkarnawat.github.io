@@ -1,0 +1,251 @@
+{
+  "description": "Timing is the only variable left.",
+  "categories": [
+    {
+      "id": "motoring",
+      "title": "Motoring"
+    },
+    {
+      "id": "mechanisms",
+      "title": "Mechanisms"
+    },
+    {
+      "id": "horology",
+      "title": "Horology"
+    },
+    {
+      "id": "patrimony",
+      "title": "Patrimony"
+    },
+    {
+      "id": "cellar",
+      "title": "The Cellar"
+    }
+  ],
+  "items": [
+    {
+      "id": "ferrari-250-gto",
+      "title": "Ferrari 250 GTO (1962)",
+      "description": "A long hood, a vanishing tail, and a shape so right it never needed redesigning",
+      "image": "assets/provisioned/ferrari-250-gto/image.png",
+      "info": "Built from 1962 to 1964, the Ferrari 250 GTO was homologated for FIA Group 3 GT racing. Only 36 were made, with aluminum bodywork by Scaglietti from designs by Giotto Bizzarrini. Its 3.0 liter Colombo V12 produced about 300 hp through six Weber carburetors. The car won the manufacturer's championship three years in a row and remains among the most valuable automobiles ever sold at auction.",
+      "category": "motoring"
+    },
+    {
+      "id": "bugatti-type-57sc-atlantic",
+      "title": "Bugatti Type 57SC Atlantic (1936)",
+      "description": "A riveted seam running its full length, built like an aircraft fuselage on wheels",
+      "image": "assets/provisioned/bugatti-type-57sc-atlantic/image.png",
+      "info": "Jean Bugatti designed this coupe between 1936 and 1938. Only four were built. The riveted dorsal seam came from the Aerolithe prototype, which was first planned in magnesium alloy that could not be welded. Production cars used aluminum with exposed rivets. A 3.3 liter supercharged straight eight produced up to 200 PS. Three survive today. The fourth, La Voiture Noire, has been missing since the late 1930s.",
+      "category": "motoring"
+    },
+    {
+      "id": "aston-martin-db5",
+      "title": "Aston Martin DB5 (1964)",
+      "description": "Restrained British elegance, a silhouette that never raises its voice",
+      "image": "assets/provisioned/aston-martin-db5/image.png",
+      "info": "Produced from 1963 to 1965 at Newport Pagnell, the DB5 was styled by Carrozzeria Touring Superleggera. Its 4.0 liter inline six, designed by Tadek Marek, made 282 bhp in standard form with a top speed near 145 mph. About 1,059 were built. The model became a global icon as James Bond's car in Goldfinger (1964). A Vantage version raised output to 325 bhp.",
+      "category": "motoring"
+    },
+    {
+      "id": "pagani-zonda-hp-barchetta",
+      "title": "Pagani Zonda HP Barchetta",
+      "description": "",
+      "image": "assets/provisioned/pagani-zonda-hp-barchetta/image.png",
+      "info": "Unveiled in 2017 for Horacio Pagani's 60th birthday and the Zonda's 18th anniversary, the HP Barchetta was built as one of the final Zondas. Only three were made. The open body has no roof or conventional windshield, with a low wraparound screen and a central roof scoop feeding the mid-mounted AMG V12. Blue exposed carbon weave, a center yellow stripe, and silver wheels with yellow center locks define this specification. It is among the rarest and most dramatic roadsters of the modern hypercar era.",
+      "category": "motoring"
+    },
+    {
+      "id": "apple-1",
+      "title": "An original Apple-1 (1976)",
+      "description": "A bare circuit board with no case, the rawest form personal computing ever took before it learned to look like a product",
+      "image": "assets/provisioned/apple-1/image.png",
+      "info": "Steve Wozniak designed this 8-bit computer, released in July 1976 at $666.66. About 200 bare printed circuit boards were produced. It used the MOS 6502 processor at 1 MHz with 4 KB of RAM, expandable to 8 KB. Built-in video circuitry let users connect a standard keyboard and television, making it one of the first affordable personal computers that did not require a separate terminal.",
+      "category": "mechanisms"
+    },
+    {
+      "id": "leica-0-series",
+      "title": "A Leica 0-Series camera (1923)",
+      "description": "A nickel bodied prototype small enough to fit in a coat pocket, the camera that shrank photography down to human scale",
+      "image": "assets/provisioned/leica-0-series/image.png",
+      "info": "Oskar Barnack developed roughly 25 of these prototypes in 1923 and 1924 to test 35 mm cinema film in a compact handheld body. They formed the bridge between the 1914 Ur-Leica and the Leica I, which entered series production in 1925 and helped make small-format photography portable. Only about a dozen 0-Series cameras are known to survive, and they rank among the most valuable cameras ever sold at auction.",
+      "category": "mechanisms"
+    },
+    {
+      "id": "enigma-machine",
+      "title": "A four-rotor German Enigma machine",
+      "description": "Wood cased, brass rotored, built to look like a typewriter and built to keep secrets instead",
+      "image": "assets/provisioned/enigma-machine/image.png",
+      "info": "The Enigma M4 added a fourth rotor for German naval traffic from February 1942, used mainly by U-boats. Bletchley Park called this cipher network Shark. The upgrade caused a nine-month blackout in Allied codebreaking until captured key material from U-559 and improved bombes helped restore access in late 1942. The wooden case, typewriter keyboard, and brass rotors concealed an electromechanical cipher far more complex than its appearance suggested.",
+      "category": "mechanisms"
+    },
+    {
+      "id": "ibm-pc-5150",
+      "title": "IBM Personal Computer (Model 5150)",
+      "description": "",
+      "image": "assets/provisioned/ibm-pc-5150/image.png",
+      "info": "IBM introduced the Model 5150 on 12 August 1981 in New York City. It used an Intel 8088 processor at 4.77 MHz with 16 KB of RAM, expandable to 256 KB, and shipped with two 5.25-inch floppy drives or a cassette port. The open architecture and use of off-the-shelf components let other manufacturers build compatible machines, creating the IBM PC standard that dominated personal computing through the 1980s and 1990s.",
+      "category": "mechanisms"
+    },
+    {
+      "id": "sony-walkman-tps-l2",
+      "title": "Sony Walkman TPS-L2",
+      "description": "",
+      "image": "assets/provisioned/sony-walkman-tps-l2/image.png",
+      "info": "Sony engineer Nobutoshi Kihara built the first Walkman prototype in 1978 so company co-founder Akio Morita could listen to music on long flights without disturbing others. The TPS-L2 went on sale in Japan on 1 July 1979 for about 33,000 yen, with two headphone jacks and a dual-volume control so two people could listen together. It sold out in weeks and changed how the world consumed music, making portable personal listening a global habit.",
+      "category": "mechanisms"
+    },
+    {
+      "id": "polaroid-sx-70-peanuts",
+      "title": "Polaroid SX-70 Land Camera, Peanuts Edition",
+      "description": "",
+      "image": "assets/provisioned/polaroid-sx-70-peanuts/image.png",
+      "info": "Edwin Land introduced the SX-70 in 1972 as the first folding single-lens reflex instant camera. Its chrome body collapsed flat, then unfolded into a viewfinder camera that developed color prints in daylight. This Peanuts edition marks the comic strip's 75th anniversary with black panels printed in white line art from Charles Schulz's originals, finished with yellow Peanuts lettering above the classic Land Camera badge. It pairs one of photography's most influential industrial designs with one of the 20th century's most read comics.",
+      "category": "mechanisms"
+    },
+    {
+      "id": "breguet-classique",
+      "title": "Breguet Classique",
+      "description": "",
+      "image": "assets/provisioned/breguet-classique/image.png",
+      "info": "Breguet Classique watches carry the house codes Abraham-Louis Breguet established in the late 18th century: engine-turned guilloché dials, Roman numerals, and blued steel Breguet hands with open-tipped circles. The fluted case band, another Breguet signature, was originally designed to let pocket watches be gripped without touching the polished case. Classique models in gold pair hand-finished movement work with dial craft that has changed little in two centuries.",
+      "category": "horology"
+    },
+    {
+      "id": "audemars-piguet-royal-oak",
+      "title": "Audemars Piguet Royal Oak",
+      "description": "",
+      "image": "assets/provisioned/audemars-piguet-royal-oak/image.png",
+      "info": "Designed by Gérald Genta and introduced in 1972, the Royal Oak was the first luxury sports watch in steel priced like gold. Its octagonal bezel, exposed screws, and integrated bracelet broke every rule of fine watchmaking at the time. The tapisserie dial pattern, inspired by a ship's porthole, became one of the most recognizable faces in horology. The Royal Oak saved Audemars Piguet and defined the modern integrated-bracelet watch category.",
+      "category": "horology"
+    },
+    {
+      "id": "patek-henry-graves-supercomplication",
+      "title": "Patek Philippe Henry Graves Supercomplication",
+      "description": "",
+      "image": "assets/provisioned/patek-henry-graves-supercomplication/image.png",
+      "info": "Commissioned by New York banker Henry Graves Jr. and delivered in 1933 after eight years of work, this pocket watch held the title of the world's most complicated timepiece for decades. It contains 24 complications, including a celestial chart of the night sky over Manhattan, a perpetual calendar, and a minute repeater. Patek Philippe spent three years researching and assembling it. It sold at Sotheby's Geneva in 2014 for about $24 million, then a record for any timepiece at auction.",
+      "category": "horology"
+    },
+    {
+      "id": "patek-philippe-ref-130",
+      "title": "Patek Philippe Ref. 130 Chronograph",
+      "description": "",
+      "image": "assets/provisioned/patek-philippe-ref-130/image.png",
+      "info": "Reference 130 was Patek Philippe's primary chronograph wristwatch from 1934 through the 1950s. It used a 13 ligne movement based on a Victorin Piguet ébauche, with two sub-dials and a tachymeter scale on the dial. Cases were made in yellow gold, pink gold, and stainless steel, often with Breguet numerals. Production was limited and examples from the 1940s, such as the steel 130A, are among the most collectible vintage Patek Philippe chronographs.",
+      "category": "horology"
+    },
+    {
+      "id": "qing-imperial-vase",
+      "title": "A Qing dynasty imperial porcelain vase",
+      "description": "",
+      "image": "assets/provisioned/qing-imperial-vase/image.png",
+      "info": "Qing imperial porcelain from the 18th century was made at Jingdezhen under direct court supervision. Yangcai, meaning foreign colors, used opaque overglaze enamels adapted from European techniques and refined during the Yongzheng and Qianlong reigns. Under kiln director Tang Ying, artisans developed layered decoration, openwork, and complex forms reserved for the emperor. These pieces were not export ware. They represent the technical and artistic peak of Qing dynasty ceramic production.",
+      "category": "patrimony"
+    },
+    {
+      "id": "ming-chicken-cup",
+      "title": "A Ming dynasty \"chicken cup\"",
+      "description": "",
+      "image": "assets/provisioned/ming-chicken-cup/image.png",
+      "info": "Made during the Chenghua reign (1465 to 1487) at the Jingdezhen imperial kilns, the chicken cup is a small wine vessel painted in doucai, combining underglaze blue outlines with overglaze enamels. It shows a rooster, hen, and chicks among flowers. Fewer than twenty authentic examples are known, most in museum collections. In 2014, a cup from the Meiyintang collection sold at Sotheby's Hong Kong for $36.05 million, then a record for Chinese porcelain at auction.",
+      "category": "patrimony"
+    },
+    {
+      "id": "gutenberg-bible",
+      "title": "A Gutenberg Bible, complete copy or single leaf",
+      "description": "",
+      "image": "assets/provisioned/gutenberg-bible/image.png",
+      "info": "Printed in Mainz around 1455 by Johannes Gutenberg, this Latin Vulgate was the first major book in Europe made with movable metal type. Scholars estimate that 160 to 180 copies were produced, on paper or vellum. Forty-nine survive in whole or in part, with about twenty-one complete. No complete copy has sold at auction since 1978. Individual leaves still appear on the market and are prized as landmarks in the history of printing.",
+      "category": "patrimony"
+    },
+    {
+      "id": "shakespeare-first-folio",
+      "title": "A Shakespeare First Folio (1623)",
+      "description": "",
+      "image": "assets/provisioned/shakespeare-first-folio/image.png",
+      "info": "Published in 1623 as Mr. William Shakespeares Comedies, Histories and Tragedies, the First Folio collected 36 plays seven years after Shakespeare's death. His fellow actors John Heminges and Henry Condell compiled it to replace flawed quarto editions. Eighteen plays, including Macbeth, Julius Caesar, and The Tempest, had never been printed before. About 750 copies were originally produced. Without this book, much of Shakespeare's work might have been lost.",
+      "category": "patrimony"
+    },
+    {
+      "id": "einstein-letter",
+      "title": "A handwritten letter by Einstein",
+      "description": "",
+      "image": "assets/provisioned/einstein-letter/image.png",
+      "info": "Written from Princeton on 21 March 1955, this letter is Einstein's condolence to the family of Michele Besso, his closest friend and early collaborator at the Swiss patent office. Besso had died days earlier. In the closing lines Einstein wrote that for those who believe in physics, the separation between past, present, and future is only a stubbornly persistent illusion. Einstein died less than a month later, on 18 April 1955.",
+      "category": "patrimony"
+    },
+    {
+      "id": "kashmiri-pashmina-shawl",
+      "title": "Kashmiri Pashmina Shawl",
+      "description": "",
+      "image": "assets/provisioned/kashmiri-pashmina-shawl/image.png",
+      "info": "Pashmina is the fine undercoat fiber of the Changthangi goat, found at high altitude in Ladakh and Kashmir. Kashmiri shawls woven from this wool have been prized since the Mughal era for their softness, warmth, and lightness. The finest examples use hand-spun yarn and intricate patterns such as paisley boteh, floral borders, and jamawar patchwork weaving. A single shawl can take months to complete on a traditional handloom.",
+      "category": "patrimony"
+    },
+    {
+      "id": "yamazaki-55",
+      "title": "The Yamazaki 55-Year-Old Single Malt",
+      "description": "",
+      "image": "assets/provisioned/yamazaki-55/image.png",
+      "info": "Released by the House of Suntory in 2020, Yamazaki 55 is the oldest whisky in the distillery's history. Only 200 bottles were produced: 100 sold in Japan by lottery in 2020, and 100 released globally in 2021. It blends spirit distilled in 1960 and 1964, aged in Japanese mizunara oak and American white oak. A bottle sold at Bonhams Hong Kong in 2020 for about $795,000, a record for Japanese whisky at auction.",
+      "category": "cellar"
+    },
+    {
+      "id": "dom-perignon-2010",
+      "title": "Dom Pérignon Vintage 2010",
+      "description": "",
+      "image": "assets/provisioned/dom-perignon-2010/image.png",
+      "info": "Dom Pérignon 2010 was released in 2020 from one of Champagne's most difficult harvests. Heavy rain in mid-August 2010 brought botrytis across much of the region, yet the house declared a vintage by rigorously mapping and sorting parcels. The final blend is 54% Chardonnay and 46% Pinot Noir with 5 g/l dosage, disgorged in February 2019. It was among the few major houses to release a 2010 vintage at all.",
+      "category": "cellar"
+    },
+    {
+      "id": "screaming-eagle-cabernet",
+      "title": "Screaming Eagle Cabernet Sauvignon",
+      "description": "",
+      "image": "assets/provisioned/screaming-eagle-cabernet/image.png",
+      "info": "Screaming Eagle is a cult Napa Valley estate in Oakville, founded in 1986 by Jean Phillips. Its debut 1992 vintage, released in 1995, earned 99 points from Robert Parker and helped define the modern California cult wine. Production is tiny, often under 1,000 cases per year, and bottles are sold almost exclusively through a long private mailing list. A 6-liter of the 1992 sold for $500,000 at Auction Napa Valley in 2000.",
+      "category": "cellar"
+    },
+    {
+      "id": "macallan-1926-fine-rare",
+      "title": "The Macallan 1926 60-Year-Old Fine and Rare",
+      "description": "",
+      "image": "assets/provisioned/macallan-1926-fine-rare/image.png",
+      "info": "Distilled in 1926 and bottled in 1986, this whisky spent 60 years in sherry-seasoned oak cask number 263 at The Macallan in Speyside. Only 40 bottles were drawn from the cask at 42.6% ABV. Several label editions exist, including versions by artists Peter Blake and Valerio Adami, and the Fine and Rare series. Bottles from this cask have repeatedly set auction records, including £2.19 million for an Adami label at Sotheby's in 2023.",
+      "category": "cellar"
+    },
+    {
+      "id": "drc-richebourg-1996",
+      "title": "Domaine de la Romanée-Conti Richebourg 1996",
+      "description": "",
+      "image": "assets/provisioned/drc-richebourg-1996/image.png",
+      "info": "This is the 1996 Richebourg Grand Cru from Domaine de la Romanée-Conti in Vosne-Romanée, Burgundy. DRC owns nearly half of the Richebourg vineyard, adjacent to Romanée-Conti itself. The 1996 vintage produced structured, high-acid Pinot Noir across Burgundy. This bottling was among 13,330 bottles harvested that year for the estate's Richebourg. It is one of the most sought after wines from the world's most prestigious domaine.",
+      "category": "cellar"
+    },
+    {
+      "id": "sterling-silver-cigar-case",
+      "title": "Sterling Silver Cigar Case (c. 1930)",
+      "description": "",
+      "image": "assets/provisioned/sterling-silver-cigar-case/image.png",
+      "info": "English sterling silver cigar cases of the early 20th century were made to carry slim panatellas or cigarillos in a pocket without crushing them. This example has a hinged lid, rounded corners, and a spring-loaded interior strap that holds each cigar in place. The front is engraved with a heraldic lion passant above a scroll dated 1869 and 1899, likely marking a family anniversary or club founding. Polished silver cases like this were standard gentlemen's accessories before the mid-century shift to lacquer and leather.",
+      "category": "cellar"
+    },
+    {
+      "id": "dunhill-shagreen-table-lighter",
+      "title": "Dunhill Shagreen Table Lighter",
+      "description": "",
+      "image": "assets/provisioned/dunhill-shagreen-table-lighter/image.png",
+      "info": "Alfred Dunhill built his name on accessories for motorists and smokers before expanding into lighters that became benchmarks of British luxury. This tabletop model pairs a lift-arm petrol lighter with a built-in eight-day clock, set in a pill-shaped body covered in pale green shagreen, the pebbled hide of a stingray. Silver-plated caps and Alfred Dunhill's script on the mechanism date it to the mid 20th century, when combined desk objects were a staple of club rooms and private studies.",
+      "category": "cellar"
+    },
+    {
+      "id": "cohiba-behike-bhk-56",
+      "title": "Cohiba Behike BHK 56",
+      "description": "",
+      "image": "assets/provisioned/cohiba-behike-bhk-56/image.png",
+      "info": "Launched in 2010, the Behike line was Cohiba's first use of medio tiempo, the rare upper leaves of the tobacco plant that ripen slowly and add concentration. BHK 56 is the largest of the three sizes, named for its 56 ring gauge. Each cigar carries a black and gold band with the Taino chief who gave Cohiba its name. Production was strictly limited, and boxes of ten became among the most sought after Cuban cigars of the 2010s, prized for depth, spice, and aging potential.",
+      "category": "cellar"
+    }
+  ]
+}
