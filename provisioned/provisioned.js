@@ -1,6 +1,13 @@
 const PROVISIONED_ITEMS_URL = '/provisioned/items.json';
-const CAROUSEL_SPIN_SPEED = 32;
+const PROVISIONED_PAGE_URL = '/provisioned';
+const CAROUSEL_SPIN_SPEED = 18;
+const CAROUSEL_DRAG_SENSITIVITY = 0.62;
+const CAROUSEL_TAP_THRESHOLD_PX = 10;
+const CAROUSEL_DRAG_THRESHOLD_PX = 6;
 const FLASHCARD_TRANSITION_MS = 240;
+const FILTER_TRANSITION_MS = 280;
+const FILTER_SCROLL_FADE_MS = 680;
+const FILTER_SCROLL_ANIMATION_MS = 780;
 
 function escapeHtml(value) {
   return String(value)
@@ -196,7 +203,7 @@ function renderProvisionedCarousel(container, items) {
   container.innerHTML = `
     <div class="coverflow" data-coverflow tabindex="0" aria-roledescription="carousel" aria-label="Provisioned wishlist">
       <button type="button" class="carousel-btn coverflow-btn coverflow-btn-prev" aria-label="Rotate carousel counter-clockwise" ${showControls ? '' : 'hidden'}>&lsaquo;</button>
-      <div class="coverflow-viewport">
+      <div class="coverflow-viewport" data-carousel-viewport tabindex="0" aria-label="Open Provisioned wishlist">
         <div class="coverflow-stage">
           <div class="coverflow-ring" data-carousel-ring>
             ${cardsMarkup}
@@ -239,6 +246,256 @@ function renderProvisionedGridItem(item) {
   `;
 }
 
+function renderProvisionedFilters(categories) {
+  const buttons = [
+    '<button type="button" class="provisioned-filter is-active" data-filter="all" role="tab" aria-selected="true">All</button>',
+    ...categories.map((category) => `
+      <button
+        type="button"
+        class="provisioned-filter"
+        data-filter="${escapeHtml(category.id)}"
+        role="tab"
+        aria-selected="false"
+      >${escapeHtml(category.title)}</button>
+    `),
+  ].join('');
+
+  return `
+    <div class="provisioned-filters" data-provisioned-filters role="tablist" aria-label="Filter by category">
+      ${buttons}
+    </div>
+  `;
+}
+
+function easeOutQuart(progress) {
+  return 1 - (1 - progress) ** 4;
+}
+
+function initProvisionedCategoryFilter(container, categories) {
+  const filterRoot = container.querySelector('[data-provisioned-filters]');
+  const catalog = container.querySelector('[data-provisioned-catalog]');
+  const sections = Array.from(container.querySelectorAll('[data-category-id]'));
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!filterRoot || !catalog) {
+    return;
+  }
+
+  let currentFilter = 'all';
+  let filterTimer = null;
+  let scrollAnimationFrame = null;
+
+  const cancelScrollAnimation = () => {
+    if (scrollAnimationFrame !== null) {
+      cancelAnimationFrame(scrollAnimationFrame);
+      scrollAnimationFrame = null;
+    }
+  };
+
+  const lockPageHeight = () => {
+    const lockedHeight = document.documentElement.scrollHeight;
+    document.documentElement.classList.add('is-filter-scroll-locked');
+    document.documentElement.style.setProperty('--filter-locked-height', `${lockedHeight}px`);
+  };
+
+  const unlockPageHeight = () => {
+    document.documentElement.classList.remove('is-filter-scroll-locked');
+    document.documentElement.style.removeProperty('--filter-locked-height');
+  };
+
+  const animateScrollTo = (targetY, duration, onComplete) => {
+    cancelScrollAnimation();
+
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+
+    if (Math.abs(distance) < 1) {
+      onComplete();
+      return;
+    }
+
+    const startTime = performance.now();
+
+    const step = (now) => {
+      const progress = Math.min(1, (now - startTime) / duration);
+      window.scrollTo(0, startY + distance * easeOutQuart(progress));
+
+      if (progress < 1) {
+        scrollAnimationFrame = requestAnimationFrame(step);
+      } else {
+        scrollAnimationFrame = null;
+        onComplete();
+      }
+    };
+
+    scrollAnimationFrame = requestAnimationFrame(step);
+  };
+
+  const sectionHeights = new Map(
+    sections.map((section) => [section.getAttribute('data-category-id'), section.offsetHeight])
+  );
+
+  const estimateMaxScroll = (activeFilter) => {
+    const pageTailOffset = 120;
+    let catalogHeight = 0;
+
+    if (activeFilter === 'all') {
+      catalogHeight = sections.reduce((total, section, index) => {
+        const height = sectionHeights.get(section.getAttribute('data-category-id')) || 0;
+        return total + height + (index > 0 ? 56 : 0);
+      }, 0);
+    } else {
+      catalogHeight = sectionHeights.get(activeFilter) || 0;
+    }
+
+    const docHeight = filterRoot.offsetHeight + 36 + catalogHeight + pageTailOffset;
+    return Math.max(0, docHeight - window.innerHeight);
+  };
+
+  const willNeedScrollAdjust = (activeFilter, scrollY) => scrollY > estimateMaxScroll(activeFilter) + 2;
+
+  const updateFilterButtons = (activeFilter) => {
+    filterRoot.querySelectorAll('.provisioned-filter').forEach((button) => {
+      const isActive = button.getAttribute('data-filter') === activeFilter;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+  };
+
+  const syncFilterUrl = (activeFilter) => {
+    const url = new URL(window.location.href);
+    if (activeFilter === 'all') {
+      url.searchParams.delete('category');
+    } else {
+      url.searchParams.set('category', activeFilter);
+    }
+    window.history.replaceState({}, '', url);
+  };
+
+  const applyFilterState = (activeFilter) => {
+    sections.forEach((section) => {
+      const show = activeFilter === 'all' || section.getAttribute('data-category-id') === activeFilter;
+      section.hidden = !show;
+      section.classList.toggle('provisioned-category--solo', activeFilter !== 'all' && show);
+    });
+
+    catalog.classList.toggle('provisioned-catalog--filtered', activeFilter !== 'all');
+    currentFilter = activeFilter;
+  };
+
+  const runScrollAfterFilter = (previousScrollY, onComplete, { slow = false, activeFilter = null } = {}) => {
+    requestAnimationFrame(() => {
+      const maxScroll = slow && activeFilter
+        ? estimateMaxScroll(activeFilter)
+        : Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      const targetScroll = Math.min(previousScrollY, maxScroll);
+
+      if (Math.abs(window.scrollY - targetScroll) < 2) {
+        onComplete();
+        return;
+      }
+
+      if (!slow || prefersReducedMotion) {
+        window.scrollTo(0, targetScroll);
+        onComplete();
+        return;
+      }
+
+      animateScrollTo(targetScroll, FILTER_SCROLL_ANIMATION_MS, onComplete);
+    });
+  };
+
+  const revealCatalog = ({ slow = false } = {}) => {
+    requestAnimationFrame(() => {
+      catalog.classList.remove('is-filter-fading');
+
+      if (slow) {
+        window.setTimeout(() => {
+          catalog.classList.remove('is-filter-scroll-adjust');
+        }, FILTER_SCROLL_FADE_MS + 40);
+      } else {
+        catalog.classList.remove('is-filter-scroll-adjust');
+      }
+    });
+  };
+
+  const setActiveFilter = (filterId, { updateUrl = true } = {}) => {
+    const isValid = filterId === 'all' || categories.some((category) => category.id === filterId);
+    const activeFilter = isValid ? filterId : 'all';
+
+    if (activeFilter === currentFilter || catalog.classList.contains('is-filter-fading')) {
+      return;
+    }
+
+    cancelScrollAnimation();
+    updateFilterButtons(activeFilter);
+
+    const previousScrollY = window.scrollY;
+    const slowScrollFade = willNeedScrollAdjust(activeFilter, previousScrollY);
+    const fadeOutMs = slowScrollFade ? FILTER_SCROLL_FADE_MS : FILTER_TRANSITION_MS;
+
+    const finish = () => {
+      const needsScrollAdjust = willNeedScrollAdjust(activeFilter, previousScrollY);
+
+      if (needsScrollAdjust) {
+        catalog.classList.add('is-filter-scroll-adjust');
+        lockPageHeight();
+      }
+
+      applyFilterState(activeFilter);
+
+      if (needsScrollAdjust) {
+        window.scrollTo(0, previousScrollY);
+      }
+
+      if (updateUrl) {
+        syncFilterUrl(activeFilter);
+      }
+
+      runScrollAfterFilter(previousScrollY, () => {
+        if (needsScrollAdjust) {
+          unlockPageHeight();
+        }
+        revealCatalog({ slow: needsScrollAdjust });
+      }, { slow: needsScrollAdjust, activeFilter });
+    };
+
+    if (prefersReducedMotion) {
+      finish();
+      return;
+    }
+
+    if (slowScrollFade) {
+      catalog.classList.add('is-filter-scroll-adjust');
+    }
+
+    catalog.classList.add('is-filter-fading');
+    clearTimeout(filterTimer);
+    filterTimer = window.setTimeout(finish, fadeOutMs);
+  };
+
+  filterRoot.addEventListener('click', (event) => {
+    const button = event.target.closest('.provisioned-filter');
+    if (!button) {
+      return;
+    }
+
+    setActiveFilter(button.getAttribute('data-filter') || 'all');
+  });
+
+  const initialFilter = new URLSearchParams(window.location.search).get('category') || 'all';
+  const isValidInitial = initialFilter === 'all' || categories.some((category) => category.id === initialFilter);
+  const resolvedInitial = isValidInitial ? initialFilter : 'all';
+
+  applyFilterState(resolvedInitial);
+  updateFilterButtons(resolvedInitial);
+
+  requestAnimationFrame(() => {
+    const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    window.scrollTo(0, Math.min(window.scrollY, maxScroll));
+  });
+}
+
 function renderProvisionedGrid(container, items, categories) {
   if (items.length === 0) {
     renderProvisionedEmpty(container);
@@ -251,7 +508,7 @@ function renderProvisionedGrid(container, items, categories) {
       const gridMarkup = group.items.map((item) => renderProvisionedGridItem(item)).join('');
 
       return `
-        <section class="provisioned-category" aria-labelledby="provisioned-category-${escapeHtml(group.id)}">
+        <section class="provisioned-category" data-category-id="${escapeHtml(group.id)}" aria-labelledby="provisioned-category-${escapeHtml(group.id)}">
           <h2 class="provisioned-category-title" id="provisioned-category-${escapeHtml(group.id)}">${escapeHtml(group.title)}</h2>
           <div class="provisioned-grid">${gridMarkup}</div>
         </section>
@@ -259,8 +516,12 @@ function renderProvisionedGrid(container, items, categories) {
     })
     .join('');
 
-  container.innerHTML = `<div class="provisioned-catalog">${catalogMarkup}</div>`;
+  container.innerHTML = `
+    ${renderProvisionedFilters(categories)}
+    <div class="provisioned-catalog" data-provisioned-catalog>${catalogMarkup}</div>
+  `;
   initProvisionedFlashcards(container, items);
+  initProvisionedCategoryFilter(container, categories);
 }
 
 let provisionedFlashcardRoot = null;
@@ -391,21 +652,24 @@ function initProvisionedFlashcards(container, items) {
 
 function getCarouselLayout(root, count) {
   const cardSize = parseFloat(getComputedStyle(root).getPropertyValue('--coverflow-card-size')) || 112;
+  const slotFactor = parseFloat(getComputedStyle(root).getPropertyValue('--coverflow-slot-factor')) || 0.98;
+  const rotateFactor = parseFloat(getComputedStyle(root).getPropertyValue('--coverflow-rotate-factor')) || 58;
   const viewport = root.querySelector('.coverflow-viewport');
   const viewportWidth = viewport?.clientWidth || root.clientWidth || 640;
-  const visibleSlots = count <= 10 ? 3.2 : count <= 16 ? 2.9 : 2.6;
-  const usableWidth = Math.max(cardSize * 2.4, viewportWidth - cardSize - 56);
-  const slotSpacing = Math.min(
-    cardSize * 0.84,
-    Math.max(cardSize * 0.66, usableWidth / (visibleSlots * 2))
-  );
+  const isCompact = viewportWidth < 640;
+  const visibleSlots = 2.15;
+  const preferredSpacing = cardSize * slotFactor;
+  const maxSpacing = (viewportWidth - cardSize * 0.5) / (visibleSlots * 2 + 0.35);
+  const slotSpacing = Math.max(cardSize * 0.9, Math.min(preferredSpacing, maxSpacing));
 
   return {
     cardSize,
     angleStep: 360 / count,
     visibleSlots,
     slotSpacing,
+    rotateFactor,
     count,
+    isCompact,
   };
 }
 
@@ -423,43 +687,47 @@ function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
 
-function layoutCarouselCard(card, slotOffset, layout, isActive) {
+function layoutCarouselCard(card, slotOffset, layout, isActive, { animate = true } = {}) {
   const abs = Math.abs(slotOffset);
-  const visible = abs <= layout.visibleSlots + 0.4;
+  const visible = abs <= layout.visibleSlots + 0.2;
+
+  card.style.transition = animate ? '' : 'none';
 
   if (!visible) {
     card.classList.remove('is-active', 'is-visible');
     card.style.opacity = '0';
     card.style.visibility = 'hidden';
     card.style.zIndex = '0';
-    card.style.transform = 'translateX(0px) rotateY(0deg) scale(0.8)';
+    card.style.transform = 'translateX(0px) translateZ(-120px) rotateY(0deg) scale(0.72)';
     card.setAttribute('aria-hidden', 'true');
     return;
   }
 
   const x = slotOffset * layout.slotSpacing;
-  const rotateY = clamp(-slotOffset * 26, -48, 48);
-  const scale = clamp(1 - abs * 0.075, 0.8, 1);
-  const opacity = clamp(1 - Math.max(0, abs - 0.35) * 0.4, 0, 1);
+  const rotateY = clamp(-slotOffset * layout.rotateFactor, -72, 72);
+  const depth = -(abs * 34 + abs * abs * 14);
+  const scale = clamp(1 - abs * 0.13, 0.72, 1);
+  const opacity = clamp(1 - Math.max(0, abs - 0.12) * 0.24, 0.55, 1);
 
   card.classList.toggle('is-active', isActive);
   card.classList.toggle('is-visible', opacity > 0.04);
   card.style.opacity = String(opacity);
   card.style.visibility = opacity > 0.04 ? 'visible' : 'hidden';
   card.style.zIndex = String(Math.round(1000 - abs * 100));
-  card.style.transform = `translateX(${x.toFixed(2)}px) rotateY(${rotateY.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+  card.style.transform = `translateX(${x.toFixed(2)}px) translateZ(${depth.toFixed(2)}px) rotateY(${rotateY.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
   card.setAttribute('aria-hidden', isActive ? 'false' : 'true');
 }
 
 function initCarousel3D(root, items) {
   const ring = root.querySelector('[data-carousel-ring]');
+  const viewport = root.querySelector('[data-carousel-viewport]');
   const prevBtn = root.querySelector('.coverflow-btn-prev');
   const nextBtn = root.querySelector('.coverflow-btn-next');
   const cards = Array.from(ring?.querySelectorAll('.coverflow-card') ?? []);
   const count = cards.length;
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (!ring || count === 0) {
+  if (!ring || !viewport || count === 0) {
     return;
   }
 
@@ -467,17 +735,19 @@ function initCarousel3D(root, items) {
   let spinDirection = 0;
   let animationId = null;
   let lastTimestamp = null;
-  let layout = getCarouselLayout(root, count);
+  let dragState = null;
 
   root.dataset.carouselCount = String(count);
+  root.classList.add('coverflow--navigable');
 
-  const applyRotation = () => {
-    layout = getCarouselLayout(root, count);
+  const applyRotation = ({ animate = true } = {}) => {
+    const layout = getCarouselLayout(root, count);
     const activeIndex = ((Math.round(rotation / layout.angleStep) % count) + count) % count;
+    const shouldAnimate = animate && !dragState && spinDirection === 0;
 
     cards.forEach((card, index) => {
       const slotOffset = getItemSlotOffset(index, rotation, layout.angleStep, count);
-      layoutCarouselCard(card, slotOffset, layout, index === activeIndex);
+      layoutCarouselCard(card, slotOffset, layout, index === activeIndex, { animate: shouldAnimate });
     });
 
     root.setAttribute('aria-label', `Provisioned wishlist, item ${activeIndex + 1} of ${count}`);
@@ -495,7 +765,7 @@ function initCarousel3D(root, items) {
     if (lastTimestamp !== null) {
       const delta = (timestamp - lastTimestamp) / 1000;
       rotation += spinDirection * CAROUSEL_SPIN_SPEED * delta;
-      applyRotation();
+      applyRotation({ animate: false });
     }
 
     lastTimestamp = timestamp;
@@ -521,16 +791,25 @@ function initCarousel3D(root, items) {
     spinDirection = 0;
   };
 
+  const openProvisionedPage = () => {
+    window.location.href = PROVISIONED_PAGE_URL;
+  };
+
   const bindSpinControl = (button, direction) => {
     if (!button) {
       return;
     }
+
+    button.addEventListener('pointerdown', (event) => {
+      event.stopPropagation();
+    });
 
     button.addEventListener('mouseenter', () => startSpin(direction, button));
     button.addEventListener('mouseleave', stopSpin);
     button.addEventListener('focus', () => startSpin(direction, button));
     button.addEventListener('blur', stopSpin);
     button.addEventListener('touchstart', (event) => {
+      event.stopPropagation();
       event.preventDefault();
       startSpin(direction, button);
     }, { passive: false });
@@ -541,6 +820,80 @@ function initCarousel3D(root, items) {
   bindSpinControl(prevBtn, -1);
   bindSpinControl(nextBtn, 1);
 
+  const onPointerDown = (event) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) {
+      return;
+    }
+
+    stopSpin();
+    dragState = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startRotation: rotation,
+      moved: false,
+      totalMove: 0,
+    };
+
+    viewport.setPointerCapture(event.pointerId);
+  };
+
+  const onPointerMove = (event) => {
+    if (!dragState || event.pointerId !== dragState.pointerId) {
+      return;
+    }
+
+    const deltaX = event.clientX - dragState.startX;
+    dragState.totalMove = Math.max(dragState.totalMove, Math.abs(deltaX));
+
+    if (Math.abs(deltaX) <= CAROUSEL_DRAG_THRESHOLD_PX) {
+      return;
+    }
+
+    dragState.moved = true;
+    const layout = getCarouselLayout(root, count);
+    rotation = dragState.startRotation - (deltaX / layout.slotSpacing) * layout.angleStep * CAROUSEL_DRAG_SENSITIVITY;
+    applyRotation({ animate: false });
+  };
+
+  const onPointerUp = (event) => {
+    if (!dragState || event.pointerId !== dragState.pointerId) {
+      return;
+    }
+
+    const shouldNavigate = !dragState.moved && dragState.totalMove < CAROUSEL_TAP_THRESHOLD_PX;
+    const wasDragged = dragState.moved;
+    dragState = null;
+
+    if (viewport.hasPointerCapture(event.pointerId)) {
+      viewport.releasePointerCapture(event.pointerId);
+    }
+
+    if (shouldNavigate) {
+      openProvisionedPage();
+    } else if (wasDragged) {
+      applyRotation({ animate: true });
+    }
+  };
+
+  const onPointerCancel = (event) => {
+    if (dragState?.pointerId === event.pointerId) {
+      dragState = null;
+    }
+  };
+
+  const onKeyDown = (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openProvisionedPage();
+    }
+  };
+
+  viewport.addEventListener('pointerdown', onPointerDown);
+  viewport.addEventListener('pointermove', onPointerMove);
+  viewport.addEventListener('pointerup', onPointerUp);
+  viewport.addEventListener('pointercancel', onPointerCancel);
+  viewport.addEventListener('keydown', onKeyDown);
+
   const handleResize = () => {
     applyRotation();
   };
@@ -550,8 +903,7 @@ function initCarousel3D(root, items) {
 
   window.addEventListener('resize', handleResize);
 
-  const viewport = root.querySelector('.coverflow-viewport');
-  const resizeObserver = viewport && typeof ResizeObserver !== 'undefined'
+  const resizeObserver = typeof ResizeObserver !== 'undefined'
     ? new ResizeObserver(handleResize)
     : null;
   resizeObserver?.observe(viewport);
@@ -563,6 +915,11 @@ function initCarousel3D(root, items) {
     }
     window.removeEventListener('resize', handleResize);
     resizeObserver?.disconnect();
+    viewport.removeEventListener('pointerdown', onPointerDown);
+    viewport.removeEventListener('pointermove', onPointerMove);
+    viewport.removeEventListener('pointerup', onPointerUp);
+    viewport.removeEventListener('pointercancel', onPointerCancel);
+    viewport.removeEventListener('keydown', onKeyDown);
   };
 }
 
