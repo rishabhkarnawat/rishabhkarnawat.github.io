@@ -921,44 +921,19 @@ body.provisioned-flashcard-open {
 }
 
 /* Project detail page */
-a.project-repo-link {
-  display: inline-flex;
+.project-page-title-row {
+  display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 4px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-main);
-  line-height: 1;
-  padding: 9px 16px;
-  border-radius: 999px;
-  border: 1px solid var(--border-color);
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(51, 64, 79, 0.08);
-  -webkit-tap-highlight-color: transparent;
-  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
 }
 
-@media (hover: hover) {
-  a.project-repo-link:hover {
-    color: var(--text-main);
-    opacity: 0.85;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(51, 64, 79, 0.12);
-  }
+.project-page-title-row .project-page-title {
+  margin-bottom: 0;
 }
 
-a.project-repo-link:active {
-  color: var(--text-main);
-  opacity: 0.85;
-}
-
-.project-repo-icon {
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  min-height: 20px;
-  display: block;
+.project-page-repo-link {
   flex-shrink: 0;
 }
 
@@ -1748,18 +1723,6 @@ a.project-repo-link:active {
   .project-page-title {
     font-size: 22px;
     letter-spacing: -0.3px;
-  }
-
-  a.project-repo-link {
-    padding: 8px 14px;
-    font-size: 12px;
-  }
-
-  .project-repo-icon {
-    width: 18px;
-    height: 18px;
-    min-width: 18px;
-    min-height: 18px;
   }
 
   /* ── Back link ── */
