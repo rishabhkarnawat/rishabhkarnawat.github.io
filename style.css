@@ -921,6 +921,57 @@ body.provisioned-flashcard-open {
 }
 
 /* Project detail page */
+.project-page-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.project-page-top .back-link {
+  margin-bottom: 0;
+}
+
+.project-repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-main);
+  line-height: 1;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(51, 64, 79, 0.06);
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (hover: hover) {
+  .project-repo-link:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(51, 64, 79, 0.1);
+  }
+}
+
+.project-repo-link:active {
+  opacity: 0.85;
+}
+
+.project-repo-icon {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  display: block;
+  flex-shrink: 0;
+}
+
 .project-page {
   width: 100%;
 }
@@ -1707,6 +1758,23 @@ body.provisioned-flashcard-open {
   .project-page-title {
     font-size: 22px;
     letter-spacing: -0.3px;
+  }
+
+  .project-page-top {
+    margin-bottom: 28px;
+    gap: 12px;
+  }
+
+  .project-repo-link {
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+
+  .project-repo-icon {
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    min-height: 16px;
   }
 
   /* ── Back link ── */
