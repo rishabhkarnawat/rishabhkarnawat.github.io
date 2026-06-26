@@ -13,23 +13,6 @@ const FILTER_TRANSITION_MS = 280;
 const FILTER_SCROLL_FADE_MS = 680;
 const FILTER_SCROLL_ANIMATION_MS = 780;
 
-function escapeHtml(value) {
-  return String(value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-function sanitizeProvisionedId(id) {
-  if (!id || typeof id !== 'string' || !/^[a-z0-9-]+$/i.test(id)) {
-    return null;
-  }
-
-  return id;
-}
-
 function resolveProvisionedAssetUrl(path) {
   if (!path) {
     return '';
@@ -54,23 +37,6 @@ function sanitizeImagePath(path) {
   return path;
 }
 
-function sanitizeExternalUrl(url) {
-  if (!url || typeof url !== 'string') {
-    return null;
-  }
-
-  try {
-    const parsed = new URL(url, window.location.origin);
-    if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
-      return parsed.href;
-    }
-  } catch {
-    return null;
-  }
-
-  return null;
-}
-
 async function fetchProvisionedItems() {
   const response = await fetch(PROVISIONED_ITEMS_URL);
   if (!response.ok) {
@@ -80,20 +46,12 @@ async function fetchProvisionedItems() {
   return response.json();
 }
 
-function sanitizeCategoryId(id) {
-  if (!id || typeof id !== 'string' || !/^[a-z0-9-]+$/i.test(id)) {
-    return null;
-  }
-
-  return id;
-}
-
 function normalizeProvisionedCategories(data) {
   const categories = Array.isArray(data?.categories) ? data.categories : [];
 
   return categories
     .map((category) => {
-      const id = sanitizeCategoryId(category?.id);
+      const id = sanitizeSlugId(category?.id);
       if (!id) {
         return null;
       }
@@ -114,14 +72,14 @@ function normalizeProvisionedItems(data, categories) {
 
   return items
     .map((item, index) => {
-      const id = sanitizeProvisionedId(item?.id);
+      const id = sanitizeSlugId(item?.id);
       const image = sanitizeImagePath(item?.image);
 
       if (!id || !image) {
         return null;
       }
 
-      const category = sanitizeCategoryId(item?.category);
+      const category = sanitizeSlugId(item?.category);
       const resolvedCategory = category && validCategoryIds.has(category) ? category : categories[0]?.id || '';
 
       return {

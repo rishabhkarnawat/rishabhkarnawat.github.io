@@ -278,12 +278,12 @@ function cancelPortfolioAccordionAnimation(details) {
   details.classList.remove('is-hiding');
 }
 
-function waitForPortfolioAccordionFade(content, onComplete) {
+function waitForAccordionTransition(element, propertyName, onComplete) {
   let finished = false;
-  const details = content.closest('.pi-accordion');
+  const details = element.closest('.pi-accordion');
 
   const cleanup = () => {
-    content.removeEventListener('transitionend', onTransitionEnd);
+    element.removeEventListener('transitionend', onTransitionEnd);
     clearTimeout(fallbackTimer);
     if (details?._accordionFinish?.finish === finish) {
       details._accordionFinish = null;
@@ -302,46 +302,13 @@ function waitForPortfolioAccordionFade(content, onComplete) {
   details._accordionFinish = { finish, cancel: cleanup };
 
   const onTransitionEnd = (event) => {
-    if (event.target === content && event.propertyName === 'opacity') {
+    if (event.target === element && event.propertyName === propertyName) {
       finish();
     }
   };
 
   const fallbackTimer = window.setTimeout(finish, PI_ACCORDION_DURATION + 50);
-  content.addEventListener('transitionend', onTransitionEnd);
-}
-
-function waitForPortfolioAccordionCollapse(panel, onComplete) {
-  let finished = false;
-  const details = panel.closest('.pi-accordion');
-
-  const cleanup = () => {
-    panel.removeEventListener('transitionend', onTransitionEnd);
-    clearTimeout(fallbackTimer);
-    if (details?._accordionFinish?.finish === finish) {
-      details._accordionFinish = null;
-    }
-  };
-
-  const finish = () => {
-    if (finished) {
-      return;
-    }
-    finished = true;
-    cleanup();
-    onComplete();
-  };
-
-  details._accordionFinish = { finish, cancel: cleanup };
-
-  const onTransitionEnd = (event) => {
-    if (event.target === panel && event.propertyName === 'height') {
-      finish();
-    }
-  };
-
-  const fallbackTimer = window.setTimeout(finish, PI_ACCORDION_DURATION + 50);
-  panel.addEventListener('transitionend', onTransitionEnd);
+  element.addEventListener('transitionend', onTransitionEnd);
 }
 
 function openPortfolioAccordion(details, content) {
@@ -358,7 +325,7 @@ function openPortfolioAccordion(details, content) {
 function closePortfolioAccordion(details, panel, content) {
   details.classList.add('is-hiding');
 
-  waitForPortfolioAccordionFade(content, () => {
+  waitForAccordionTransition(content, 'opacity', () => {
     details.classList.remove('is-hiding');
     details.classList.remove('is-expanded');
 
@@ -369,7 +336,7 @@ function closePortfolioAccordion(details, panel, content) {
     panel.offsetHeight;
     panel.style.height = '0px';
 
-    waitForPortfolioAccordionCollapse(panel, () => {
+    waitForAccordionTransition(panel, 'height', () => {
       details.open = false;
       resetPortfolioAccordionPanel(panel);
     });
