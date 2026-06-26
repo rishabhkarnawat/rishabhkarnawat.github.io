@@ -47,9 +47,16 @@ function sanitizeExternalUrl(url) {
 async function fetchWritingsPosts() {
   const response = await fetch(WRITINGS_POSTS_URL);
   if (!response.ok) {
-    throw new Error('Could not load writings.');
+    throw new Error(`Could not load writings (HTTP ${response.status}).`);
   }
-  const data = await response.json();
+
+  let data;
+  try {
+    data = await response.json();
+  } catch (error) {
+    throw new Error(`Writings response is not valid JSON: ${error.message}`);
+  }
+
   return data.posts || [];
 }
 
@@ -61,7 +68,8 @@ function getEmbeddedWritingPost() {
 
   try {
     return JSON.parse(dataEl.textContent);
-  } catch {
+  } catch (error) {
+    console.error('Failed to parse embedded writing post data:', error);
     return null;
   }
 }
@@ -225,7 +233,9 @@ async function initWritings() {
 
       renderWritingArticle(articleContainer, post);
     }
-  } catch {
+  } catch (error) {
+    console.error('Failed to load writings:', error);
+
     if (articleContainer && !articleContainer.querySelector('.writing-article')) {
       const backHref = sanitizeInternalHref(articleContainer.dataset.writingsBack);
       articleContainer.innerHTML = `
