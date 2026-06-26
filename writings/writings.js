@@ -241,3 +241,17 @@ if (document.readyState === 'loading') {
 } else {
   initWritings();
 }
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    escapeHtml,
+    sanitizeSlug,
+    sanitizeInternalHref,
+    sanitizeExternalUrl,
+    writingHref,
+    getWritingSlugFromPath,
+    getEmbeddedWritingPost,
+    renderWritingsList,
+    renderWritingArticle,
+  };
+}

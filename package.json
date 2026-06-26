@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "rishabhkarnawat.github.io",
+  "scripts": {
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
