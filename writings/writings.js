@@ -2,46 +2,12 @@ const WRITINGS_POSTS_URL = '/writings/posts.json';
 
 const SUBSTACK_LOGO_SVG = `<svg class="writing-substack-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="#FF6719" d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.55 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>`;
 
-function escapeHtml(value) {
-  return String(value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-function sanitizeSlug(slug) {
-  if (!slug || typeof slug !== 'string' || !/^[a-z0-9-]+$/i.test(slug)) {
-    return null;
-  }
-
-  return slug;
-}
-
 function sanitizeInternalHref(href, fallback = '/writings/') {
   if (typeof href === 'string' && href.startsWith('/') && !href.startsWith('//')) {
     return href;
   }
 
   return fallback;
-}
-
-function sanitizeExternalUrl(url) {
-  if (!url || typeof url !== 'string') {
-    return null;
-  }
-
-  try {
-    const parsed = new URL(url, window.location.origin);
-    if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
-      return parsed.href;
-    }
-  } catch {
-    return null;
-  }
-
-  return null;
 }
 
 async function fetchWritingsPosts() {
@@ -82,14 +48,14 @@ function getWritingSlugFromPath() {
 }
 
 function writingHref(slug) {
-  const safeSlug = sanitizeSlug(slug);
+  const safeSlug = sanitizeSlugId(slug);
   return safeSlug ? `/writings/${safeSlug}/` : '/writings/';
 }
 
 function renderWritingsList(container, posts) {
   const limit = Number(container.dataset.writingsLimit || posts.length);
   const items = posts
-    .filter((post) => sanitizeSlug(post.slug))
+    .filter((post) => sanitizeSlugId(post.slug))
     .slice(0, limit);
 
   container.innerHTML = items.map((post) => `
