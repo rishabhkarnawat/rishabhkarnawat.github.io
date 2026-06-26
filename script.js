@@ -8,7 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
     video.controls = false;
 
     const play = () => {
-      video.play().catch(() => {});
+      video.play().catch((error) => {
+        if (error.name !== 'NotAllowedError' && error.name !== 'AbortError') {
+          console.error('Video playback failed:', error);
+        }
+      });
     };
 
     play();
