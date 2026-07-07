@@ -28,22 +28,9 @@ html, body {
   height: 100%;
 }
 
-/* Root tint so mobile browser chrome / overscroll edges match morning mode.
-   The browser paints the safe areas (status bar at the top, toolbar at the
-   bottom) using the root background, so in morning mode we give the root the
-   full gradient — blue at the very top, warm at the very bottom — instead of a
-   single colour that can only ever match one edge. */
 html {
   background-color: var(--bg-color);
   transition: background-color 5s ease-in-out;
-}
-
-html.morning-light {
-  background-color: #CEDAE8;
-  background-image: linear-gradient(180deg, #CEDAE8 0%, #CEDAE8 35%, #EFC194 80%, #EFC194 100%);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
 }
 
 body {
