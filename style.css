@@ -28,14 +28,22 @@ html, body {
   height: 100%;
 }
 
-/* Root tint so mobile browser chrome / overscroll edges match morning mode */
+/* Root tint so mobile browser chrome / overscroll edges match morning mode.
+   The browser paints the safe areas (status bar at the top, toolbar at the
+   bottom) using the root background, so in morning mode we give the root the
+   full gradient — blue at the very top, warm at the very bottom — instead of a
+   single colour that can only ever match one edge. */
 html {
   background-color: var(--bg-color);
   transition: background-color 5s ease-in-out;
 }
 
 html.morning-light {
-  background-color: #EFC194;
+  background-color: #CEDAE8;
+  background-image: linear-gradient(180deg, #CEDAE8 0%, #CEDAE8 35%, #EFC194 80%, #EFC194 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 body {
@@ -53,9 +61,12 @@ body {
   padding-top: 12vh;
 }
 
-/* Morning light mode — slow, gentle cross-fading sky gradient.
-   The gradient lives on a fixed overlay so its opacity can animate,
-   giving a true fade in / fade out (background-image can't be tweened). */
+/* Morning light mode — slow, gentle cross-fade.
+   Two fixed layers behind the content:
+   • ::before is the sky gradient, always rendered so it never blinks in/out
+   • ::after is a cream cover that fades away to reveal the sky (and fades back
+     in when morning mode is turned off) giving a true slow cross-fade in
+     BOTH directions since the gradient underneath is always present. */
 body::before {
   content: '';
   position: fixed;
@@ -63,15 +74,27 @@ body::before {
   left: 0;
   right: 0;
   bottom: -20vh;
-  z-index: -1;
+  z-index: -2;
   background-image: linear-gradient(180deg, #CEDAE8 0%, #CEDAE8 35%, #EFC194 80%, #EFC194 100%);
-  opacity: 0;
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: -20vh;
+  z-index: -1;
+  background-color: var(--bg-color);
+  opacity: 1;
   pointer-events: none;
   transition: opacity 5s ease-in-out;
 }
 
-html.morning-light body::before {
-  opacity: 1;
+html.morning-light body::after {
+  opacity: 0;
 }
 
 /* Morning light toggle — minimal sun icon, top right */
