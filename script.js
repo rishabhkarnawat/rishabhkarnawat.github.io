@@ -8,8 +8,19 @@ function isMorningLightOn() {
   }
 }
 
+function setMorningThemeColor(on) {
+  let meta = document.querySelector('meta[name="theme-color"]');
+  if (!meta) {
+    meta = document.createElement('meta');
+    meta.setAttribute('name', 'theme-color');
+    document.head.appendChild(meta);
+  }
+  meta.setAttribute('content', on ? '#CEDAE8' : '#F5F4F0');
+}
+
 function applyMorningLight(on) {
   document.documentElement.classList.toggle('morning-light', on);
+  setMorningThemeColor(on);
   try {
     localStorage.setItem(MORNING_LIGHT_KEY, on ? 'on' : 'off');
   } catch (err) {
@@ -22,6 +33,7 @@ function applyMorningLight(on) {
 if (isMorningLightOn()) {
   document.documentElement.classList.add('morning-light');
 }
+setMorningThemeColor(isMorningLightOn());
 
 function initMorningLightToggle() {
   const on = isMorningLightOn();

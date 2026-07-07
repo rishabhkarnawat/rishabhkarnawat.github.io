@@ -28,6 +28,20 @@ html, body {
   height: 100%;
 }
 
+/* Root tint so mobile browser chrome / overscroll edges match morning mode */
+html {
+  background-color: var(--bg-color);
+  transition: background-color 2.2s ease-in-out;
+}
+
+html.morning-light {
+  background-color: #CEDAE8;
+}
+
+html.morning-light body {
+  background-color: transparent;
+}
+
 body {
   font-family: 'Geist Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: var(--text-main);
