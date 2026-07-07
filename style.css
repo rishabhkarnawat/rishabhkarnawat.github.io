@@ -33,6 +33,18 @@ html {
   transition: background-color 5s ease-in-out;
 }
 
+/* In morning mode the root carries the same gradient as the in-page sky, so
+   the mobile browser's status-bar strip (top) and toolbar strip (bottom) blend
+   into the sky instead of showing as white/mismatched bars. A single solid
+   colour can only match one edge, hence the gradient. */
+html.morning-light {
+  background-color: #CEDAE8;
+  background-image: linear-gradient(180deg, #CEDAE8 0%, #CEDAE8 35%, #EFC194 80%, #EFC194 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
 body {
   font-family: 'Geist Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: var(--text-main);
