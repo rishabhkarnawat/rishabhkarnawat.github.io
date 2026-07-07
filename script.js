@@ -1,4 +1,59 @@
+const MORNING_LIGHT_KEY = 'morning-light';
+
+function isMorningLightOn() {
+  try {
+    return localStorage.getItem(MORNING_LIGHT_KEY) === 'on';
+  } catch (err) {
+    return false;
+  }
+}
+
+function applyMorningLight(on) {
+  document.body.classList.toggle('morning-light', on);
+  try {
+    localStorage.setItem(MORNING_LIGHT_KEY, on ? 'on' : 'off');
+  } catch (err) {
+    /* ignore storage errors */
+  }
+}
+
+// Apply saved preference as early as possible to avoid a flash.
+if (isMorningLightOn() && document.body) {
+  document.body.classList.add('morning-light');
+}
+
+function initMorningLightToggle() {
+  const on = isMorningLightOn();
+  document.body.classList.toggle('morning-light', on);
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'light-toggle';
+  btn.setAttribute('aria-pressed', String(on));
+
+  const sunIcon =
+    '<svg class="light-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
+
+  btn.innerHTML = sunIcon;
+
+  const render = () => {
+    const active = document.body.classList.contains('morning-light');
+    btn.setAttribute('aria-pressed', String(active));
+    btn.setAttribute('aria-label', active ? 'Turn off morning light' : 'Turn on morning light');
+  };
+
+  render();
+
+  btn.addEventListener('click', () => {
+    applyMorningLight(!document.body.classList.contains('morning-light'));
+    render();
+  });
+
+  document.body.appendChild(btn);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  initMorningLightToggle();
   initMarginDecor();
 
   document.querySelectorAll('.project-video-wrap video').forEach((video) => {

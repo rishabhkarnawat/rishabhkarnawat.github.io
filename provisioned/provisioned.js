@@ -500,32 +500,20 @@ function initProvisionedCategoryFilter(container, categories) {
   });
 }
 
-function renderProvisionedGrid(container, items, categories) {
+function renderProvisionedGrid(container, items) {
   if (items.length === 0) {
     renderProvisionedEmpty(container);
     return;
   }
 
-  const groups = groupItemsByCategory(items, categories);
-  const catalogMarkup = groups
-    .map((group) => {
-      const gridMarkup = group.items.map((item) => renderProvisionedGridItem(item)).join('');
-
-      return `
-        <section class="provisioned-category" data-category-id="${escapeHtml(group.id)}" aria-labelledby="provisioned-category-${escapeHtml(group.id)}">
-          <h2 class="provisioned-category-title" id="provisioned-category-${escapeHtml(group.id)}">${escapeHtml(group.title)}</h2>
-          <div class="provisioned-grid">${gridMarkup}</div>
-        </section>
-      `;
-    })
-    .join('');
+  const gridMarkup = items.map((item) => renderProvisionedGridItem(item)).join('');
 
   container.innerHTML = `
-    ${renderProvisionedFilters(categories)}
-    <div class="provisioned-catalog" data-provisioned-catalog>${catalogMarkup}</div>
+    <div class="provisioned-catalog" data-provisioned-catalog>
+      <div class="provisioned-grid">${gridMarkup}</div>
+    </div>
   `;
   initProvisionedFlashcards(container, items);
-  initProvisionedCategoryFilter(container, categories);
 }
 
 let provisionedFlashcardRoot = null;
@@ -1019,7 +1007,7 @@ async function initProvisionedSection() {
     }
 
     if (gridRoot) {
-      renderProvisionedGrid(gridRoot, items, categories);
+      renderProvisionedGrid(gridRoot, items);
       return;
     }
 
