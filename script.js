@@ -9,7 +9,7 @@ function isMorningLightOn() {
 }
 
 function applyMorningLight(on) {
-  document.body.classList.toggle('morning-light', on);
+  document.documentElement.classList.toggle('morning-light', on);
   try {
     localStorage.setItem(MORNING_LIGHT_KEY, on ? 'on' : 'off');
   } catch (err) {
@@ -17,14 +17,15 @@ function applyMorningLight(on) {
   }
 }
 
-// Apply saved preference as early as possible to avoid a flash.
-if (isMorningLightOn() && document.body) {
-  document.body.classList.add('morning-light');
+// Safety net: the inline <head> script applies this before paint, but ensure
+// the class matches the saved preference in case that script didn't run.
+if (isMorningLightOn()) {
+  document.documentElement.classList.add('morning-light');
 }
 
 function initMorningLightToggle() {
   const on = isMorningLightOn();
-  document.body.classList.toggle('morning-light', on);
+  document.documentElement.classList.toggle('morning-light', on);
 
   const btn = document.createElement('button');
   btn.type = 'button';
@@ -37,7 +38,7 @@ function initMorningLightToggle() {
   btn.innerHTML = sunIcon;
 
   const render = () => {
-    const active = document.body.classList.contains('morning-light');
+    const active = document.documentElement.classList.contains('morning-light');
     btn.setAttribute('aria-pressed', String(active));
     btn.setAttribute('aria-label', active ? 'Turn off morning light' : 'Turn on morning light');
   };
@@ -45,7 +46,7 @@ function initMorningLightToggle() {
   render();
 
   btn.addEventListener('click', () => {
-    applyMorningLight(!document.body.classList.contains('morning-light'));
+    applyMorningLight(!document.documentElement.classList.contains('morning-light'));
     render();
   });
 

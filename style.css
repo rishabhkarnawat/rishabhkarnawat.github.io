@@ -57,7 +57,7 @@ body::before {
   transition: opacity 2.2s ease-in-out;
 }
 
-body.morning-light::before {
+html.morning-light body::before {
   opacity: 1;
 }
 
@@ -94,7 +94,7 @@ body.morning-light::before {
   outline-offset: 2px;
 }
 
-body.morning-light .light-toggle {
+html.morning-light .light-toggle {
   color: #E9A13B;
   border-color: rgba(233, 161, 59, 0.5);
   background: rgba(255, 255, 255, 0.4);
@@ -108,7 +108,7 @@ body.morning-light .light-toggle {
   transition: transform 1.2s ease-in-out;
 }
 
-body.morning-light .light-toggle-icon {
+html.morning-light .light-toggle-icon {
   transform: rotate(180deg);
 }
 
