@@ -27,8 +27,8 @@
     '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="5" cy="6" r="1.4" fill="currentColor"/><circle cx="5" cy="12" r="1.4" fill="currentColor"/><circle cx="5" cy="18" r="1.4" fill="currentColor"/><rect x="9" y="5" width="11" height="2" rx="1" fill="currentColor"/><rect x="9" y="11" width="11" height="2" rx="1" fill="currentColor"/><rect x="9" y="17" width="11" height="2" rx="1" fill="currentColor"/></svg>';
 
   const TYPE_SPEED = 34;
-  const LIST_TYPE_SPEED = 16;
-  const LIST_STAGGER = 170;
+  const LIST_TYPE_SPEED = 15;
+  const LIST_PAUSE = 300;
 
   let modal = null;
   let stageEl = null;
@@ -146,29 +146,35 @@
       return;
     }
 
-    listItems.forEach((entry, index) => {
-      window.setTimeout(() => {
+    const typeItem = (index) => {
+      if (gen !== listGeneration || index >= listItems.length) {
+        return;
+      }
+
+      const entry = listItems[index];
+      entry.item.classList.add('is-typing');
+      entry.item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      let i = 0;
+      const step = () => {
         if (gen !== listGeneration) {
           return;
         }
-        entry.item.classList.add('is-typing');
-        let i = 0;
-        const step = () => {
-          if (gen !== listGeneration) {
-            return;
-          }
-          if (i < entry.text.length) {
-            entry.textEl.textContent += entry.text.charAt(i);
-            i += 1;
-            window.setTimeout(step, LIST_TYPE_SPEED + Math.random() * LIST_TYPE_SPEED * 0.5);
-          } else {
-            entry.item.classList.remove('is-typing');
-            entry.item.classList.add('is-done');
-          }
-        };
-        step();
-      }, index * LIST_STAGGER);
-    });
+        if (i < entry.text.length) {
+          entry.textEl.textContent += entry.text.charAt(i);
+          i += 1;
+          window.setTimeout(step, LIST_TYPE_SPEED + Math.random() * LIST_TYPE_SPEED * 0.5);
+        } else {
+          entry.item.classList.remove('is-typing');
+          entry.item.classList.add('is-done');
+          window.setTimeout(() => typeItem(index + 1), LIST_PAUSE);
+        }
+      };
+
+      step();
+    };
+
+    typeItem(0);
   }
 
   function setView(view) {
