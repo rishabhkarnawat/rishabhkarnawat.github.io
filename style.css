@@ -35,7 +35,7 @@ html {
 }
 
 html.morning-light {
-  background-color: #CEDAE8;
+  background-color: #EFC194;
 }
 
 body {
@@ -59,9 +59,12 @@ body {
 body::before {
   content: '';
   position: fixed;
-  inset: -15vh 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: -20vh;
   z-index: -1;
-  background-image: linear-gradient(180deg, #CEDAE8 0%, #CEDAE8 55%, #EFC194 100%);
+  background-image: linear-gradient(180deg, #CEDAE8 0%, #CEDAE8 35%, #EFC194 80%, #EFC194 100%);
   opacity: 0;
   pointer-events: none;
   transition: opacity 5s ease-in-out;
