@@ -31,7 +31,7 @@ html, body {
 /* Root tint so mobile browser chrome / overscroll edges match morning mode */
 html {
   background-color: var(--bg-color);
-  transition: background-color 2.2s ease-in-out;
+  transition: background-color 5s ease-in-out;
 }
 
 html.morning-light {
@@ -68,7 +68,7 @@ body::before {
   background-image: linear-gradient(180deg, #CEDAE8 0%, #CEDAE8 45%, #EFC194 100%);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 2.2s ease-in-out;
+  transition: opacity 5s ease-in-out;
 }
 
 html.morning-light body::before {
@@ -93,7 +93,7 @@ html.morning-light body::before {
   color: var(--text-muted);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: color 1.2s ease-in-out, border-color 1.2s ease-in-out, background 1.2s ease-in-out, transform 0.2s ease;
+  transition: color 3s ease-in-out, border-color 3s ease-in-out, background 3s ease-in-out, transform 0.2s ease;
 }
 
 @media (hover: hover) {
@@ -119,7 +119,7 @@ html.morning-light .light-toggle {
   height: 18px;
   flex-shrink: 0;
   display: block;
-  transition: transform 1.2s ease-in-out;
+  transition: transform 3s ease-in-out;
 }
 
 html.morning-light .light-toggle-icon {
@@ -1935,6 +1935,288 @@ body.provisioned-flashcard-open {
 
   .coverflow-card {
     transition: none;
+  }
+
+  .quotes-cursor {
+    animation: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   QUOTE BANK
+   ───────────────────────────────────────────────────────────────── */
+
+.quotes-trigger {
+  margin-left: auto;
+  align-self: center;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--text-muted);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.2s ease;
+}
+
+.quotes-trigger:hover {
+  color: var(--text-main);
+}
+
+.quotes-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: var(--bg-color);
+  opacity: 0;
+  transition: opacity 0.26s ease;
+}
+
+html.morning-light .quotes-modal {
+  background-image: linear-gradient(180deg, #CEDAE8 0%, #CEDAE8 45%, #EFC194 100%);
+}
+
+.quotes-modal[hidden] {
+  display: none;
+}
+
+.quotes-modal.is-open {
+  opacity: 1;
+}
+
+body.quotes-open {
+  overflow: hidden;
+}
+
+.quotes-toggle {
+  position: fixed;
+  top: 22px;
+  left: 22px;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--accent-color);
+}
+
+.quotes-toggle-btn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.quotes-toggle-btn.is-active {
+  background: var(--text-main);
+  color: var(--bg-color);
+}
+
+.quotes-close {
+  position: fixed;
+  top: 20px;
+  right: 22px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 3px;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.2s ease;
+}
+
+.quotes-close:hover {
+  color: var(--text-main);
+}
+
+.quotes-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 720px;
+}
+
+.quotes-modal.is-list-view .quotes-stage {
+  display: none;
+}
+
+.quotes-typed {
+  font-family: 'Geist Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: clamp(22px, 3.2vw, 36px);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--text-main);
+  text-align: center;
+  min-height: 1.4em;
+}
+
+.quotes-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 3px;
+  vertical-align: -0.15em;
+  background: var(--text-main);
+  animation: quotes-blink 1.05s step-end infinite;
+}
+
+@keyframes quotes-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.quotes-author {
+  margin-top: 26px;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.quotes-author.is-visible {
+  opacity: 1;
+}
+
+.quotes-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.quotes-nav-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 2px;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.quotes-nav-btn:hover {
+  color: var(--text-main);
+  border-color: rgba(26, 26, 24, 0.35);
+}
+
+.quotes-list {
+  display: none;
+  flex-direction: column;
+  gap: 34px;
+  width: 100%;
+  max-width: 620px;
+  max-height: 78vh;
+  padding: 8px 4px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.quotes-list::-webkit-scrollbar {
+  display: none;
+}
+
+.quotes-modal.is-list-view .quotes-list {
+  display: flex;
+}
+
+.quotes-list-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.2s ease;
+}
+
+.quotes-list-textwrap {
+  display: block;
+}
+
+.quotes-list-text {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--text-main);
+}
+
+.quotes-list-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--text-main);
+  opacity: 0;
+}
+
+.quotes-list-item.is-typing .quotes-list-cursor {
+  opacity: 1;
+  animation: quotes-blink 1.05s step-end infinite;
+}
+
+.quotes-list-author {
+  font-size: 13px;
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.quotes-list-item.is-done .quotes-list-author {
+  opacity: 1;
+}
+
+.quotes-list-item:hover {
+  opacity: 0.68;
+}
+
+@media (max-width: 640px) {
+  .quotes-typed {
+    font-size: clamp(20px, 6vw, 28px);
+  }
+
+  .quotes-list-text {
+    font-size: 16px;
+  }
+
+  .quotes-list {
+    gap: 28px;
   }
 }
 
