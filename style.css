@@ -33,19 +33,14 @@ html {
   transition: background-color 5s ease-in-out;
 }
 
-/* In morning mode the root carries the same gradient as the in-page sky, so
-   the mobile browser's status-bar strip (top) and toolbar strip (bottom) blend
-   into the sky instead of showing as white/mismatched bars. A single solid
-   colour can only match one edge, hence the gradient.
-   NOTE: no `background-attachment: fixed` here — iOS Safari mis-repaints fixed
-   backgrounds and flashes when the class toggles. The visible sky is the fixed
-   ::before overlay (which Safari handles fine); this root gradient just tints
-   the browser chrome and spans the document normally. */
+/* Morning mode only changes a SOLID colour on the root — never a gradient
+   image. iOS Safari repaints the whole page (a flash/glitch) when a
+   background-image is toggled onto <html>, but a plain background-color change
+   transitions smoothly with no repaint. Blue is used so the top status-bar
+   strip matches the top of the sky; the full sky gradient is the ::before
+   overlay below. */
 html.morning-light {
   background-color: #CEDAE8;
-  background-image: linear-gradient(180deg, #CEDAE8 0%, #CEDAE8 35%, #EFC194 80%, #EFC194 100%);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
 }
 
 body {
@@ -76,9 +71,6 @@ body::before {
   z-index: -2;
   background-image: linear-gradient(180deg, #CEDAE8 0%, #CEDAE8 35%, #EFC194 80%, #EFC194 100%);
   pointer-events: none;
-  transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
 }
 
 body::after {
@@ -90,10 +82,6 @@ body::after {
   opacity: 1;
   pointer-events: none;
   transition: opacity 5s ease-in-out;
-  will-change: opacity;
-  transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
 }
 
 html.morning-light body::after {
