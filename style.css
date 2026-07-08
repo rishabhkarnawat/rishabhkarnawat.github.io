@@ -64,10 +64,21 @@ body {
    • ::after is a cream cover that fades away to reveal the sky (and fades back
      in when morning mode is turned off) giving a true slow cross-fade in
      BOTH directions since the gradient underneath is always present. */
+/* The fixed background layers deliberately overscan the viewport by 15vh on
+   the top and bottom. On iOS Safari a `position: fixed; inset: 0` element is
+   sized to the SMALL viewport (between the collapsed toolbars) while the body's
+   `min-height: 100vh` uses the LARGE viewport — so as the toolbars show/hide the
+   gradient would stop short of the edges and let the solid <html> background
+   show through as a seam/bar. Extending past both edges guarantees full coverage
+   in every toolbar state. The gradient's end-stops are solid, so the overscan is
+   invisible and the colour transition still lands on-screen. */
 body::before {
   content: '';
   position: fixed;
-  inset: 0;
+  top: -15vh;
+  bottom: -15vh;
+  left: 0;
+  right: 0;
   z-index: -2;
   background-image: linear-gradient(180deg, #CEDAE8 0%, #CEDAE8 35%, #EFC194 80%, #EFC194 100%);
   pointer-events: none;
@@ -76,7 +87,10 @@ body::before {
 body::after {
   content: '';
   position: fixed;
-  inset: 0;
+  top: -15vh;
+  bottom: -15vh;
+  left: 0;
+  right: 0;
   z-index: -1;
   background-color: var(--bg-color);
   opacity: 1;
