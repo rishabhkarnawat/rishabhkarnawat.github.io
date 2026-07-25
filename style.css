@@ -306,10 +306,18 @@ body.page-secondary {
   padding: 40px 20px;
 }
 
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
 h1 {
   font-size: 20px;
   font-weight: 600;
-  margin-bottom: 24px;
+  margin-bottom: 0;
   color: var(--text-main);
   text-align: left;
 }
@@ -1566,10 +1574,14 @@ body.provisioned-flashcard-open {
   }
 
   /* ── Typography ── */
+  .site-header {
+    margin-bottom: 18px;
+  }
+
   h1 {
     font-size: 22px;
     letter-spacing: -0.3px;
-    margin-bottom: 18px;
+    margin-bottom: 0;
   }
 
   p {
@@ -1980,8 +1992,11 @@ body.provisioned-flashcard-open {
    ───────────────────────────────────────────────────────────────── */
 
 .quotes-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
   margin-left: auto;
-  align-self: center;
   background: none;
   border: none;
   padding: 0;
@@ -1993,6 +2008,16 @@ body.provisioned-flashcard-open {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: color 0.2s ease;
+}
+
+.quotes-trigger-mark {
+  display: inline-block;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 0.7;
+  transform: translateY(1px);
+  color: inherit;
 }
 
 .quotes-trigger:hover {
