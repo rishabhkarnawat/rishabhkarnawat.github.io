@@ -153,7 +153,16 @@
 
       const entry = listItems[index];
       entry.item.classList.add('is-typing');
-      entry.item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      // Keep the typing item inside the list scroller only — avoid
+      // window/body scrollIntoView, which misbehaves on Chrome iOS
+      // and can slide quotes under the top controls.
+      const listTop = listEl.getBoundingClientRect().top;
+      const itemTop = entry.item.getBoundingClientRect().top;
+      const itemBottom = entry.item.getBoundingClientRect().bottom;
+      const listBottom = listEl.getBoundingClientRect().bottom;
+      if (itemTop < listTop || itemBottom > listBottom) {
+        entry.item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+      }
 
       let i = 0;
       const step = () => {

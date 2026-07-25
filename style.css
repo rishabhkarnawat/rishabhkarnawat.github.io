@@ -2029,9 +2029,19 @@ body.provisioned-flashcard-open {
   inset: 0;
   z-index: 300;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
+  padding:
+    max(72px, calc(env(safe-area-inset-top, 0px) + 56px))
+    24px
+    max(24px, calc(env(safe-area-inset-bottom, 0px) + 16px));
+  overflow: hidden;
   background-color: var(--bg-color);
   opacity: 0;
   transition: opacity 0.26s ease;
@@ -2049,14 +2059,20 @@ html.morning-light .quotes-modal {
   opacity: 1;
 }
 
+.quotes-modal.is-list-view {
+  justify-content: flex-start;
+}
+
 body.quotes-open {
   overflow: hidden;
+  overscroll-behavior: none;
 }
 
 .quotes-toggle {
-  position: fixed;
-  top: 22px;
-  left: 22px;
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top, 0px));
+  left: max(16px, env(safe-area-inset-left, 0px));
+  z-index: 2;
   display: flex;
   gap: 4px;
   padding: 4px;
@@ -2085,9 +2101,10 @@ body.quotes-open {
 }
 
 .quotes-close {
-  position: fixed;
-  top: 20px;
-  right: 22px;
+  position: absolute;
+  top: max(14px, env(safe-area-inset-top, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px));
+  z-index: 2;
   width: 34px;
   height: 34px;
   border: none;
@@ -2114,6 +2131,7 @@ body.quotes-open {
   align-items: center;
   width: 100%;
   max-width: 720px;
+  flex-shrink: 0;
 }
 
 .quotes-modal.is-list-view .quotes-stage {
@@ -2195,11 +2213,18 @@ body.quotes-open {
   gap: 34px;
   width: 100%;
   max-width: 620px;
-  max-height: 78vh;
-  padding: 8px 4px;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  padding: 4px 4px 12px;
+  overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  scroll-padding-top: 12px;
 }
 
 .quotes-list::-webkit-scrollbar {
@@ -2222,16 +2247,22 @@ body.quotes-open {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: opacity 0.2s ease;
+  scroll-margin-top: 12px;
+  scroll-margin-bottom: 12px;
 }
 
 .quotes-list-textwrap {
   display: block;
+  max-width: 100%;
 }
 
 .quotes-list-text {
   font-size: 18px;
   line-height: 1.5;
   color: var(--text-main);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .quotes-list-cursor {
@@ -2265,6 +2296,13 @@ body.quotes-open {
 }
 
 @media (max-width: 640px) {
+  .quotes-modal {
+    padding:
+      max(68px, calc(env(safe-area-inset-top, 0px) + 52px))
+      20px
+      max(20px, calc(env(safe-area-inset-bottom, 0px) + 12px));
+  }
+
   .quotes-typed {
     font-size: clamp(20px, 6vw, 28px);
   }
