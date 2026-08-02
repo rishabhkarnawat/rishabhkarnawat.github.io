@@ -1994,7 +1994,6 @@ body.provisioned-flashcard-open {
 .quotes-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
   flex-shrink: 0;
   margin-left: auto;
   background: none;
@@ -2008,16 +2007,6 @@ body.provisioned-flashcard-open {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: color 0.2s ease;
-}
-
-.quotes-trigger-mark {
-  display: inline-block;
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 0.7;
-  transform: translateY(1px);
-  color: inherit;
 }
 
 .quotes-trigger:hover {
