@@ -1,4 +1,4 @@
-const PROVISIONED_ITEMS_URL = '/provisioned/items.json';
+const PROVISIONED_ITEMS_URL = '/provisioned/items.json?v=20260815b';
 const PROVISIONED_PAGE_URL = '/provisioned';
 const CAROUSEL_SPIN_SPEED = 18;
 const CAROUSEL_DRAG_SENSITIVITY = 0.62;
