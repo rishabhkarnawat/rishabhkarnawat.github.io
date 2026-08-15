@@ -19,6 +19,7 @@
     { text: "Never out of the fight.", author: "Indian Armed Forces" },
     { text: "The point of getting rich is so you don't have to need other people, so you don't have to get along with others.", author: "Charlie Munger" },
     { text: "The young man knows the rules, the old man knows the exceptions.", author: "Charlie Munger" },
+    { text: "To live freely, cry incessantly, and love truly - that's the only way to live life.", author: "" },
   ];
 
   const BOARD_ICON =
@@ -61,13 +62,15 @@
     const gen = generation;
 
     textEl.textContent = '';
-    authorEl.textContent = '\u2014 ' + quote.author;
+    authorEl.textContent = quote.author ? '\u2014 ' + quote.author : '';
     authorEl.classList.remove('is-visible');
     stageEl.classList.add('is-typing');
 
     if (prefersReducedMotion) {
       textEl.textContent = quote.text;
-      authorEl.classList.add('is-visible');
+      if (quote.author) {
+        authorEl.classList.add('is-visible');
+      }
       stageEl.classList.remove('is-typing');
       return;
     }
@@ -84,7 +87,9 @@
         window.setTimeout(step, typeDelay(ch));
       } else {
         stageEl.classList.remove('is-typing');
-        authorEl.classList.add('is-visible');
+        if (quote.author) {
+          authorEl.classList.add('is-visible');
+        }
       }
     };
 
@@ -115,7 +120,7 @@
 
       const author = document.createElement('span');
       author.className = 'quotes-list-author';
-      author.textContent = '\u2014 ' + quote.author;
+      author.textContent = quote.author ? '\u2014 ' + quote.author : '';
 
       item.appendChild(textWrap);
       item.appendChild(author);
