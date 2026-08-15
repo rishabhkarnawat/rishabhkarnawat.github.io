@@ -20,6 +20,8 @@
     { text: "The point of getting rich is so you don't have to need other people, so you don't have to get along with others.", author: "Charlie Munger" },
     { text: "The young man knows the rules, the old man knows the exceptions.", author: "Charlie Munger" },
     { text: "To live freely, cry incessantly, and love truly - that's the only way to live life.", author: "Rishabh Karnawat" },
+    { text: "The curse of discipline is that every day looks the same. The curse of indiscipline is that every year does.", author: "Hemant Mohapatra" },
+    { text: "Inaction holds more people back than incompetence ever could.", author: "Rishabh Karnawat" },
   ];
 
   const BOARD_ICON =
