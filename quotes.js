@@ -19,7 +19,7 @@
     { text: "Never out of the fight.", author: "Indian Armed Forces" },
     { text: "The point of getting rich is so you don't have to need other people, so you don't have to get along with others.", author: "Charlie Munger" },
     { text: "The young man knows the rules, the old man knows the exceptions.", author: "Charlie Munger" },
-    { text: "To live freely, cry incessantly, and love truly - that's the only way to live life.", author: "" },
+    { text: "To live freely, cry incessantly, and love truly - that's the only way to live life.", author: "Rishabh Karnawat" },
   ];
 
   const BOARD_ICON =
