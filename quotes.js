@@ -22,7 +22,7 @@
     { text: "To live freely, cry incessantly, and love truly - that's the only way to live life.", author: "Rishabh Karnawat" },
     { text: "The curse of discipline is that every day looks the same. The curse of indiscipline is that every year does.", author: "Hemant Mohapatra" },
     { text: "Inaction holds more people back than incompetence ever could.", author: "Rishabh Karnawat" },
-    { text: "Someone once asked me, 'Is it the journey or the destination?' It is the company.", author: "" },
+    { text: "Someone once asked me, 'Is it the journey or the destination?' It is the company.", author: "Rishabh Karnawat" },
   ];
 
   const BOARD_ICON =
