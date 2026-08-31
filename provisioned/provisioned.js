@@ -71,10 +71,14 @@ function sanitizeExternalUrl(url) {
 async function fetchProvisionedItems() {
   const response = await fetch(PROVISIONED_ITEMS_URL);
   if (!response.ok) {
-    throw new Error('Could not load provisioned items.');
+    throw new Error(`Could not load provisioned items (HTTP ${response.status}).`);
   }
 
-  return response.json();
+  try {
+    return await response.json();
+  } catch (error) {
+    throw new Error(`Provisioned items response is not valid JSON: ${error.message}`);
+  }
 }
 
 function sanitizeCategoryId(id) {
@@ -739,7 +743,8 @@ async function initProvisionedSection() {
     }
 
     renderProvisionedCarousel(carouselRoot, items);
-  } catch {
+  } catch (error) {
+    console.error('Failed to initialize provisioned section:', error);
     listRoot.innerHTML = '<p class="provisioned-empty">Could not load provisioned items.</p>';
   }
 }
