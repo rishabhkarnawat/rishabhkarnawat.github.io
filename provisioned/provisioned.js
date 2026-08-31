@@ -745,3 +745,23 @@ async function initProvisionedSection() {
 }
 
 document.addEventListener('DOMContentLoaded', initProvisionedSection);
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    escapeHtml,
+    sanitizeProvisionedId,
+    resolveProvisionedAssetUrl,
+    sanitizeImagePath,
+    sanitizeExternalUrl,
+    sanitizeCategoryId,
+    normalizeProvisionedCategories,
+    normalizeProvisionedItems,
+    sortItemsByCategory,
+    groupItemsByCategory,
+    easeOutQuart,
+    getItemSlotOffset,
+    clamp,
+    renderProvisionedGridItem,
+    renderProvisionedFilters,
+  };
+}

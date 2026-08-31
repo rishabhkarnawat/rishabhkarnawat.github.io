@@ -431,3 +431,11 @@ function closePortfolioAccordion(details, panel, content) {
     });
   });
 }
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    getMarginCellPosition,
+    getMarginCellColumns,
+    PI_ACCORDION_DURATION,
+  };
+}
